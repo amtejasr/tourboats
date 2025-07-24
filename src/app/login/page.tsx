@@ -78,7 +78,7 @@ export default function LoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@example.com"
+                  placeholder="amtejasr@gmail.com"
                   {...register('email')}
                 />
                 {errors.email && (
@@ -110,15 +110,6 @@ export default function LoginPage() {
               </Button>
             </form>
           </CardContent>
-          <CardFooter>
-            <Alert>
-              <AlertTitle>Demo Credentials</AlertTitle>
-              <AlertDescription>
-                <p><b>Admin:</b> admin@example.com / password</p>
-                <p><b>Customer:</b> customer@example.com / password</p>
-              </AlertDescription>
-            </Alert>
-          </CardFooter>
         </Card>
       </div>
     </div>
