@@ -25,15 +25,15 @@ export default function Home() {
           className="z-0"
           data-ai-hint="yacht sea"
         />
-        <div className="absolute inset-0 bg-primary/40" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
           <h1 className="font-headline text-4xl font-bold md:text-6xl lg:text-7xl">
             Azure Yachts Dubai
           </h1>
           <p className="mt-4 max-w-2xl text-lg md:text-xl">
             Experience Unforgettable Luxury on the Waters of Dubai
           </p>
-          <Button asChild className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90" size="lg">
+          <Button asChild className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90" size="lg">
             <Link href="#yachts">
               Explore Fleet <ArrowRight className="ml-2" />
             </Link>
@@ -45,7 +45,7 @@ export default function Home() {
       <section id="yachts" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl font-bold md:text-4xl">
+            <h2 className="font-headline text-3xl font-bold md:text-4xl text-primary">
               Our Exclusive Fleet
             </h2>
             <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
@@ -65,7 +65,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-black/30" />
                 <CardHeader className="absolute bottom-0 left-0 p-6 text-white">
-                  <Sailboat className="h-10 w-10 mb-2 text-accent" />
+                  <Sailboat className="h-10 w-10 mb-2 text-primary" />
                   <CardTitle className="font-headline text-3xl font-bold">
                     Private Yachts
                   </CardTitle>
@@ -88,7 +88,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-black/30" />
                 <CardHeader className="absolute bottom-0 left-0 p-6 text-white">
-                  <Anchor className="h-10 w-10 mb-2 text-accent" />
+                  <Anchor className="h-10 w-10 mb-2 text-primary" />
                   <CardTitle className="font-headline text-3xl font-bold">
                     Sharing Yachts
                   </CardTitle>
@@ -107,7 +107,7 @@ export default function Home() {
       <section className="bg-secondary py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-3xl font-bold md:text-4xl">
+            <h2 className="font-headline text-3xl font-bold md:text-4xl text-primary">
               Thrilling Water Activities
             </h2>
             <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
@@ -130,7 +130,7 @@ export default function Home() {
                 <CardContent className="p-4 flex-grow flex flex-col">
                   <h3 className="font-headline text-xl font-semibold mb-2">{activity.name}</h3>
                   <p className="text-muted-foreground text-sm mb-4 flex-grow">{activity.shortDescription}</p>
-                  <WhatsAppButton phoneNumber="+971501234567" message={`I'd like to book the ${activity.name} activity.`} className="w-full mt-auto" />
+                  <WhatsAppButton phoneNumber="+971504227715" message={`I'd like to book the ${activity.name} activity.`} className="w-full mt-auto" />
                 </CardContent>
               </Card>
             ))}

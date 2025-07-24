@@ -62,8 +62,8 @@ export default function ContactPage() {
                   <Phone className="h-6 w-6 mr-4 mt-1 text-primary shrink-0" />
                   <div>
                     <h3 className="font-semibold">Call Us</h3>
-                    <a href="tel:+971501234567" className="text-muted-foreground hover:text-primary">
-                      +971 50 123 4567
+                    <a href="tel:+971504227715" className="text-muted-foreground hover:text-primary">
+                      +971 50 422 7715
                     </a>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ export default function ContactPage() {
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground mb-4">For immediate assistance with bookings or questions, connect with us on WhatsApp.</p>
-                    <WhatsAppButton phoneNumber="+971501234567" message="Hello! I'm on your contact page and have a question." />
+                    <WhatsAppButton phoneNumber="+971504227715" message="Hello! I'm on your contact page and have a question." />
                 </CardContent>
             </Card>
           </div>

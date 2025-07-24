@@ -39,7 +39,7 @@ const WhatsAppButton: FC<WhatsAppButtonProps> = ({
   return (
     <Button
       asChild
-      className={cn('bg-accent text-accent-foreground hover:bg-accent/90', className)}
+      className={cn('bg-green-500 text-white hover:bg-green-600', className)}
     >
       <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
         <WhatsAppIcon />

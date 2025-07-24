@@ -43,7 +43,7 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-3 shrink-0" />
-                <a href="tel:+971501234567" className="hover:text-primary transition-colors">+971 50 123 4567</a>
+                <a href="tel:+971504227715" className="hover:text-primary transition-colors">+971 50 422 7715</a>
               </li>
             </ul>
           </div>
@@ -52,7 +52,7 @@ export function Footer() {
           <div>
              <h3 className="font-headline text-lg font-semibold mb-4">WhatsApp Support</h3>
              <p className="text-sm text-muted-foreground mb-4">Get instant support & booking assistance.</p>
-             <WhatsAppButton phoneNumber="+971501234567" message="Hello! I have a question about your services." />
+             <WhatsAppButton phoneNumber="+971504227715" message="Hello! I have a question about your services." />
           </div>
 
         </div>

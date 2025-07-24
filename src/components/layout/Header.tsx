@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 const navLinks = [
   { href: '/yachts/private', label: 'Private Yachts' },
   { href: '/yachts/sharing', label: 'Sharing Yachts' },
-  { href: '/#water-activities', label: 'Water Activities' }, // Example of an anchor link
+  { href: '/#activities', label: 'Water Activities' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
   { href: '/admin', label: 'Admin Panel' },

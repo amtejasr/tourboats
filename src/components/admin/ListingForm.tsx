@@ -34,8 +34,11 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
+  price: z.coerce.number().min(0, { message: "Price must be a positive number." }),
+  imageUrls: z.string().min(10, { message: "Please provide at least one image URL."}),
+  features: z.string().min(10, { message: "Please provide at least 10 characters of features."}),
   keyAttributes: z.string().min(10, {
-    message: "Please provide at least 10 characters of key attributes.",
+    message: "Please provide at least 10 characters of key attributes for AI generation.",
   }),
   description: z.string().optional(),
 });
@@ -48,6 +51,9 @@ export function ListingForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      price: 0,
+      imageUrls: "",
+      features: "",
       keyAttributes: "",
       description: "",
     },
@@ -143,35 +149,98 @@ export function ListingForm() {
             />
         </div>
 
+         <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Price (AED)</FormLabel>
+                <FormControl>
+                    <Input type="number" placeholder="e.g., 2500" {...field} />
+                </FormControl>
+                 <FormDescription>
+                    Price per hour for yachts, or per person for activities.
+                </FormDescription>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+
         <FormField
           control={form.control}
-          name="keyAttributes"
+          name="imageUrls"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Key Attributes</FormLabel>
+              <FormLabel>Image URLs</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Enter key features, size, capacity, highlights, etc. Separate with commas."
-                  className="resize-none"
+                  placeholder="https://placehold.co/800x600.png, https://placehold.co/800x600.png"
+                  className="resize-y"
                   {...field}
                 />
               </FormControl>
               <FormDescription>
-                Provide the core details for the AI to generate a description.
+                Add comma-separated URLs for the listing images. The first URL will be the main image.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="features"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Features</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Feature 1, Feature 2, Feature 3"
+                  className="resize-y"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Add comma-separated features for the listing.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         
-        <Button type="button" variant="outline" onClick={onGenerate} disabled={isGenerating}>
-          {isGenerating ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Sparkles className="mr-2 h-4 w-4" />
-          )}
-          Generate AI Description
-        </Button>
+        <div className="border p-4 rounded-md space-y-4 bg-secondary/50">
+            <h3 className="font-semibold text-lg">AI Content Generator</h3>
+             <FormField
+                control={form.control}
+                name="keyAttributes"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Key Attributes for AI</FormLabel>
+                    <FormControl>
+                        <Textarea
+                        placeholder="Enter key features, size, capacity, highlights, etc. that make this listing unique."
+                        className="resize-none bg-background"
+                        {...field}
+                        />
+                    </FormControl>
+                    <FormDescription>
+                        Provide the core details for the AI to generate a compelling description.
+                    </FormDescription>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+        
+            <Button type="button" variant="outline" onClick={onGenerate} disabled={isGenerating}>
+            {isGenerating ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+                <Sparkles className="mr-2 h-4 w-4" />
+            )}
+            Generate AI Description
+            </Button>
+        </div>
+
 
         <FormField
           control={form.control}

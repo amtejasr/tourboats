@@ -103,7 +103,7 @@ export default function YachtDetailPage({ params }: { params: { id: string, cate
               
               <div className="pt-4">
                 <WhatsAppButton 
-                    phoneNumber="+971501234567" 
+                    phoneNumber="+971504227715" 
                     message={`I would like to inquire about booking the ${yacht.name}.`} 
                     className="w-full text-lg py-6"
                 />

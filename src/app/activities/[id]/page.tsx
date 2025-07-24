@@ -65,7 +65,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
               
               <div className="pt-4">
                 <WhatsAppButton 
-                    phoneNumber="+971501234567" 
+                    phoneNumber="+971504227715" 
                     message={`I would like to book the ${activity.name} activity.`} 
                     className="w-full text-lg py-6"
                 />

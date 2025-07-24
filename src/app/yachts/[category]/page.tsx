@@ -29,7 +29,7 @@ export default function YachtCategoryPage({ params }: { params: { category: stri
   return (
     <div className="container mx-auto px-4 py-16 sm:py-24">
       <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl font-bold md:text-5xl">{categoryTitle} Yachts</h1>
+        <h1 className="font-headline text-4xl font-bold md:text-5xl text-primary">{categoryTitle} Yachts</h1>
         <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
           Discover the perfect {category} vessel for your ultimate Dubai sea experience.
         </p>
@@ -73,7 +73,7 @@ export default function YachtCategoryPage({ params }: { params: { category: stri
               </CardContent>
               <CardFooter>
                  <WhatsAppButton 
-                    phoneNumber="+971501234567" 
+                    phoneNumber="+971504227715" 
                     message={`I'm interested in booking the ${yacht.name} yacht.`} 
                     className="w-full"
                   />
