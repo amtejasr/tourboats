@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Menu, Sailboat, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -12,7 +12,6 @@ import {
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
-import Image from 'next/image';
 
 const navLinks = [
   { href: '/yachts/private', label: 'Private Yachts' },
@@ -44,20 +43,20 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+      <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold">
           <Logo />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex md:items-center md:gap-6">
+        <nav className="hidden md:flex md:items-center md:gap-8">
           {navLinks.map(({ href, label }) => (
              <Link
               key={href}
               href={href}
               className={cn(
-                "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-                (pathname === href || (href.includes('#') && pathname === '/')) && "text-primary"
+                "text-base font-medium text-muted-foreground transition-colors hover:text-primary",
+                (pathname === href || (href.includes('#') && pathname === '/')) && "text-primary font-semibold"
               )}
             >
               {label}
@@ -74,7 +73,7 @@ export function Header() {
                 <span className="sr-only">Open navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetContent side="right" className="w-[300px]">
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between border-b pb-4">
                     <Link href="/" className="flex items-center gap-2 font-bold" onClick={() => setSheetOpen(false)}>
@@ -87,12 +86,12 @@ export function Header() {
                         </Button>
                     </SheetClose>
                 </div>
-                <nav className="mt-6 flex flex-col gap-4">
+                <nav className="mt-8 flex flex-col gap-6">
                   {navLinks.map(({ href, label }) => (
                     <Link
                       key={href}
                       href={href}
-                      className="text-lg font-medium"
+                      className="text-xl font-semibold"
                       onClick={() => setSheetOpen(false)}
                     >
                       {label}

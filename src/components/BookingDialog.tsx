@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon, Clock, Users, Send } from "lucide-react"
+import { Calendar as CalendarIcon, Send, Users, Clock } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import WhatsAppButton from "./WhatsAppButton"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 interface BookingDialogProps {
@@ -72,22 +72,23 @@ export function BookingDialog({ bookingType, itemName, className }: BookingDialo
       <DialogTrigger asChild>
         <Button className={cn("bg-primary text-primary-foreground hover:bg-primary/90", className)}>Book Now</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Book: {itemName}</DialogTitle>
+          <DialogTitle className="font-headline text-2xl">Book: {itemName}</DialogTitle>
           <DialogDescription>
-            Select your preferred date, time, and number of guests.
+            Select your preferred date, time, and number of guests to start your booking.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid w-full items-center gap-1.5">
+        <div className="grid gap-6 py-4">
+          <div className="grid w-full items-center gap-2">
             <Label htmlFor="date">Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="date"
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal text-base h-11",
                     !date && "text-muted-foreground"
                   )}
                 >
@@ -106,40 +107,37 @@ export function BookingDialog({ bookingType, itemName, className }: BookingDialo
               </PopoverContent>
             </Popover>
           </div>
-          <div className="grid w-full items-center gap-1.5">
-            <Label>Time</Label>
-             <div className="grid grid-cols-3 gap-2">
-                {timeSlots.map(time => (
-                    <Button 
-                        key={time} 
-                        variant={selectedTime === time ? "default" : "outline"}
-                        onClick={() => setSelectedTime(time)}
-                        className="text-xs"
-                    >
-                        {time}
-                    </Button>
-                ))}
-            </div>
+          <div className="grid w-full items-center gap-2">
+            <Label htmlFor="time">Time</Label>
+             <Select onValueChange={setSelectedTime}>
+                <SelectTrigger id="time" className="w-full text-base h-11">
+                    <SelectValue placeholder="Select a time slot" />
+                </SelectTrigger>
+                <SelectContent>
+                    {timeSlots.map(time => (
+                        <SelectItem key={time} value={time}>{time}</SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
           </div>
-          <div className="grid w-full items-center gap-1.5">
+          <div className="grid w-full items-center gap-2">
             <Label htmlFor="people">How many people?</Label>
-            <div className="flex items-center gap-2">
-                 <Button variant="outline" size="icon" onClick={() => setNumberOfPeople(p => Math.max(1, p - 1))}>-</Button>
+            <div className="relative">
+                 <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                  <Input 
                     id="people"
                     type="number" 
                     value={numberOfPeople}
                     onChange={(e) => setNumberOfPeople(parseInt(e.target.value, 10))}
-                    className="w-16 text-center"
+                    className="w-full text-base h-11 pl-10"
                     min="1"
                 />
-                 <Button variant="outline" size="icon" onClick={() => setNumberOfPeople(p => p + 1)}>+</Button>
             </div>
           </div>
         </div>
         <DialogFooter>
-           <Button onClick={handleSendToWhatsApp} className="w-full bg-green-500 hover:bg-green-600">
-                <Send className="mr-2 h-4 w-4" /> Send to WhatsApp
+           <Button onClick={handleSendToWhatsApp} className="w-full text-base py-6 bg-green-600 hover:bg-green-700">
+                <Send className="mr-2 h-4 w-4" /> Confirm on WhatsApp
             </Button>
         </DialogFooter>
       </DialogContent>
