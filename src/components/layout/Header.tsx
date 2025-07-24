@@ -20,7 +20,6 @@ const navLinks = [
   { href: '/yachts/sharing', label: 'Sharing Yachts' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
-  { href: '/admin', label: 'Admin Panel' },
 ];
 
 const Logo = () => (
