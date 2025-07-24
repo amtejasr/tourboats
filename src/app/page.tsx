@@ -40,7 +40,7 @@ export default function Home() {
                 Explore The Fleet <Sailboat className="ml-2" />
               </Link>
             </Button>
-             <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 border-white text-white hover:bg-white hover:text-primary">
+             <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
               <Link href="#activities">
                 View Activities <ArrowRight className="ml-2" />
               </Link>
