@@ -24,8 +24,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useToast } from "@/hooks/use-toast";
-import { Sparkles, Loader2 } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { handleGenerateDescription } from '@/app/actions';
+import { SailingYachtLoader } from './SailingYachtLoader';
 
 const formSchema = z.object({
   category: z.enum(['yacht', 'waterActivity'], {
@@ -241,7 +242,7 @@ export function ListingForm({ initialData }: ListingFormProps) {
         
             <Button type="button" variant="outline" onClick={onGenerate} disabled={isGenerating}>
             {isGenerating ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <SailingYachtLoader />
             ) : (
                 <Sparkles className="mr-2 h-4 w-4" />
             )}
