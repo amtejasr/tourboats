@@ -38,47 +38,49 @@ export default function YachtCategoryPage({ params }: { params: { category: stri
       {filteredYachts.length > 0 ? (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredYachts.map((yacht: Yacht) => (
-            <Card key={yacht.id} className="flex flex-col overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
-              <Link href={`/yachts/${category}/${yacht.id}`}>
-                <div className="relative h-56 w-full">
-                  <Image
-                    src={yacht.image}
-                    alt={yacht.name}
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-300 group-hover:scale-105"
-                    data-ai-hint={yacht.aiHint}
-                  />
-                </div>
-              </Link>
-              <CardHeader>
-                <CardTitle className="font-headline">{yacht.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow space-y-4">
-                <p className="text-sm text-muted-foreground line-clamp-3">{yacht.description}</p>
-                <div className="flex justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-primary" />
-                    <span>Up to {yacht.capacity} guests</span>
+            <div key={yacht.id} className="group [perspective:1000px]">
+              <Card className="flex flex-col overflow-hidden shadow-lg h-full transition-all duration-300 group-hover:shadow-xl group-hover:[transform:rotateY(5deg)]">
+                <Link href={`/yachts/${category}/${yacht.id}`}>
+                  <div className="relative h-56 w-full">
+                    <Image
+                      src={yacht.image}
+                      alt={yacht.name}
+                      layout="fill"
+                      objectFit="cover"
+                      className="transition-transform duration-300 group-hover:scale-105"
+                      data-ai-hint={yacht.aiHint}
+                    />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Scaling className="h-4 w-4 text-primary" />
-                    <span>{yacht.size} ft</span>
+                </Link>
+                <CardHeader>
+                  <CardTitle className="font-headline">{yacht.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow space-y-4">
+                  <p className="text-sm text-muted-foreground line-clamp-3">{yacht.description}</p>
+                  <div className="flex justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4 text-primary" />
+                      <span>Up to {yacht.capacity} guests</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Scaling className="h-4 w-4 text-primary" />
+                      <span>{yacht.size} ft</span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                    <Tag className="h-4 w-4 text-primary" />
-                    <span>AED {yacht.pricePerHour.toLocaleString()}{category === 'private' ? ' / hour' : ' / person'}</span>
-                </div>
-              </CardContent>
-              <CardFooter>
-                 <BookingDialog 
-                    bookingType={yacht.category === 'private' ? 'Yacht' : 'Shared Yacht'}
-                    itemName={yacht.name}
-                    className="w-full"
-                  />
-              </CardFooter>
-            </Card>
+                  <div className="flex items-center gap-2 text-sm">
+                      <Tag className="h-4 w-4 text-primary" />
+                      <span>AED {yacht.pricePerHour.toLocaleString()}{category === 'private' ? ' / hour' : ' / person'}</span>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                   <BookingDialog 
+                      bookingType={yacht.category === 'private' ? 'Yacht' : 'Shared Yacht'}
+                      itemName={yacht.name}
+                      className="w-full"
+                    />
+                </CardFooter>
+              </Card>
+            </div>
           ))}
         </div>
       ) : (
