@@ -11,6 +11,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster";
 import Loading from './loading';
 import { AuthProvider } from '@/context/AuthContext';
+import WhatsAppPopup from '@/components/WhatsAppPopup';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -58,6 +59,7 @@ export default function RootLayout({
             <main className="flex-grow">{children}</main>
             <Footer />
           </div>
+          <WhatsAppPopup />
           <Toaster />
         </AuthProvider>
       </body>
