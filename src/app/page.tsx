@@ -139,13 +139,13 @@ export default function Home() {
                     data-ai-hint={activity.aiHint}
                   />
                 </Link>
-                <CardHeader>
-                    <CardTitle className="font-headline text-2xl">{activity.name}</CardTitle>
+                <CardHeader className="flex-grow">
+                  <CardTitle className="font-headline text-2xl h-16">{activity.name}</CardTitle>
                 </CardHeader>
-                <CardContent className="flex-grow">
+                <CardContent>
+                   <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                 </CardContent>
-                <CardFooter className="flex-col items-start gap-4">
-                    <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
+                <CardFooter>
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
