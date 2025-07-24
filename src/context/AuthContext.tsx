@@ -73,8 +73,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   };
 
+  const value = { user, firebaseUser, auth, logout, loading };
+
   return (
-    <AuthContext.Provider value={{ user, firebaseUser, auth, logout, loading }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
