@@ -1,29 +1,28 @@
 
+
 // This is a mock authentication service.
 // In a real application, this would be replaced by a proper authentication provider
 // like Firebase Authentication, and user data would be stored in a database.
+// We are keeping it to define roles for now.
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  password?: string; // Should not exist in a real User object returned to client
   role: 'admin' | 'customer';
 }
 
 export const users: User[] = [
   {
-    id: '1',
+    id: '1', // This ID is now just for mock purposes
     name: 'Admin User',
     email: 'amtejasr@gmail.com',
-    password: 'TourBoat@67',
     role: 'admin',
   },
   {
-    id: '2',
+    id: '2', // This ID is now just for mock purposes
     name: 'Valued Customer',
     email: 'customer@example.com',
-    password: 'password',
     role: 'customer',
   },
 ];

@@ -22,6 +22,9 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { users } from '@/lib/auth';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -32,7 +35,6 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
   const { toast } = useToast();
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -48,18 +50,38 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     setError(null);
     try {
-      const user = await login(data.email, data.password);
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+
+      if (!userCredential.user.emailVerified) {
+        setError("Please verify your email address before logging in. A verification link has been sent to your inbox.");
+        return;
+      }
+      
+      const appUser = users.find(u => u.email === userCredential.user.email);
+      const role = appUser ? appUser.role : 'customer';
+      const name = appUser ? appUser.name : 'User';
+
       toast({
         title: 'Login Successful',
-        description: `Welcome back, ${user.name}!`,
+        description: `Welcome back, ${name}!`,
       });
-      if (user.role === 'admin') {
+
+      if (role === 'admin') {
         router.push('/admin');
       } else {
         router.push('/dashboard');
       }
     } catch (err: any) {
-      setError(err.message);
+       switch (err.code) {
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+        case 'auth/invalid-credential':
+          setError('Invalid email or password.');
+          break;
+        default:
+          setError('An unexpected error occurred. Please try again.');
+          break;
+      }
     }
   };
 

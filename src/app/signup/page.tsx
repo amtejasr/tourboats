@@ -20,6 +20,9 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { UserPlus, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const signupSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -33,6 +36,7 @@ export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -43,17 +47,26 @@ export default function SignupPage() {
   });
 
   const onSubmit = async (data: SignupFormValues) => {
-    // In a real app, you would handle user registration here,
-    // including OTP verification and saving the user to a database.
-    console.log('Signup data:', data);
-    toast({
-      title: 'Account Creation Pending',
-      description: 'This is a demo. In a real app, you would be sent an OTP to verify your email.',
-    });
-    // For demonstration, we'll redirect to the login page after a short delay.
-    setTimeout(() => {
-        router.push('/login');
-    }, 2000);
+    setError(null);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await updateProfile(userCredential.user, { displayName: data.name });
+      await sendEmailVerification(userCredential.user);
+
+      toast({
+        title: 'Account Created!',
+        description: 'A verification link has been sent to your email. Please verify your account before logging in.',
+      });
+      
+      router.push('/login');
+    } catch (err: any) {
+      if (err.code === 'auth/email-already-in-use') {
+        setError('This email address is already in use. Please try another one.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+        console.error(err);
+      }
+    }
   };
 
   return (
@@ -68,6 +81,12 @@ export default function SignupPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+               {error && (
+                <Alert variant="destructive">
+                  <AlertTitle>Signup Failed</AlertTitle>
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
