@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 const navLinks = [
   { href: '/#activities', label: 'Water Activities' },
@@ -40,6 +41,8 @@ const Logo = () => (
 export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) => void }) {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout, loading } = useAuth();
 
   const handleLinkClick = (href: string) => {
     // Only show loader for different pages
@@ -48,6 +51,15 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
     }
     setSheetOpen(false);
   };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  }
+  
+  const dashboardLink = user?.role === 'admin' ? '/admin' : '/dashboard';
+
+  if (loading) return null; // Or a loading skeleton for header
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -71,6 +83,28 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
               {label}
             </Link>
           ))}
+          <div className="flex items-center gap-4">
+            {user ? (
+              <>
+                 <Button variant="ghost" asChild>
+                    <Link href={dashboardLink} onClick={() => handleLinkClick(dashboardLink)}>
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        Dashboard
+                    </Link>
+                </Button>
+                <Button variant="outline" onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button asChild>
+                <Link href="/login" onClick={() => handleLinkClick('/login')}>
+                  Login
+                </Link>
+              </Button>
+            )}
+          </div>
         </nav>
 
         {/* Mobile Navigation */}
@@ -107,6 +141,22 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
                     </Link>
                   ))}
                 </nav>
+                 <div className="mt-auto flex flex-col gap-4 pt-6 border-t">
+                    {user ? (
+                        <>
+                            <Link href={dashboardLink} onClick={() => handleLinkClick(dashboardLink)} className='text-xl font-semibold flex items-center'>
+                               <LayoutDashboard className="mr-2 h-5 w-5" /> Dashboard
+                            </Link>
+                            <Button variant="outline" onClick={handleLogout} className="text-xl h-12">
+                                <LogOut className="mr-2 h-5 w-5" /> Logout
+                            </Button>
+                        </>
+                    ) : (
+                        <Button asChild className="text-xl h-12">
+                            <Link href="/login" onClick={() => handleLinkClick('/login')}>Login</Link>
+                        </Button>
+                    )}
+                </div>
               </div>
             </SheetContent>
           </Sheet>
@@ -115,5 +165,3 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
     </header>
   );
 }
-
-    

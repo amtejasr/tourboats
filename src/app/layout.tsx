@@ -10,6 +10,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster";
 import Loading from './loading';
+import { AuthProvider } from '@/context/AuthContext';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -35,7 +36,7 @@ export default function RootLayout({
     if (isLoading) {
       setIsLoading(false);
     }
-  }, [pathname]);
+  }, [pathname, isLoading]);
 
   return (
     <html lang="en">
@@ -50,13 +51,15 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body antialiased', inter.variable)}>
-        {isLoading && <Loading />}
-        <div className="flex min-h-screen flex-col">
-          <Header setIsLoading={setIsLoading} />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </div>
-        <Toaster />
+        <AuthProvider>
+          {isLoading && <Loading />}
+          <div className="flex min-h-screen flex-col">
+            <Header setIsLoading={setIsLoading} />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );
