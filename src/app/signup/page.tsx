@@ -60,11 +60,23 @@ export default function SignupPage() {
       
       router.push('/login');
     } catch (err: any) {
-      if (err.code === 'auth/email-already-in-use') {
-        setError('This email address is already in use. Please try another one.');
-      } else {
-        setError('An unexpected error occurred. Please try again.');
-        console.error(err);
+      switch (err.code) {
+        case 'auth/email-already-in-use':
+          setError('This email address is already in use. Please try another one.');
+          break;
+        case 'auth/weak-password':
+          setError('The password is too weak. Please use at least 8 characters.');
+          break;
+        case 'auth/invalid-email':
+          setError('The email address is not valid.');
+          break;
+        case 'auth/operation-not-allowed':
+           setError('Email/password accounts are not enabled. Please contact support.');
+           break;
+        default:
+          setError('An unexpected error occurred. Please try again.');
+          console.error(err);
+          break;
       }
     }
   };
