@@ -62,9 +62,11 @@ export default function AdminPage() {
                 </TableCell>
                 <TableCell className="font-medium">{item.name}</TableCell>
                 <TableCell className="text-right">
-                  <Button variant="ghost" size="icon" disabled>
-                    <Edit className="h-4 w-4" />
-                    <span className="sr-only">Edit</span>
+                  <Button variant="ghost" size="icon" asChild>
+                    <Link href={`/admin/edit/${item.type.toLowerCase()}/${item.id}`}>
+                      <Edit className="h-4 w-4" />
+                      <span className="sr-only">Edit</span>
+                    </Link>
                   </Button>
                   <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" disabled>
                     <Trash2 className="h-4 w-4" />

@@ -43,13 +43,19 @@ const formSchema = z.object({
   description: z.string().optional(),
 });
 
-export function ListingForm() {
+type ListingFormValues = z.infer<typeof formSchema>;
+
+interface ListingFormProps {
+  initialData?: Partial<ListingFormValues>;
+}
+
+export function ListingForm({ initialData }: ListingFormProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<ListingFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       name: "",
       price: 0,
       imageUrls: "",
@@ -99,14 +105,16 @@ export function ListingForm() {
     }
   }
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: ListingFormValues) {
     // In a real app, you would save this data to your database.
     console.log(values);
     toast({
         title: "Listing Submitted!",
-        description: "Your new listing has been saved (check the console for data).",
+        description: `Your listing for "${values.name}" has been saved (check the console for data).`,
     });
-    form.reset();
+    if (!initialData) {
+        form.reset();
+    }
   }
 
   return (
