@@ -182,7 +182,7 @@ export function ListingForm({ initialData }: ListingFormProps) {
               <FormLabel>Image URLs</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="https://placehold.co/800x600.png, https://placehold.co/800x600.png"
+                  placeholder="https://picsum.photos/seed/image1/800/600, https://picsum.photos/seed/image2/800/600"
                   className="resize-y"
                   {...field}
                 />

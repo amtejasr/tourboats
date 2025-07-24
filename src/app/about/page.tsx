@@ -6,7 +6,7 @@ export default function AboutPage() {
     <>
       <div className="relative h-64 w-full bg-primary">
         <Image
-          src="https://placehold.co/1200x300.png"
+          src="https://picsum.photos/seed/about-banner/1200/300"
           alt="Dubai coastline"
           layout="fill"
           objectFit="cover"
@@ -38,7 +38,7 @@ export default function AboutPage() {
           </div>
           <div>
             <Image
-              src="https://placehold.co/500x600.png"
+              src="https://picsum.photos/seed/crew/500/600"
               alt="Yacht crew smiling"
               width={500}
               height={600}

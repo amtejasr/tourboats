@@ -18,7 +18,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] w-full bg-cover bg-center">
         <Image
-          src="https://placehold.co/1920x1080.png"
+          src="https://picsum.photos/seed/hero/1920/1080"
           alt="Luxury yacht on the waters of Dubai"
           layout="fill"
           objectFit="cover"
@@ -56,7 +56,7 @@ export default function Home() {
             <Link href="/yachts/private">
               <Card className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
                 <Image
-                  src="https://placehold.co/600x400.png"
+                  src="https://picsum.photos/seed/private/600/400"
                   alt="Private luxury yacht"
                   width={600}
                   height={400}
@@ -79,7 +79,7 @@ export default function Home() {
             <Link href="/yachts/sharing">
               <Card className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
                 <Image
-                  src="https://placehold.co/600x400.png"
+                  src="https://picsum.photos/seed/sharing/600/400"
                   alt="Sharing yacht experience"
                   width={600}
                   height={400}

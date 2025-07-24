@@ -16,7 +16,7 @@ export default function ContactPage() {
     <>
       <div className="relative h-64 w-full bg-primary">
         <Image
-          src="https://placehold.co/1200x300.png"
+          src="https://picsum.photos/seed/contact-banner/1200/300"
           alt="Ocean waves"
           layout="fill"
           objectFit="cover"
@@ -85,7 +85,7 @@ export default function ContactPage() {
           <div>
             <h2 className="font-headline text-3xl font-semibold text-primary mb-4">Find Us Here</h2>
              <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-lg shadow-xl">
-                 <Image src="https://placehold.co/600x450.png" alt="Map to Dubai Marina" layout="fill" objectFit="cover" data-ai-hint="dubai map"/>
+                 <Image src="https://picsum.photos/seed/map/600/450" alt="Map to Dubai Marina" layout="fill" objectFit="cover" data-ai-hint="dubai map"/>
             </div>
           </div>
         </div>
