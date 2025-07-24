@@ -78,7 +78,6 @@ export default function LoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="amtejasr@gmail.com"
                   {...register('email')}
                 />
                 {errors.email && (
@@ -90,7 +89,6 @@ export default function LoginPage() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="password"
                   {...register('password')}
                 />
                 {errors.password && (
