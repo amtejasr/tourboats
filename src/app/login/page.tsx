@@ -22,7 +22,6 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { users } from '@/lib/auth';
 
@@ -36,6 +35,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { auth } = useAuth(); // Get auth from context
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -52,8 +52,11 @@ export default function LoginPage() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
 
+      // onAuthStateChanged in AuthContext will handle setting the user state.
+      // We just need to check for verification here.
       if (!userCredential.user.emailVerified) {
         setError("Please verify your email address before logging in. A verification link has been sent to your inbox.");
+        // Note: You might want to sign out the user here if they are not verified
         return;
       }
       
@@ -78,8 +81,12 @@ export default function LoginPage() {
         case 'auth/invalid-credential':
           setError('Invalid email or password.');
           break;
+        case 'auth/user-disabled':
+          setError('This account has been disabled.');
+          break;
         default:
           setError('An unexpected error occurred. Please try again.');
+          console.error(err);
           break;
       }
     }
