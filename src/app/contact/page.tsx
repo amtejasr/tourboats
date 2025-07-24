@@ -200,10 +200,10 @@ export default function ContactPage() {
                   <div className="ml-4">
                     <h3 className="text-xl font-bold">Email Us</h3>
                     <a
-                      href="mailto:contact@tourboats.com"
+                      href="mailto:sales@tourdit.com"
                       className="text-muted-foreground transition-colors hover:text-primary"
                     >
-                      contact@tourboats.com
+                      sales@tourdit.com
                     </a>
                   </div>
                 </div>

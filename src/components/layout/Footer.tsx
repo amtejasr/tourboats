@@ -55,7 +55,7 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-3 shrink-0" />
-                <a href="mailto:contact@tourboats.com" className="text-primary-foreground/80 hover:text-white transition-colors">contact@tourboats.com</a>
+                <a href="mailto:sales@tourdit.com" className="text-primary-foreground/80 hover:text-white transition-colors">sales@tourdit.com</a>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-3 shrink-0" />
