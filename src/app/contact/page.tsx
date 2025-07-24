@@ -10,45 +10,30 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 
 export default function ContactPage() {
   return (
-    <>
-      <div className="relative h-80 w-full">
-        <Image
-          src="https://picsum.photos/seed/contact-banner/1600/400"
-          alt="Ocean waves from a yacht"
-          layout="fill"
-          objectFit="cover"
-          className="brightness-50"
-          data-ai-hint="ocean waves"
-        />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
-          <h1 className="font-headline text-5xl font-bold md:text-6xl">
-            Get In Touch
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg text-white/90">We're here to help you plan the perfect marine adventure.</p>
-        </div>
-      </div>
-
+    <div className="bg-secondary">
       <div className="container mx-auto max-w-7xl px-4 py-16 sm:py-24">
-        <div className="grid grid-cols-1 gap-16 md:grid-cols-2">
-          {/* Contact Information */}
+        <div className="text-center mb-16">
+            <h1 className="font-headline text-5xl font-bold md:text-6xl text-primary">
+                Get In Touch
+            </h1>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+                We're here to help you plan the perfect marine adventure.
+            </p>
+        </div>
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+          {/* Contact Information Cards */}
           <div className="space-y-8">
-            <div>
-              <h2 className="font-headline text-4xl font-bold text-primary">Contact Information</h2>
-              <p className="mt-3 text-lg text-muted-foreground">
-                Reach out to us via phone, email, or WhatsApp for any inquiries or booking requests. Our team is ready to assist you.
-              </p>
-            </div>
-            <Card className="border-2 border-accent/20">
+             <Card className="shadow-lg">
               <CardContent className="p-8 space-y-6">
                 <div className="flex items-start">
-                  <MapPin className="h-8 w-8 mr-5 mt-1 text-accent shrink-0" />
+                  <MapPin className="h-8 w-8 mr-5 mt-1 text-primary shrink-0" />
                   <div>
                     <h3 className="text-xl font-bold">Our Location</h3>
                     <p className="text-muted-foreground">Dubai Marina, Dubai, United Arab Emirates</p>
                   </div>
                 </div>
                  <div className="flex items-start">
-                  <Mail className="h-8 w-8 mr-5 mt-1 text-accent shrink-0" />
+                  <Mail className="h-8 w-8 mr-5 mt-1 text-primary shrink-0" />
                   <div>
                     <h3 className="text-xl font-bold">Email Us</h3>
                     <a href="mailto:contact@tourboats.com" className="text-muted-foreground hover:text-primary transition-colors">
@@ -57,7 +42,7 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <Phone className="h-8 w-8 mr-5 mt-1 text-accent shrink-0" />
+                  <Phone className="h-8 w-8 mr-5 mt-1 text-primary shrink-0" />
                   <div>
                     <h3 className="text-xl font-bold">Call Us</h3>
                     <a href="tel:+971504227715" className="text-muted-foreground hover:text-primary transition-colors">
@@ -68,7 +53,7 @@ export default function ContactPage() {
               </CardContent>
             </Card>
             
-            <Card className="bg-primary text-primary-foreground">
+            <Card className="bg-primary text-primary-foreground shadow-lg">
                 <CardHeader>
                     <CardTitle className="text-2xl">Instant Support</CardTitle>
                 </CardHeader>
@@ -81,13 +66,12 @@ export default function ContactPage() {
 
           {/* Map Placeholder */}
           <div className="flex flex-col">
-            <h2 className="font-headline text-4xl font-bold text-primary mb-6">Find Us Here</h2>
-             <div className="aspect-w-4 aspect-h-3 w-full overflow-hidden rounded-lg shadow-2xl flex-grow">
-                 <Image src="https://picsum.photos/seed/map/800/600" alt="Map to Dubai Marina" layout="fill" objectFit="cover" data-ai-hint="dubai map"/>
+             <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-xl shadow-2xl flex-grow">
+                 <Image src="https://picsum.photos/seed/map-contact/800/800" alt="Map to Dubai Marina" layout="fill" objectFit="cover" data-ai-hint="dubai map"/>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
