@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -37,14 +38,22 @@ const Logo = () => (
     </svg>
 );
 
-export function Header() {
+export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) => void }) {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const pathname = usePathname();
+
+  const handleLinkClick = (href: string) => {
+    // Only show loader for different pages
+    if (href !== pathname) {
+        setIsLoading(true);
+    }
+    setSheetOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 font-bold">
+        <Link href="/" onClick={() => handleLinkClick('/')} className="flex items-center gap-2 font-bold">
           <Logo />
         </Link>
 
@@ -54,6 +63,7 @@ export function Header() {
              <Link
               key={href}
               href={href}
+              onClick={() => handleLinkClick(href)}
               className={cn(
                 "text-base font-medium text-muted-foreground transition-colors hover:text-primary",
                 (pathname === href || (href.includes('#') && pathname === '/')) && "text-primary font-semibold"
@@ -76,7 +86,7 @@ export function Header() {
             <SheetContent side="right" className="w-[300px]">
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between border-b pb-4">
-                    <Link href="/" className="flex items-center gap-2 font-bold" onClick={() => setSheetOpen(false)}>
+                    <Link href="/" className="flex items-center gap-2 font-bold" onClick={() => handleLinkClick('/')}>
                         <Logo />
                     </Link>
                     <SheetClose asChild>
@@ -92,7 +102,7 @@ export function Header() {
                       key={href}
                       href={href}
                       className="text-xl font-semibold"
-                      onClick={() => setSheetOpen(false)}
+                      onClick={() => handleLinkClick(href)}
                     >
                       {label}
                     </Link>

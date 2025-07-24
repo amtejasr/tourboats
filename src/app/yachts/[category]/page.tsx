@@ -20,7 +20,7 @@ export default async function YachtCategoryPage({ params }: { params: { category
   const { category } = params;
 
   // Simulate a delay to demonstrate the loading UI
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   if (category !== 'private' && category !== 'sharing') {
     notFound();
@@ -42,7 +42,7 @@ export default async function YachtCategoryPage({ params }: { params: { category
       {filteredYachts.length > 0 ? (
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
           {filteredYachts.map((yacht: Yacht) => (
-             <Card key={yacht.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 bg-card">
+             <Card key={yacht.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 bg-card group/card">
                 <Link href={`/yachts/${category}/${yacht.id}`} className="block overflow-hidden">
                   <div className="relative h-64 w-full">
                     <Image
@@ -50,7 +50,7 @@ export default async function YachtCategoryPage({ params }: { params: { category
                       alt={yacht.name}
                       layout="fill"
                       objectFit="cover"
-                      className="transition-transform duration-500 hover:scale-110"
+                      className="transition-transform duration-500 group-hover/card:scale-110"
                       data-ai-hint={yacht.aiHint}
                     />
                   </div>
