@@ -15,9 +15,9 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 
 const navLinks = [
+  { href: '/#activities', label: 'Water Activities' },
   { href: '/yachts/private', label: 'Private Yachts' },
   { href: '/yachts/sharing', label: 'Sharing Yachts' },
-  { href: '/#activities', label: 'Water Activities' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
   { href: '/admin', label: 'Admin Panel' },
@@ -116,3 +116,5 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
     </header>
   );
 }
+
+    
