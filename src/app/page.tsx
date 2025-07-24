@@ -146,7 +146,7 @@ export default function Home() {
                   <p className="text-muted-foreground text-sm line-clamp-3">{activity.shortDescription}</p>
                 </CardContent>
                 <CardFooter className="flex-col items-start gap-4">
-                    <p className="text-xl font-bold text-primary">AED {activity.price}</p>
+                    <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
