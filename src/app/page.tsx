@@ -140,8 +140,8 @@ export default function Home() {
                   />
                 </Link>
                 <div className="p-6 flex flex-col flex-grow">
-                  <CardTitle className="font-headline text-2xl h-16">{activity.name}</CardTitle>
-                  <div className="flex-grow mt-2">
+                  <div className="flex-grow">
+                    <CardTitle className="font-headline text-2xl mb-2 h-16">{activity.name}</CardTitle>
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                   <CardFooter className="p-0 pt-4 mt-auto">
