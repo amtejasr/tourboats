@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: '/yachts/private', label: 'Private Yachts' },
@@ -23,22 +24,26 @@ const navLinks = [
 
 export function Header() {
   const [isSheetOpen, setSheetOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold">
           <Sailboat className="h-6 w-6 text-primary" />
-          <span className="font-headline text-xl">Azure Yachts Dubai</span>
+          <span className="font-headline text-xl">Tourboats</span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex md:items-center md:gap-6">
           {navLinks.map(({ href, label }) => (
-            <Link
+             <Link
               key={href}
               href={href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              className={cn(
+                "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
+                (pathname === href || (href.includes('#') && pathname === '/')) && "text-primary"
+              )}
             >
               {label}
             </Link>
@@ -59,7 +64,7 @@ export function Header() {
                 <div className="flex items-center justify-between border-b pb-4">
                     <Link href="/" className="flex items-center gap-2 font-bold" onClick={() => setSheetOpen(false)}>
                         <Sailboat className="h-6 w-6 text-primary" />
-                        <span className="font-headline text-xl">Azure Yachts</span>
+                        <span className="font-headline text-xl">Tourboats</span>
                     </Link>
                     <SheetClose asChild>
                          <Button variant="ghost" size="icon">

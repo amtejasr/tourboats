@@ -2,7 +2,7 @@ import { yachts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Users, Scaling, Tag, CheckCircle } from 'lucide-react';
-import WhatsAppButton from '@/components/WhatsAppButton';
+import { BookingDialog } from '@/components/BookingDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     };
   }
   return {
-    title: `${yacht.name} | Azure Yachts Dubai`,
+    title: `${yacht.name} | Tourboats`,
     description: yacht.description.substring(0, 160),
   };
 }
@@ -102,10 +102,10 @@ export default function YachtDetailPage({ params }: { params: { id: string, cate
               </div>
               
               <div className="pt-4">
-                <WhatsAppButton 
-                    phoneNumber="+971504227715" 
-                    message={`I would like to inquire about booking the ${yacht.name}.`} 
-                    className="w-full text-lg py-6"
+                <BookingDialog 
+                  bookingType={yacht.category === 'private' ? 'Yacht' : 'Shared Yacht'}
+                  itemName={yacht.name}
+                  className="w-full text-lg py-6"
                 />
                 <p className="text-xs text-muted-foreground text-center mt-2">
                   Contact us on WhatsApp for instant booking & custom packages.

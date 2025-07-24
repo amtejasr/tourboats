@@ -10,7 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { waterActivities } from '@/lib/data';
-import WhatsAppButton from '@/components/WhatsAppButton';
+import { BookingDialog } from '@/components/BookingDialog';
 
 export default function Home() {
   return (
@@ -28,7 +28,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
           <h1 className="font-headline text-4xl font-bold md:text-6xl lg:text-7xl">
-            Azure Yachts Dubai
+            Tourboats
           </h1>
           <p className="mt-4 max-w-2xl text-lg md:text-xl">
             Experience Unforgettable Luxury on the Waters of Dubai
@@ -104,7 +104,7 @@ export default function Home() {
       </section>
 
       {/* Water Activities Section */}
-      <section className="bg-secondary py-16 md:py-24">
+      <section id="activities" className="bg-secondary py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-headline text-3xl font-bold md:text-4xl text-primary">
@@ -130,7 +130,11 @@ export default function Home() {
                 <CardContent className="p-4 flex-grow flex flex-col">
                   <h3 className="font-headline text-xl font-semibold mb-2">{activity.name}</h3>
                   <p className="text-muted-foreground text-sm mb-4 flex-grow">{activity.shortDescription}</p>
-                  <WhatsAppButton phoneNumber="+971504227715" message={`I'd like to book the ${activity.name} activity.`} className="w-full mt-auto" />
+                   <BookingDialog 
+                    bookingType="activity"
+                    itemName={activity.name}
+                    className="w-full mt-auto"
+                  />
                 </CardContent>
               </Card>
             ))}

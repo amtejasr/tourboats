@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'Azure Yachts Dubai',
+  title: 'Tourboats | Luxury Yachts and Water Activities in Dubai',
   description: 'Luxury Yachts and Water Activities in Dubai',
 };
 

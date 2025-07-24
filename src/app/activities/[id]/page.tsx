@@ -2,7 +2,7 @@ import { waterActivities } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Tag, Clock } from 'lucide-react';
-import WhatsAppButton from '@/components/WhatsAppButton';
+import { BookingDialog } from '@/components/BookingDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     };
   }
   return {
-    title: `${activity.name} | Azure Yachts Dubai`,
+    title: `${activity.name} | Tourboats`,
     description: activity.longDescription.substring(0, 160),
   };
 }
@@ -64,10 +64,10 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
               </div>
               
               <div className="pt-4">
-                <WhatsAppButton 
-                    phoneNumber="+971504227715" 
-                    message={`I would like to book the ${activity.name} activity.`} 
-                    className="w-full text-lg py-6"
+                 <BookingDialog 
+                  bookingType="activity"
+                  itemName={activity.name}
+                  className="w-full text-lg py-6"
                 />
                 <p className="text-xs text-muted-foreground text-center mt-2">
                   Contact us on WhatsApp for instant booking.

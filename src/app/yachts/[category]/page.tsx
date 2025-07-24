@@ -5,13 +5,13 @@ import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Scaling, Tag } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import WhatsAppButton from '@/components/WhatsAppButton';
+import { BookingDialog } from '@/components/BookingDialog';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }: { params: { category: string } }) {
   const categoryTitle = params.category.charAt(0).toUpperCase() + params.category.slice(1);
   return {
-    title: `${categoryTitle} Yachts | Azure Yachts Dubai`,
+    title: `${categoryTitle} Yachts | Tourboats`,
     description: `Explore our collection of ${params.category} yachts available for charter in Dubai.`,
   };
 }
@@ -72,9 +72,9 @@ export default function YachtCategoryPage({ params }: { params: { category: stri
                 </div>
               </CardContent>
               <CardFooter>
-                 <WhatsAppButton 
-                    phoneNumber="+971504227715" 
-                    message={`I'm interested in booking the ${yacht.name} yacht.`} 
+                 <BookingDialog 
+                    bookingType={yacht.category === 'private' ? 'Yacht' : 'Shared Yacht'}
+                    itemName={yacht.name}
                     className="w-full"
                   />
               </CardFooter>

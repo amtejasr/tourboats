@@ -11,7 +11,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 font-bold mb-4">
               <Sailboat className="h-8 w-8 text-primary" />
-              <span className="font-headline text-2xl">Azure Yachts</span>
+              <span className="font-headline text-2xl">Tourboats</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Your premier choice for luxury yacht charters and thrilling water activities in Dubai.
@@ -24,7 +24,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li><Link href="/yachts/private" className="text-sm hover:text-primary transition-colors">Private Yachts</Link></li>
               <li><Link href="/yachts/sharing" className="text-sm hover:text-primary transition-colors">Sharing Yachts</Link></li>
-              <li><Link href="/#water-activities" className="text-sm hover:text-primary transition-colors">Water Activities</Link></li>
+              <li><Link href="/#activities" className="text-sm hover:text-primary transition-colors">Water Activities</Link></li>
               <li><Link href="/about" className="text-sm hover:text-primary transition-colors">About Us</Link></li>
             </ul>
           </div>
@@ -39,7 +39,7 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-3 shrink-0" />
-                <a href="mailto:contact@azureyachtsdubai.com" className="hover:text-primary transition-colors">contact@azureyachts.com</a>
+                <a href="mailto:contact@tourboats.com" className="hover:text-primary transition-colors">contact@tourboats.com</a>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-3 shrink-0" />
@@ -57,7 +57,7 @@ export function Footer() {
 
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Azure Yachts Dubai. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Tourboats. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
