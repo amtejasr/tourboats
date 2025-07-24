@@ -16,8 +16,11 @@ export async function generateMetadata({ params }: { params: { category: string 
   };
 }
 
-export default function YachtCategoryPage({ params }: { params: { category: string } }) {
+export default async function YachtCategoryPage({ params }: { params: { category: string } }) {
   const { category } = params;
+
+  // Simulate a delay to demonstrate the loading UI
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   if (category !== 'private' && category !== 'sharing') {
     notFound();
