@@ -2,12 +2,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,47 +18,42 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { LogIn, Eye, EyeOff } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { UserPlus, Eye, EyeOff } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-const loginSchema = z.object({
+const signupSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Invalid email address.' }),
-  password: z.string().min(1, { message: 'Password is required.' }),
+  password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type SignupFormValues = z.infer<typeof signupSchema>;
 
-export default function LoginPage() {
-  const router = useRouter();
-  const { login } = useAuth();
+export default function SignupPage() {
   const { toast } = useToast();
-  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<SignupFormValues>({
+    resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    setError(null);
-    try {
-      const user = await login(data.email, data.password);
-      toast({
-        title: 'Login Successful',
-        description: `Welcome back, ${user.name}!`,
-      });
-      if (user.role === 'admin') {
-        router.push('/admin');
-      } else {
-        router.push('/dashboard');
-      }
-    } catch (err: any) {
-      setError(err.message);
-    }
+  const onSubmit = async (data: SignupFormValues) => {
+    // In a real app, you would handle user registration here,
+    // including OTP verification and saving the user to a database.
+    console.log('Signup data:', data);
+    toast({
+      title: 'Account Creation Pending',
+      description: 'This is a demo. In a real app, you would be sent an OTP to verify your email.',
+    });
+    // For demonstration, we'll redirect to the login page after a short delay.
+    setTimeout(() => {
+        router.push('/login');
+    }, 2000);
   };
 
   return (
@@ -69,17 +62,30 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card className="shadow-2xl">
             <CardHeader className="text-center">
-              <CardTitle className="font-headline text-3xl">Welcome Back</CardTitle>
+              <CardTitle className="font-headline text-3xl">Create an Account</CardTitle>
               <CardDescription>
-                Log in to manage your bookings or access the admin panel.
+                Join us to start booking your marine adventures.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  {...register('name')}
+                />
+                {errors.name && (
+                  <p className="text-sm text-destructive">{errors.name.message}</p>
+                )}
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
+                  placeholder="you@example.com"
                   {...register('email')}
                 />
                 {errors.email && (
@@ -87,22 +93,15 @@ export default function LoginPage() {
                 )}
               </div>
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="#"
-                    className="text-sm font-medium text-primary hover:underline"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
+                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
                     {...register('password')}
                   />
-                  <button
+                   <button
                     type="button"
                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
                     onClick={() => setShowPassword(!showPassword)}
@@ -115,22 +114,15 @@ export default function LoginPage() {
                 )}
               </div>
 
-              {error && (
-                <Alert variant="destructive">
-                  <AlertTitle>Login Failed</AlertTitle>
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-
               <Button type="submit" className="w-full text-lg" disabled={isSubmitting}>
-                {isSubmitting ? 'Logging in...' : <> <LogIn className="mr-2" /> Log In </>}
+                {isSubmitting ? 'Creating Account...' : <> <UserPlus className="mr-2" /> Create Account </>}
               </Button>
             </CardContent>
-            <CardFooter className="flex flex-col items-center justify-center text-sm">
+            <CardFooter className="flex items-center justify-center text-sm">
                 <p className="text-muted-foreground">
-                    Don't have an account?{' '}
-                    <Link href="/signup" className="font-semibold text-primary hover:underline">
-                        Create an account
+                    Already have an account?{' '}
+                    <Link href="/login" className="font-semibold text-primary hover:underline">
+                        Log in
                     </Link>
                 </p>
             </CardFooter>
