@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Sailboat, Anchor, LifeBuoy } from 'lucide-react';
 
@@ -6,7 +7,7 @@ export default function AboutPage() {
     <>
       <div className="relative h-80 w-full">
         <Image
-          src="https://picsum.photos/seed/about-banner/1600/400"
+          src="/images/about-banner.jpg"
           alt="Dubai coastline with yachts"
           layout="fill"
           objectFit="cover"
@@ -39,7 +40,7 @@ export default function AboutPage() {
           </div>
           <div className="rounded-lg overflow-hidden shadow-2xl">
             <Image
-              src="https://picsum.photos/seed/crew/500/600"
+              src="/images/crew.jpg"
               alt="Yacht crew smiling"
               width={500}
               height={600}

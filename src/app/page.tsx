@@ -18,7 +18,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[85vh] min-h-[600px] w-full">
         <Image
-          src="https://picsum.photos/seed/hero/1920/1080"
+          src="/images/hero.jpg"
           alt="Luxury yacht on the waters of Dubai"
           layout="fill"
           objectFit="cover"
@@ -64,7 +64,7 @@ export default function Home() {
             <Link href="/yachts/private">
               <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                 <Image
-                  src="https://picsum.photos/seed/private/600/400"
+                  src="/images/private-yacht.jpg"
                   alt="Private luxury yacht"
                   width={600}
                   height={400}
@@ -89,7 +89,7 @@ export default function Home() {
             <Link href="/yachts/sharing">
               <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                 <Image
-                  src="https://picsum.photos/seed/sharing/600/400"
+                  src="/images/sharing-yacht.jpg"
                   alt="Sharing yacht experience"
                   width={600}
                   height={400}

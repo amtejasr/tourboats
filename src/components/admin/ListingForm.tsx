@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -183,7 +184,7 @@ export function ListingForm({ initialData }: ListingFormProps) {
               <FormLabel>Image URLs</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="https://picsum.photos/seed/image1/800/600, https://picsum.photos/seed/image2/800/600"
+                  placeholder="/images/image1.jpg, /images/image2.jpg"
                   className="resize-y"
                   {...field}
                 />

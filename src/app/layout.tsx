@@ -44,6 +44,7 @@ export default function RootLayout({
       <head>
         <title>Tourboats | Luxury Yachts and Water Activities in Dubai</title>
         <meta name="description" content="Luxury Yachts and Water Activities in Dubai" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
