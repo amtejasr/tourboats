@@ -35,7 +35,7 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { auth } = useAuth(); // Get auth from context
+  const { auth, loading } = useAuth(); // Get auth and loading state from context
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -85,6 +85,8 @@ export default function SignupPage() {
       }
     }
   };
+
+  const isFormSubmitting = isSubmitting || loading;
 
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-secondary px-4 py-12">
@@ -150,8 +152,8 @@ export default function SignupPage() {
                 )}
               </div>
 
-              <Button type="submit" className="w-full text-lg" disabled={isSubmitting}>
-                {isSubmitting ? 'Creating Account...' : <> <UserPlus className="mr-2" /> Create Account </>}
+              <Button type="submit" className="w-full text-lg" disabled={isFormSubmitting}>
+                {isFormSubmitting ? 'Creating Account...' : <> <UserPlus className="mr-2" /> Create Account </>}
               </Button>
             </CardContent>
             <CardFooter className="flex items-center justify-center text-sm">

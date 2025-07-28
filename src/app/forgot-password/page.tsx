@@ -31,7 +31,7 @@ type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 export default function ForgotPasswordPage() {
   const { toast } = useToast();
-  const { auth } = useAuth();
+  const { auth, loading } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -70,6 +70,8 @@ export default function ForgotPasswordPage() {
     }
   };
 
+  const isFormSubmitting = isSubmitting || loading;
+
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-secondary px-4 py-12">
       <div className="w-full max-w-md">
@@ -103,8 +105,8 @@ export default function ForgotPasswordPage() {
                 </Alert>
               )}
 
-              <Button type="submit" className="w-full text-lg" disabled={isSubmitting}>
-                {isSubmitting ? (
+              <Button type="submit" className="w-full text-lg" disabled={isFormSubmitting}>
+                {isFormSubmitting ? (
                   'Sending...'
                 ) : (
                   <>

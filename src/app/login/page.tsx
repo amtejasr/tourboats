@@ -35,7 +35,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const { auth } = useAuth(); // Get auth from context
+  const { auth, loading } = useAuth(); // Get auth and loading state from context
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -57,13 +57,6 @@ export default function LoginPage() {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
 
       // onAuthStateChanged in AuthContext will handle setting the user state.
-      // We just need to check for verification here.
-      if (!userCredential.user.emailVerified) {
-        setError("Please verify your email address before logging in. A verification link has been sent to your inbox.");
-        // Note: You might want to sign out the user here if they are not verified
-        return;
-      }
-      
       const appUser = users.find(u => u.email === userCredential.user.email);
       const role = appUser ? appUser.role : 'customer';
       const name = appUser ? appUser.name : 'User';
@@ -95,6 +88,8 @@ export default function LoginPage() {
       }
     }
   };
+  
+  const isFormSubmitting = isSubmitting || loading;
 
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-secondary px-4 py-12">
@@ -155,8 +150,8 @@ export default function LoginPage() {
                 </Alert>
               )}
 
-              <Button type="submit" className="w-full text-lg" disabled={isSubmitting}>
-                {isSubmitting ? 'Logging in...' : <> <LogIn className="mr-2" /> Log In </>}
+              <Button type="submit" className="w-full text-lg" disabled={isFormSubmitting}>
+                {isFormSubmitting ? 'Logging in...' : <> <LogIn className="mr-2" /> Log In </>}
               </Button>
             </CardContent>
             <CardFooter className="flex flex-col items-center justify-center text-sm">
