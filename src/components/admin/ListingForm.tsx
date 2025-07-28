@@ -111,14 +111,15 @@ export function ListingForm({ initialData }: ListingFormProps) {
   function onSubmit(values: ListingFormValues) {
     // In a real app, you would save this data to your database,
     // including the base64 string for the uploaded image.
-    console.log(values);
+    console.log("Form submitted. Data:", values);
     toast({
         title: "Listing Submitted!",
-        description: `Your listing for "${values.name}" has been saved (check the console for data). This is a demo and data will not persist.`,
+        description: `This is a demo. Data for "${values.name}" was logged to the console and will not persist.`,
     });
     if (!initialData) {
         form.reset();
-        form.setValue('imageUrls', ''); // Clear image upload field
+        // Manually reset the image field since it's controlled
+        form.setValue('imageUrls', '', { shouldValidate: true });
     }
   }
 
