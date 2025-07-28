@@ -13,15 +13,27 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { BookingDialog } from '@/components/BookingDialog';
 import { useData } from '@/context/DataContext';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { useRef } from 'react';
+import Autoplay from "embla-carousel-autoplay";
+
 
 export default function Home() {
   const { waterActivities, heroImages } = useData();
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
 
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative h-[50vh] md:h-[80vh] w-full">
-         <Carousel className="w-full h-full" opts={{ loop: true }}>
+         <Carousel 
+            className="w-full h-full" 
+            opts={{ loop: true }}
+            plugins={[plugin.current]}
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+          >
             <CarouselContent>
               {heroImages.map((src, index) => (
                 <CarouselItem key={index}>
@@ -42,7 +54,6 @@ export default function Home() {
             <CarouselNext className="absolute right-8" />
           </Carousel>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white p-4">
           <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-fade-in-down">
             Experience Dubai's Majesty
@@ -158,12 +169,14 @@ export default function Home() {
                 </Link>
                 <CardContent className="p-6 flex flex-col flex-grow">
                   <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
-                  <p className="text-muted-foreground text-sm flex-grow min-h-[60px]">{activity.shortDescription}</p>
+                  <div className="flex-grow min-h-[60px]">
+                    <p className="text-muted-foreground text-sm">{activity.shortDescription}</p>
+                  </div>
                   <div className="mt-4">
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                 </CardContent>
-                <CardFooter className="p-6 pt-0 mt-auto">
+                <CardFooter className="p-6 pt-0">
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
