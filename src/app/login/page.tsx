@@ -22,8 +22,9 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { users } from '@/lib/auth';
+import { app } from '@/lib/firebase';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -35,7 +36,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const { auth, loading } = useAuth();
+  const { loading } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,12 +49,9 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    if (!auth) {
-      setError("Authentication service is not available. Please try again later.");
-      return;
-    }
     setError(null);
     try {
+      const auth = getAuth(app); // Get auth instance here
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
 
       const appUser = users.find(u => u.email === userCredential.user.email);

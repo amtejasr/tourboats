@@ -2,19 +2,22 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User as FirebaseUser, onAuthStateChanged, signOut, Auth } from 'firebase/auth';
-import { app, auth } from '@/lib/firebase';
+import { User as FirebaseUser, onAuthStateChanged, signOut, Auth, getAuth } from 'firebase/auth';
+import { app } from '@/lib/firebase'; // Import the initialized app
 import { users, User } from '@/lib/auth';
 
 interface AuthContextType {
   user: User | null;
   firebaseUser: FirebaseUser | null;
-  auth: Auth | null;
+  auth: Auth; // Provide the auth instance
   loading: boolean;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Initialize auth inside the context provider
+const auth = getAuth(app);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);

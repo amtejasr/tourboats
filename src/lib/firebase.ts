@@ -1,6 +1,5 @@
 
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { getAuth, Auth } from 'firebase/auth';
 
 // Hardcoded Firebase configuration to ensure it's always available.
 const firebaseConfig = {
@@ -14,6 +13,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app: FirebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth: Auth = getAuth(app);
 
-export { app, auth };
+export { app };
