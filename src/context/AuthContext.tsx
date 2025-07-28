@@ -2,9 +2,9 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { onAuthStateChanged, User as FirebaseUser, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase'; // Import the initialized auth instance
-import { users, User } from '@/lib/auth'; // Still using mock user data for roles
+import { onAuthStateChanged, User as FirebaseUser, signOut, getAuth } from 'firebase/auth';
+import { app } from '@/lib/firebase'; // Import the initialized app instance
+import { users, User } from '@/lib/auth';
 
 interface AuthContextType {
   user: User | null;
@@ -15,6 +15,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Get the auth instance right here
+const auth = getAuth(app);
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
@@ -24,12 +27,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, (currentFirebaseUser) => {
       setFirebaseUser(currentFirebaseUser);
       if (currentFirebaseUser) {
-        // Find the user's role from our mock data
         const appUser = users.find(u => u.email === currentFirebaseUser.email);
         if (appUser) {
           setUser(appUser);
         } else {
-            // Default to customer role if not in our mock list
             setUser({
                 id: currentFirebaseUser.uid,
                 name: currentFirebaseUser.displayName || 'New User',
