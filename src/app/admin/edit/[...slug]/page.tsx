@@ -1,7 +1,7 @@
 
 'use client';
 
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useParams } from 'next/navigation';
 import {
   Card,
   CardContent,
@@ -14,10 +14,12 @@ import { useData } from '@/context/DataContext';
 import type { Yacht, WaterActivity } from '@/types';
 import { useEffect, useState } from 'react';
 
-export default function EditListingPage({ params }: { params: { slug: string[] } }) {
+export default function EditListingPage() {
   const { yachts, waterActivities, updateListing } = useData();
   const router = useRouter();
-  const [type, id] = params.slug;
+  const params = useParams();
+  const { slug } = params as { slug: string[] };
+  const [type, id] = slug;
 
   const [listing, setListing] = useState<(Yacht | WaterActivity) | null>(null);
   const [listingType, setListingType] = useState<'yacht' | 'waterActivity' | null>(null);
