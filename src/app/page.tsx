@@ -43,7 +43,7 @@ export default function Home() {
           </Carousel>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white p-4">
           <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-fade-in-down">
             Experience Dubai's Majesty
           </h1>
@@ -163,7 +163,7 @@ export default function Home() {
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                 </CardContent>
-                <CardFooter className="p-6 pt-0">
+                <CardFooter className="p-6 pt-0 mt-auto">
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
