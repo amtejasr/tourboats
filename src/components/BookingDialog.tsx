@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from "react"
@@ -128,7 +129,7 @@ export function BookingDialog({ bookingType, itemName, className }: BookingDialo
                     id="people"
                     type="number" 
                     value={numberOfPeople}
-                    onChange={(e) => setNumberOfPeople(parseInt(e.target.value, 10))}
+                    onChange={(e) => setNumberOfPeople(parseInt(e.target.value, 10) || 1)}
                     className="w-full text-base h-11 pl-10"
                     min="1"
                 />
@@ -144,3 +145,4 @@ export function BookingDialog({ bookingType, itemName, className }: BookingDialo
     </Dialog>
   )
 }
+
