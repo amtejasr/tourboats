@@ -156,16 +156,14 @@ export default function Home() {
                     data-ai-hint={activity.aiHint}
                   />
                 </Link>
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="flex-grow h-24">
-                    <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
-                    <p className="text-muted-foreground text-sm">{activity.shortDescription}</p>
-                  </div>
+                <CardContent className="p-6 flex flex-col flex-grow">
+                  <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
+                  <p className="text-muted-foreground text-sm flex-grow min-h-[60px]">{activity.shortDescription}</p>
                   <div className="mt-4">
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
-                </div>
-                <CardFooter className="p-6 pt-0 mt-auto">
+                </CardContent>
+                <CardFooter className="p-6 pt-0">
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
