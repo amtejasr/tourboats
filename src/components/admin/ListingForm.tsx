@@ -28,6 +28,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Sparkles } from 'lucide-react';
 import { handleGenerateDescription } from '@/app/actions';
 import { SailingYachtLoader } from './SailingYachtLoader';
+import { ImageUpload } from './ImageUpload';
 
 const formSchema = z.object({
   category: z.enum(['yacht', 'waterActivity'], {
@@ -37,7 +38,7 @@ const formSchema = z.object({
     message: "Name must be at least 2 characters.",
   }),
   price: z.coerce.number().min(0, { message: "Price must be a positive number." }),
-  imageUrls: z.string().min(10, { message: "Please provide at least one image URL."}),
+  imageUrls: z.string().min(10, { message: "Please provide at least one image URL or upload an image."}),
   features: z.string().min(10, { message: "Please provide at least 10 characters of features."}),
   keyAttributes: z.string().min(10, {
     message: "Please provide at least 10 characters of key attributes for AI generation.",
@@ -108,14 +109,16 @@ export function ListingForm({ initialData }: ListingFormProps) {
   }
 
   function onSubmit(values: ListingFormValues) {
-    // In a real app, you would save this data to your database.
+    // In a real app, you would save this data to your database,
+    // including the base64 string for the uploaded image.
     console.log(values);
     toast({
         title: "Listing Submitted!",
-        description: `Your listing for "${values.name}" has been saved (check the console for data).`,
+        description: `Your listing for "${values.name}" has been saved (check the console for data). This is a demo and data will not persist.`,
     });
     if (!initialData) {
         form.reset();
+        form.setValue('imageUrls', ''); // Clear image upload field
     }
   }
 
@@ -159,7 +162,7 @@ export function ListingForm({ initialData }: ListingFormProps) {
             />
         </div>
 
-         <FormField
+        <FormField
             control={form.control}
             name="price"
             render={({ field }) => (
@@ -181,16 +184,15 @@ export function ListingForm({ initialData }: ListingFormProps) {
           name="imageUrls"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image URLs</FormLabel>
+              <FormLabel>Image</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="/images/image1.jpg, /images/image2.jpg"
-                  className="resize-y"
-                  {...field}
+                <ImageUpload 
+                  value={field.value} 
+                  onChange={field.onChange}
                 />
               </FormControl>
               <FormDescription>
-                Add comma-separated URLs for the listing images. The first URL will be the main image.
+                Upload the main image for the listing. This will be the banner/thumbnail.
               </FormDescription>
               <FormMessage />
             </FormItem>
