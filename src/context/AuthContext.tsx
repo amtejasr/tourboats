@@ -6,14 +6,13 @@ import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { onAuthStateChanged, User as FirebaseUser, signOut, getAuth, Auth } from 'firebase/auth';
 import { users, User } from '@/lib/auth';
 
-// Firebase configuration is now directly inside the context
 const firebaseConfig = {
-  apiKey: "AIzaSyDHbHwukrgMutAH_rsYs2HG36O11rcdeK4",
-  authDomain: "azure-yachts-dubai.firebaseapp.com",
-  projectId: "azure-yachts-dubai",
-  storageBucket: "azure-yachts-dubai.firebasestorage.app",
-  messagingSenderId: "339162013087",
-  appId: "1:339162013087:web:6663c98600f8066925b1aa",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase only if it hasn't been initialized yet
