@@ -12,23 +12,36 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookingDialog } from '@/components/BookingDialog';
 import { useData } from '@/context/DataContext';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 export default function Home() {
-  const { waterActivities } = useData();
-  const displayedActivities = waterActivities;
+  const { waterActivities, heroImages } = useData();
 
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative h-[85vh] min-h-[600px] w-full">
-        <Image
-          src="https://placehold.co/1920x1080.png"
-          alt="Luxury yacht on the waters of Dubai"
-          fill
-          className="z-0 object-cover brightness-50"
-          priority
-          data-ai-hint="yacht sea"
-        />
+         <Carousel className="w-full h-full" opts={{ loop: true }}>
+            <CarouselContent>
+              {heroImages.map((src, index) => (
+                <CarouselItem key={index}>
+                  <div className="relative w-full h-[85vh] min-h-[600px]">
+                    <Image
+                      src={src}
+                      alt="Luxury yacht on the waters of Dubai"
+                      fill
+                      className="z-0 object-cover brightness-50"
+                      priority={index === 0}
+                      data-ai-hint="yacht sea"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-8" />
+            <CarouselNext className="right-8" />
+          </Carousel>
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
           <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-fade-in-down">
@@ -132,7 +145,7 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {displayedActivities.map((activity, index) => (
+            {waterActivities.map((activity, index) => (
               <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
                  <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full">
                   <Image

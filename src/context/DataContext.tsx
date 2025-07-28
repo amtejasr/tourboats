@@ -7,14 +7,17 @@ import { yachts as initialYachts, waterActivities as initialActivities } from '@
 
 const YACHTS_STORAGE_KEY = 'tourboats-yachts';
 const ACTIVITIES_STORAGE_KEY = 'tourboats-activities';
+const HERO_IMAGES_STORAGE_KEY = 'tourboats-hero-images';
 
 interface DataContextType {
   yachts: Yacht[];
   waterActivities: WaterActivity[];
+  heroImages: string[];
   loading: boolean;
   addListing: (listing: Omit<Yacht | WaterActivity, 'id'>) => void;
   updateListing: (id: string, listing: Omit<Yacht | WaterActivity, 'id'>) => void;
   deleteListing: (id: string, type: 'yacht' | 'waterActivity') => void;
+  updateHeroImages: (images: string[]) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -23,33 +26,50 @@ function createIdFromString(str: string) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
+const initialHeroImages = [
+    "https://placehold.co/1920x1080.png",
+    "https://placehold.co/1920x1080.png",
+    "https://placehold.co/1920x1080.png",
+]
+
 export function DataProvider({ children }: { children: ReactNode }) {
   const [yachts, setYachts] = useState<Yacht[]>([]);
   const [waterActivities, setWaterActivities] = useState<WaterActivity[]>([]);
+  const [heroImages, setHeroImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     try {
+      // Load Yachts
       const storedYachts = localStorage.getItem(YACHTS_STORAGE_KEY);
       if (storedYachts) {
         setYachts(JSON.parse(storedYachts));
       } else {
         setYachts(initialYachts);
-        localStorage.setItem(YACHTS_STORAGE_KEY, JSON.stringify(initialYachts));
       }
 
+      // Load Activities
       const storedActivities = localStorage.getItem(ACTIVITIES_STORAGE_KEY);
       if (storedActivities) {
         setWaterActivities(JSON.parse(storedActivities));
       } else {
         setWaterActivities(initialActivities);
-        localStorage.setItem(ACTIVITIES_STORAGE_KEY, JSON.stringify(initialActivities));
       }
+      
+      // Load Hero Images
+      const storedHeroImages = localStorage.getItem(HERO_IMAGES_STORAGE_KEY);
+       if (storedHeroImages) {
+        setHeroImages(JSON.parse(storedHeroImages));
+      } else {
+        setHeroImages(initialHeroImages);
+      }
+
     } catch (error) {
       console.error("Failed to load data from localStorage", error);
       // Fallback to initial data if localStorage is corrupt
       setYachts(initialYachts);
       setWaterActivities(initialActivities);
+      setHeroImages(initialHeroImages);
     }
     setLoading(false);
   }, []);
@@ -108,7 +128,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
       }
   }, []);
 
-  const value = { yachts, waterActivities, loading, addListing, updateListing, deleteListing };
+  const updateHeroImages = useCallback((images: string[]) => {
+      setHeroImages(images);
+      localStorage.setItem(HERO_IMAGES_STORAGE_KEY, JSON.stringify(images));
+  }, []);
+
+  const value = { yachts, waterActivities, heroImages, loading, addListing, updateListing, deleteListing, updateHeroImages };
 
   return (
     <DataContext.Provider value={value}>
