@@ -25,7 +25,11 @@ const navLinks = [
 ];
 
 const Logo = () => (
-    <Image src="/logo.svg" alt="Tourboats Logo" width={150} height={40} />
+    <svg height="40" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg">
+        <text x="10" y="30" fontFamily="Inter, sans-serif" fontSize="24" fontWeight="bold" fill="hsl(var(--primary))">
+            Tourboats
+        </text>
+    </svg>
 );
 
 export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) => void }) {

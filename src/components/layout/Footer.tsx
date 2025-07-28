@@ -5,7 +5,11 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
 const Logo = () => (
-    <Image src="/logo-white.svg" alt="Tourboats Logo" width={150} height={40} />
+    <svg height="40" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg" className="text-white">
+        <text x="10" y="30" fontFamily="Inter, sans-serif" fontSize="24" fontWeight="bold" fill="currentColor">
+            Tourboats
+        </text>
+    </svg>
 );
 
 

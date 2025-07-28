@@ -48,9 +48,8 @@ export default async function YachtCategoryPage({ params }: { params: { category
                     <Image
                       src={yacht.image}
                       alt={yacht.name}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-500 group-hover/card:scale-110"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover/card:scale-110"
                       data-ai-hint={yacht.aiHint}
                     />
                   </div>

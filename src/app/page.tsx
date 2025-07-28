@@ -18,11 +18,10 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[85vh] min-h-[600px] w-full">
         <Image
-          src="/images/hero.jpg"
+          src="https://placehold.co/1920x1080.png"
           alt="Luxury yacht on the waters of Dubai"
-          layout="fill"
-          objectFit="cover"
-          className="z-0 brightness-50"
+          fill
+          className="z-0 object-cover brightness-50"
           priority
           data-ai-hint="yacht sea"
         />
@@ -63,14 +62,15 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-5xl mx-auto">
             <Link href="/yachts/private">
               <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                <Image
-                  src="/images/private-yacht.jpg"
-                  alt="Private luxury yacht"
-                  width={600}
-                  height={400}
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  data-ai-hint="private yacht"
-                />
+                <div className="relative w-full h-[400px]">
+                  <Image
+                    src="https://placehold.co/600x400.png"
+                    alt="Private luxury yacht"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    data-ai-hint="private yacht"
+                  />
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <CardHeader className="absolute bottom-0 left-0 p-8 text-white">
                    <div className="bg-accent p-3 rounded-full w-fit mb-4">
@@ -88,14 +88,15 @@ export default function Home() {
             </Link>
             <Link href="/yachts/sharing">
               <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                <Image
-                  src="/images/sharing-yacht.jpg"
-                  alt="Sharing yacht experience"
-                  width={600}
-                  height={400}
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  data-ai-hint="group yacht"
-                />
+                 <div className="relative w-full h-[400px]">
+                    <Image
+                      src="https://placehold.co/600x400.png"
+                      alt="Sharing yacht experience"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      data-ai-hint="group yacht"
+                    />
+                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <CardHeader className="absolute bottom-0 left-0 p-8 text-white">
                   <div className="bg-accent p-3 rounded-full w-fit mb-4">
@@ -129,13 +130,12 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {waterActivities.map((activity, index) => (
               <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
-                 <Link href={`/activities/${activity.id}`} className="block overflow-hidden">
+                 <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full">
                   <Image
                     src={activity.image}
                     alt={activity.name}
-                    width={400}
-                    height={300}
-                    className="w-full h-56 object-cover transition-transform duration-500 hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-500 hover:scale-110"
                     data-ai-hint={activity.aiHint}
                   />
                 </Link>

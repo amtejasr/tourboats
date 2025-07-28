@@ -44,7 +44,7 @@ export default function YachtDetailPage({ params }: { params: { id: string, cate
               {yacht.images.map((img, index) => (
                 <CarouselItem key={index}>
                   <div className="relative aspect-video w-full">
-                    <Image src={img} alt={`${yacht.name} view ${index + 1}`} layout="fill" objectFit="cover" data-ai-hint={yacht.aiHint} />
+                    <Image src={img} alt={`${yacht.name} view ${index + 1}`} fill className="object-cover" data-ai-hint={yacht.aiHint} />
                   </div>
                 </CarouselItem>
               ))}

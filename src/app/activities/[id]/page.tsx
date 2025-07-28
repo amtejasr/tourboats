@@ -31,7 +31,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
         {/* Main Content */}
         <div className="lg:col-span-3">
           <div className="relative aspect-video w-full rounded-xl overflow-hidden shadow-2xl mb-10">
-            <Image src={activity.image} alt={activity.name} layout="fill" objectFit="cover" data-ai-hint={activity.aiHint} />
+            <Image src={activity.image} alt={activity.name} fill className="object-cover" data-ai-hint={activity.aiHint} />
           </div>
           
           <h1 className="font-headline text-5xl md:text-6xl font-bold text-primary">{activity.name}</h1>

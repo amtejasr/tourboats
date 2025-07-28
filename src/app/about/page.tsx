@@ -7,11 +7,10 @@ export default function AboutPage() {
     <>
       <div className="relative h-80 w-full">
         <Image
-          src="/images/about-banner.jpg"
+          src="https://placehold.co/1920x320.png"
           alt="Dubai coastline with yachts"
-          layout="fill"
-          objectFit="cover"
-          className="brightness-50"
+          fill
+          className="object-cover brightness-50"
           data-ai-hint="dubai coastline"
         />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
@@ -38,13 +37,12 @@ export default function AboutPage() {
               We are more than just a charter company; we are curators of memories, architects of joy, and your trusted partner in exploring the beauty of Dubai from its most stunning vantage point.
             </p>
           </div>
-          <div className="rounded-lg overflow-hidden shadow-2xl">
+          <div className="rounded-lg overflow-hidden shadow-2xl relative w-full h-[600px]">
             <Image
-              src="/images/crew.jpg"
+              src="https://placehold.co/500x600.png"
               alt="Yacht crew smiling"
-              width={500}
-              height={600}
-              className="object-cover w-full h-full"
+              fill
+              className="object-cover"
               data-ai-hint="yacht crew"
             />
           </div>
