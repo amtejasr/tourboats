@@ -37,14 +37,16 @@ export default function Home() {
             <CarouselContent className="h-full">
               {heroImages.map((src, index) => (
                 <CarouselItem key={index} className="h-full">
-                    <Image
-                      src={src}
-                      alt="Luxury yacht on the waters of Dubai"
-                      fill
-                      className="z-0 object-cover brightness-50"
-                      priority={index === 0}
-                      data-ai-hint="yacht sea"
-                    />
+                   <div className="relative h-full w-full">
+                      <Image
+                        src={src}
+                        alt="Luxury yacht on the waters of Dubai"
+                        fill
+                        className="z-0 object-cover brightness-50"
+                        priority={index === 0}
+                        data-ai-hint="yacht sea"
+                      />
+                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -168,7 +170,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle className="font-headline text-2xl">{activity.name}</CardTitle>
                 </CardHeader>
-                <CardContent className="p-6 pt-0 flex-grow flex flex-col">
+                <CardContent className="flex-grow flex flex-col p-6 pt-0">
                   <div className="flex-grow min-h-[70px]">
                     <p className="text-muted-foreground text-sm line-clamp-3">{activity.shortDescription}</p>
                   </div>
