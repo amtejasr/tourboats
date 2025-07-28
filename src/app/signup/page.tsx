@@ -23,6 +23,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { auth } from '@/lib/firebase'; // Direct import
 
 const signupSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -35,7 +36,7 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { auth, loading } = useAuth(); // Get auth and loading state from context
+  const { loading } = useAuth(); // Get loading state from context
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -113,6 +114,7 @@ export default function SignupPage() {
                   type="text"
                   placeholder="John Doe"
                   {...register('name')}
+                  disabled={isFormSubmitting}
                 />
                 {errors.name && (
                   <p className="text-sm text-destructive">{errors.name.message}</p>
@@ -125,6 +127,7 @@ export default function SignupPage() {
                   type="email"
                   placeholder="you@example.com"
                   {...register('email')}
+                  disabled={isFormSubmitting}
                 />
                 {errors.email && (
                   <p className="text-sm text-destructive">{errors.email.message}</p>
@@ -138,6 +141,7 @@ export default function SignupPage() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     {...register('password')}
+                    disabled={isFormSubmitting}
                   />
                    <button
                     type="button"

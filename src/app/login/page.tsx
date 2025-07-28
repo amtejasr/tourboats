@@ -24,6 +24,7 @@ import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { users } from '@/lib/auth';
+import { auth } from '@/lib/firebase'; // Direct import
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -35,7 +36,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const { auth, loading } = useAuth(); // Get auth and loading state from context
+  const { loading } = useAuth(); // Get loading state from context
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -109,6 +110,7 @@ export default function LoginPage() {
                   id="email"
                   type="email"
                   {...register('email')}
+                  disabled={isFormSubmitting}
                 />
                 {errors.email && (
                   <p className="text-sm text-destructive">{errors.email.message}</p>
@@ -129,6 +131,7 @@ export default function LoginPage() {
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     {...register('password')}
+                    disabled={isFormSubmitting}
                   />
                   <button
                     type="button"

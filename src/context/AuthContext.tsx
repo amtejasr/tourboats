@@ -5,12 +5,10 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { onAuthStateChanged, User as FirebaseUser, signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase'; // Import the initialized auth instance
 import { users, User } from '@/lib/auth'; // Still using mock user data for roles
-import type { Auth } from "firebase/auth";
 
 interface AuthContextType {
   user: User | null;
   firebaseUser: FirebaseUser | null;
-  auth: Auth;
   loading: boolean;
   logout: () => void;
 }
@@ -46,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return () => unsubscribe();
-  }, []); // The auth object is stable, so we don't need it in the dependency array.
+  }, []);
 
 
   const logout = async () => {
@@ -57,7 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   };
 
-  const value = { user, firebaseUser, auth, logout, loading };
+  const value = { user, firebaseUser, logout, loading };
 
   return (
     <AuthContext.Provider value={value}>
