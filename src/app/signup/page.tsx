@@ -21,9 +21,8 @@ import { useToast } from '@/hooks/use-toast';
 import { UserPlus, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { app } from '@/lib/firebase';
+
 
 const signupSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -36,7 +35,7 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { loading } = useAuth();
+  const { signup } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,43 +49,17 @@ export default function SignupPage() {
 
   const onSubmit = async (data: SignupFormValues) => {
     setError(null);
-    try {
-      const auth = getAuth(app); // Get auth instance here
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      await updateProfile(userCredential.user, { displayName: data.name });
-      
+    const result = await signup(data.name, data.email, data.password);
+    if (result.success) {
       toast({
         title: 'Account Created!',
         description: 'You have successfully signed up.',
       });
-      
       router.push('/dashboard');
-    } catch (err: any) {
-      switch (err.code) {
-        case 'auth/email-already-in-use':
-          setError('This email address is already in use. Please try another one.');
-          break;
-        case 'auth/weak-password':
-          setError('The password is too weak. Please use at least 8 characters.');
-          break;
-        case 'auth/invalid-email':
-          setError('The email address is not valid.');
-          break;
-        case 'auth/operation-not-allowed':
-           setError('Email/password accounts are not enabled. Please contact support.');
-           break;
-        case 'auth/configuration-not-found':
-          setError('There was a problem with the app configuration. Please try again later.');
-          break;
-        default:
-          setError('An unexpected error occurred. Please try again.');
-          console.error(err);
-          break;
-      }
+    } else {
+      setError(result.error || 'An unexpected error occurred.');
     }
   };
-
-  const isFormSubmitting = isSubmitting || loading;
 
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-secondary px-4 py-12">
@@ -113,7 +86,7 @@ export default function SignupPage() {
                   type="text"
                   placeholder="John Doe"
                   {...register('name')}
-                  disabled={isFormSubmitting}
+                  disabled={isSubmitting}
                 />
                 {errors.name && (
                   <p className="text-sm text-destructive">{errors.name.message}</p>
@@ -126,7 +99,7 @@ export default function SignupPage() {
                   type="email"
                   placeholder="you@example.com"
                   {...register('email')}
-                  disabled={isFormSubmitting}
+                  disabled={isSubmitting}
                 />
                 {errors.email && (
                   <p className="text-sm text-destructive">{errors.email.message}</p>
@@ -140,7 +113,7 @@ export default function SignupPage() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     {...register('password')}
-                    disabled={isFormSubmitting}
+                    disabled={isSubmitting}
                   />
                    <button
                     type="button"
@@ -155,8 +128,8 @@ export default function SignupPage() {
                 )}
               </div>
 
-              <Button type="submit" className="w-full text-lg" disabled={isFormSubmitting}>
-                {isFormSubmitting ? 'Creating Account...' : <> <UserPlus className="mr-2" /> Create Account </>}
+              <Button type="submit" className="w-full text-lg" disabled={isSubmitting}>
+                {isSubmitting ? 'Creating Account...' : <> <UserPlus className="mr-2" /> Create Account </>}
               </Button>
             </CardContent>
             <CardFooter className="flex items-center justify-center text-sm">

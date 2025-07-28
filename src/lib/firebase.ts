@@ -1,7 +1,8 @@
 
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 
-// Hardcoded Firebase configuration to ensure it's always available.
+// This file is no longer used for active authentication in the forms,
+// but we keep it in case other Firebase services are added later.
 const firebaseConfig = {
   apiKey: "AIzaSyDHbHwukrgMutAH_rsYs2HG36O11rcdeK4",
   authDomain: "azure-yachts-dubai.firebaseapp.com",

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -18,11 +17,8 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { sendPasswordResetEmail, getAuth } from 'firebase/auth';
 import { Mail } from 'lucide-react';
-import { app } from '@/lib/firebase';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -31,47 +27,22 @@ const forgotPasswordSchema = z.object({
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 export default function ForgotPasswordPage() {
-  const { toast } = useToast();
-  const { loading } = useAuth();
-  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
-    setError(null);
-    setSuccess(null);
-    try {
-      const auth = getAuth(app); // Get auth instance here
-      await sendPasswordResetEmail(auth, data.email);
-      setSuccess('A password reset link has been sent to your email address.');
-      toast({
-        title: 'Check Your Email',
-        description: 'A password reset link has been sent to your email address.',
-      });
-    } catch (err: any) {
-      switch (err.code) {
-        case 'auth/user-not-found':
-          setError('No user found with this email address.');
-          break;
-        case 'auth/configuration-not-found':
-          setError('There was a problem with the app configuration. Please try again later.');
-          break;
-        default:
-          setError('An unexpected error occurred. Please try again.');
-          console.error(err);
-          break;
-      }
-    }
+    // This is a mock. In a real app, you'd send an email.
+    console.log('Password reset requested for:', data.email);
+    setSuccess('If an account with this email exists, a password reset link has been sent.');
+    reset();
   };
-
-  const isFormSubmitting = isSubmitting || loading;
 
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-secondary px-4 py-12">
@@ -87,18 +58,12 @@ export default function ForgotPasswordPage() {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" {...register('email')} disabled={isFormSubmitting} />
+                <Input id="email" type="email" {...register('email')} disabled={isSubmitting} />
                 {errors.email && (
                   <p className="text-sm text-destructive">{errors.email.message}</p>
                 )}
               </div>
 
-              {error && (
-                <Alert variant="destructive">
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
               {success && (
                 <Alert variant="default" className="border-green-500 text-green-700 [&>svg]:text-green-700">
                   <AlertTitle>Success</AlertTitle>
@@ -106,15 +71,8 @@ export default function ForgotPasswordPage() {
                 </Alert>
               )}
 
-              <Button type="submit" className="w-full text-lg" disabled={isFormSubmitting}>
-                {isFormSubmitting ? (
-                  'Sending...'
-                ) : (
-                  <>
-                    {' '}
-                    <Mail className="mr-2" /> Send Reset Link{' '}
-                  </>
-                )}
+              <Button type="submit" className="w-full text-lg" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : <> <Mail className="mr-2" /> Send Reset Link </>}
               </Button>
             </CardContent>
             <CardFooter className="flex items-center justify-center text-sm">

@@ -10,19 +10,22 @@ export interface User {
   name: string;
   email: string;
   role: 'admin' | 'customer';
+  password?: string; // Password should only be here for the mock service
 }
 
 export const users: User[] = [
   {
-    id: '1', // This ID is now just for mock purposes
+    id: '1',
     name: 'Admin User',
     email: 'amtejasr@gmail.com',
     role: 'admin',
+    password: 'TourBoats@67',
   },
   {
-    id: '2', // This ID is now just for mock purposes
+    id: '2',
     name: 'Valued Customer',
     email: 'customer@example.com',
     role: 'customer',
+    password: 'password123',
   },
 ];

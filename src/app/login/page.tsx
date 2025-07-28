@@ -19,12 +19,8 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { users } from '@/lib/auth';
-import { app } from '@/lib/firebase';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -35,8 +31,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const { toast } = useToast();
-  const { loading } = useAuth();
+  const { login, loading } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -50,42 +45,15 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormValues) => {
     setError(null);
-    try {
-      const auth = getAuth(app); // Get auth instance here
-      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-
-      const appUser = users.find(u => u.email === userCredential.user.email);
-      const role = appUser ? appUser.role : 'customer';
-      const name = appUser ? appUser.name : 'User';
-
-      toast({
-        title: 'Login Successful',
-        description: `Welcome back, ${name}!`,
-      });
-
-      if (role === 'admin') {
+    const result = await login(data.email, data.password);
+    if (result.success) {
+      if (result.user?.role === 'admin') {
         router.push('/admin');
       } else {
         router.push('/dashboard');
       }
-    } catch (err: any) {
-       switch (err.code) {
-        case 'auth/user-not-found':
-        case 'auth/wrong-password':
-        case 'auth/invalid-credential':
-          setError('Invalid email or password.');
-          break;
-        case 'auth/user-disabled':
-          setError('This account has been disabled.');
-          break;
-        case 'auth/configuration-not-found':
-          setError('There was a problem with the app configuration. Please try again later.');
-          break;
-        default:
-          setError('An unexpected error occurred. Please try again.');
-          console.error(err);
-          break;
-      }
+    } else {
+      setError(result.error || 'An unexpected error occurred.');
     }
   };
   
