@@ -20,12 +20,12 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[85vh] min-h-[600px] w-full">
+      <section className="relative h-[60vh] md:h-[85vh] min-h-[450px] md:min-h-[600px] w-full">
          <Carousel className="w-full h-full" opts={{ loop: true }}>
             <CarouselContent>
               {heroImages.map((src, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative w-full h-[85vh] min-h-[600px]">
+                  <div className="relative w-full h-[60vh] md:h-[85vh] min-h-[450px] md:min-h-[600px]">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
@@ -157,16 +157,16 @@ export default function Home() {
                   />
                 </Link>
                 <div className="p-6 flex flex-col flex-grow">
-                  <div className="flex-grow">
+                  <div className="flex-grow h-24">
                     <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
-                    <p className="text-muted-foreground text-sm h-16">{activity.shortDescription}</p>
+                    <p className="text-muted-foreground text-sm">{activity.shortDescription}</p>
                   </div>
                   <div className="mt-4">
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                 </div>
-                <CardFooter className="p-6 pt-0">
-                  <BookingDialog 
+                <CardFooter className="p-6 pt-0 mt-auto">
+                   <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
                     className="w-full"
