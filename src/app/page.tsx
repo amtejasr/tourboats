@@ -36,15 +36,17 @@ export default function Home() {
           >
             <CarouselContent>
               {heroImages.map((src, index) => (
-                <CarouselItem key={index} className="relative w-full h-full">
-                  <Image
-                    src={src}
-                    alt="Luxury yacht on the waters of Dubai"
-                    fill
-                    className="z-0 object-cover brightness-50"
-                    priority={index === 0}
-                    data-ai-hint="yacht sea"
-                  />
+                <CarouselItem key={index}>
+                  <div className="relative w-full h-[50vh] md:h-[80vh]">
+                    <Image
+                      src={src}
+                      alt="Luxury yacht on the waters of Dubai"
+                      fill
+                      className="z-0 object-cover brightness-50"
+                      priority={index === 0}
+                      data-ai-hint="yacht sea"
+                    />
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -76,7 +78,7 @@ export default function Home() {
 
       {/* Yacht Categories Section */}
       <section id="yachts" className="py-20 md:py-28 bg-secondary">
-        <div className="container mx-auto max-w-7xl px-4">
+        <div className="container mx-auto max-w-5xl px-4">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Our Exclusive Fleet
@@ -156,25 +158,27 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {waterActivities.map((activity, index) => (
               <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
-                <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full group">
-                  <Image
-                    src={activity.image}
-                    alt={activity.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    data-ai-hint={activity.aiHint}
-                  />
+                <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative group">
+                  <div className="relative aspect-[4/3] w-full">
+                    <Image
+                      src={activity.image}
+                      alt={activity.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      data-ai-hint={activity.aiHint}
+                    />
+                  </div>
                 </Link>
                 <div className="p-6 flex flex-col flex-grow">
-                  <CardTitle className="font-headline text-2xl">{activity.name}</CardTitle>
-                  <div className="flex-grow min-h-[100px] mt-2">
-                    <p className="text-muted-foreground text-sm line-clamp-3">{activity.shortDescription}</p>
+                  <CardTitle className="font-headline text-2xl h-16">{activity.name}</CardTitle>
+                  <div className="flex-grow mt-2 min-h-[100px]">
+                    <p className="text-muted-foreground text-sm line-clamp-4">{activity.shortDescription}</p>
                   </div>
                   <div className="mt-4">
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                 </div>
-                <CardFooter className="p-6 pt-0">
+                <CardFooter className="p-6 pt-0 mt-auto">
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
