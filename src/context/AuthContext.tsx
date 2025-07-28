@@ -2,20 +2,20 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { onAuthStateChanged, User as FirebaseUser, signOut, getAuth } from 'firebase/auth';
+import { onAuthStateChanged, User as FirebaseUser, signOut, getAuth, Auth } from 'firebase/auth';
 import { app } from '@/lib/firebase'; // Import the initialized app instance
 import { users, User } from '@/lib/auth';
 
 interface AuthContextType {
   user: User | null;
   firebaseUser: FirebaseUser | null;
+  auth: Auth;
   loading: boolean;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Get the auth instance right here
 const auth = getAuth(app);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -56,11 +56,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   };
 
-  const value = { user, firebaseUser, logout, loading };
+  const value = { user, firebaseUser, logout, loading, auth };
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 }

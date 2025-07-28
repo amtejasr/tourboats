@@ -20,9 +20,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { sendPasswordResetEmail, getAuth } from 'firebase/auth';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { Mail } from 'lucide-react';
-import { app } from '@/lib/firebase';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -32,7 +31,7 @@ type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 export default function ForgotPasswordPage() {
   const { toast } = useToast();
-  const { loading } = useAuth();
+  const { auth, loading } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -47,7 +46,6 @@ export default function ForgotPasswordPage() {
   const onSubmit = async (data: ForgotPasswordFormValues) => {
     setError(null);
     setSuccess(null);
-    const auth = getAuth(app);
     try {
       await sendPasswordResetEmail(auth, data.email);
       setSuccess('A password reset link has been sent to your email address.');
