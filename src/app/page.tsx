@@ -67,7 +67,7 @@ export default function Home() {
 
       {/* Yacht Categories Section */}
       <section id="yachts" className="py-20 md:py-28 bg-secondary">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto max-w-7xl px-4">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Our Exclusive Fleet
@@ -135,7 +135,7 @@ export default function Home() {
 
       {/* Water Activities Section */}
       <section id="activities" className="py-20 md:py-28">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto max-w-7xl px-4">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Thrilling Water Activities
@@ -158,14 +158,14 @@ export default function Home() {
                 </Link>
                 <CardContent className="p-6 flex flex-col flex-grow">
                   <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
-                  <p className="text-muted-foreground text-sm h-12 flex-grow">{activity.shortDescription}</p>
+                  <p className="text-muted-foreground text-sm flex-grow h-12">{activity.shortDescription}</p>
                    <p className="text-xl font-bold text-primary mt-4">From AED {activity.price}</p>
                 </CardContent>
                 <CardFooter className="p-6 pt-0">
                   <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
-                    className="w-full text-base"
+                    className="w-full"
                   />
                 </CardFooter>
               </Card>
