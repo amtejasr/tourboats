@@ -157,19 +157,17 @@ export default function Home() {
                   />
                 </Link>
                 <CardContent className="p-6 flex flex-col flex-grow">
-                  <div className="flex-grow">
-                    <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
-                    <p className="text-muted-foreground text-sm h-12">{activity.shortDescription}</p>
-                     <p className="text-xl font-bold text-primary mt-4">From AED {activity.price}</p>
-                  </div>
-                  <CardFooter className="p-0 pt-4 mt-auto">
-                    <BookingDialog 
-                      bookingType="activity"
-                      itemName={activity.name}
-                      className="w-full text-base"
-                    />
-                  </CardFooter>
+                  <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
+                  <p className="text-muted-foreground text-sm h-12 flex-grow">{activity.shortDescription}</p>
+                   <p className="text-xl font-bold text-primary mt-4">From AED {activity.price}</p>
                 </CardContent>
+                <CardFooter className="p-6 pt-0">
+                  <BookingDialog 
+                    bookingType="activity"
+                    itemName={activity.name}
+                    className="w-full text-base"
+                  />
+                </CardFooter>
               </Card>
             ))}
           </div>
