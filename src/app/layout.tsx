@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -11,6 +12,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster";
 import Loading from './loading';
 import { AuthProvider } from '@/context/AuthContext';
+import { DataProvider } from '@/context/DataContext';
 import WhatsAppPopup from '@/components/WhatsAppPopup';
 
 
@@ -54,14 +56,16 @@ export default function RootLayout({
       </head>
       <body className={cn('font-body antialiased', inter.variable)}>
         <AuthProvider>
-          {isLoading && <Loading />}
-          <div className="flex min-h-screen flex-col">
-            <Header setIsLoading={setIsLoading} />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-          <WhatsAppPopup />
-          <Toaster />
+          <DataProvider>
+            {isLoading && <Loading />}
+            <div className="flex min-h-screen flex-col">
+              <Header setIsLoading={setIsLoading} />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+            <WhatsAppPopup />
+            <Toaster />
+          </DataProvider>
         </AuthProvider>
       </body>
     </html>

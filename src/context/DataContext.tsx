@@ -1,0 +1,126 @@
+
+'use client';
+
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import type { Yacht, WaterActivity } from '@/types';
+import { yachts as initialYachts, waterActivities as initialActivities } from '@/lib/data';
+
+const YACHTS_STORAGE_KEY = 'tourboats-yachts';
+const ACTIVITIES_STORAGE_KEY = 'tourboats-activities';
+
+interface DataContextType {
+  yachts: Yacht[];
+  waterActivities: WaterActivity[];
+  loading: boolean;
+  addListing: (listing: Omit<Yacht | WaterActivity, 'id'>) => void;
+  updateListing: (id: string, listing: Omit<Yacht | WaterActivity, 'id'>) => void;
+  deleteListing: (id: string, type: 'yacht' | 'waterActivity') => void;
+}
+
+const DataContext = createContext<DataContextType | undefined>(undefined);
+
+function createIdFromString(str: string) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+export function DataProvider({ children }: { children: ReactNode }) {
+  const [yachts, setYachts] = useState<Yacht[]>([]);
+  const [waterActivities, setWaterActivities] = useState<WaterActivity[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    try {
+      const storedYachts = localStorage.getItem(YACHTS_STORAGE_KEY);
+      if (storedYachts) {
+        setYachts(JSON.parse(storedYachts));
+      } else {
+        setYachts(initialYachts);
+        localStorage.setItem(YACHTS_STORAGE_KEY, JSON.stringify(initialYachts));
+      }
+
+      const storedActivities = localStorage.getItem(ACTIVITIES_STORAGE_KEY);
+      if (storedActivities) {
+        setWaterActivities(JSON.parse(storedActivities));
+      } else {
+        setWaterActivities(initialActivities);
+        localStorage.setItem(ACTIVITIES_STORAGE_KEY, JSON.stringify(initialActivities));
+      }
+    } catch (error) {
+      console.error("Failed to load data from localStorage", error);
+      // Fallback to initial data if localStorage is corrupt
+      setYachts(initialYachts);
+      setWaterActivities(initialActivities);
+    }
+    setLoading(false);
+  }, []);
+
+  const addListing = useCallback((listingData: Omit<Yacht | WaterActivity, 'id'>) => {
+    const newId = createIdFromString(listingData.name);
+    
+    if ('pricePerHour' in listingData) { // It's a Yacht
+      const newYacht: Yacht = { id: newId, ...listingData as Omit<Yacht, 'id'> };
+      setYachts(prevYachts => {
+        const updatedYachts = [...prevYachts, newYacht];
+        localStorage.setItem(YACHTS_STORAGE_KEY, JSON.stringify(updatedYachts));
+        return updatedYachts;
+      });
+    } else { // It's a WaterActivity
+      const newActivity: WaterActivity = { id: newId, ...listingData as Omit<WaterActivity, 'id'> };
+      setWaterActivities(prevActivities => {
+        const updatedActivities = [...prevActivities, newActivity];
+        localStorage.setItem(ACTIVITIES_STORAGE_KEY, JSON.stringify(updatedActivities));
+        return updatedActivities;
+      });
+    }
+  }, []);
+  
+  const updateListing = useCallback((id: string, listingData: Omit<Yacht | WaterActivity, 'id'>) => {
+      if ('pricePerHour' in listingData) { // It's a Yacht
+          const updatedYacht: Yacht = { id, ...listingData as Omit<Yacht, 'id'>};
+          setYachts(prevYachts => {
+              const updatedYachts = prevYachts.map(y => y.id === id ? updatedYacht : y);
+              localStorage.setItem(YACHTS_STORAGE_KEY, JSON.stringify(updatedYachts));
+              return updatedYachts;
+          });
+      } else { // It's a WaterActivity
+          const updatedActivity: WaterActivity = { id, ...listingData as Omit<WaterActivity, 'id'> };
+          setWaterActivities(prevActivities => {
+              const updatedActivities = prevActivities.map(a => a.id === id ? updatedActivity : a);
+              localStorage.setItem(ACTIVITIES_STORAGE_KEY, JSON.stringify(updatedActivities));
+              return updatedActivities;
+          });
+      }
+  }, []);
+
+  const deleteListing = useCallback((id: string, type: 'yacht' | 'waterActivity') => {
+      if (type === 'yacht') {
+          setYachts(prevYachts => {
+              const updatedYachts = prevYachts.filter(y => y.id !== id);
+              localStorage.setItem(YACHTS_STORAGE_KEY, JSON.stringify(updatedYachts));
+              return updatedYachts;
+          });
+      } else {
+          setWaterActivities(prevActivities => {
+              const updatedActivities = prevActivities.filter(a => a.id !== id);
+              localStorage.setItem(ACTIVITIES_STORAGE_KEY, JSON.stringify(updatedActivities));
+              return updatedActivities;
+          });
+      }
+  }, []);
+
+  const value = { yachts, waterActivities, loading, addListing, updateListing, deleteListing };
+
+  return (
+    <DataContext.Provider value={value}>
+      {!loading && children}
+    </DataContext.Provider>
+  );
+}
+
+export function useData() {
+  const context = useContext(DataContext);
+  if (context === undefined) {
+    throw new Error('useData must be used within a DataProvider');
+  }
+  return context;
+}

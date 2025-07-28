@@ -1,30 +1,37 @@
-import { yachts } from '@/lib/data';
-import { notFound } from 'next/navigation';
+
+'use client';
+
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Users, Scaling, Tag, CheckCircle, Ship } from 'lucide-react';
 import { BookingDialog } from '@/components/BookingDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Badge } from '@/components/ui/badge';
+import { useData } from '@/context/DataContext';
+import type { Yacht } from '@/types';
+import { useEffect, useState } from 'react';
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const yacht = yachts.find((p) => p.id === params.id);
+
+export default function YachtDetailPage() {
+  const params = useParams();
+  const { yachts } = useData();
+  const [yacht, setYacht] = useState<Yacht | null>(null);
+
+  useEffect(() => {
+    const { category, id } = params as { category: string; id: string };
+    if (yachts.length > 0) {
+      const foundYacht = yachts.find((p) => p.id === id && p.category === category);
+      if(foundYacht) {
+        setYacht(foundYacht);
+      } else {
+        notFound();
+      }
+    }
+  }, [params, yachts]);
+
   if (!yacht) {
-    return {
-      title: 'Yacht Not Found',
-    };
-  }
-  return {
-    title: `${yacht.name} | Tourboats`,
-    description: yacht.description.substring(0, 160),
-  };
-}
-
-export default function YachtDetailPage({ params }: { params: { id: string, category: string } }) {
-  const yacht = yachts.find((p) => p.id === params.id && p.category === params.category);
-
-  if (!yacht) {
-    notFound();
+    return null; // Or a loading skeleton
   }
 
   const categoryTitle = yacht.category.charAt(0).toUpperCase() + yacht.category.slice(1);

@@ -1,3 +1,6 @@
+
+'use client';
+
 import {
   Card,
   CardContent,
@@ -6,8 +9,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ListingForm } from '@/components/admin/ListingForm';
+import { useData } from '@/context/DataContext';
 
 export default function AddListingPage() {
+  const { addListing } = useData();
+
   return (
     <Card>
       <CardHeader>
@@ -17,7 +23,7 @@ export default function AddListingPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ListingForm />
+        <ListingForm onSave={addListing} />
       </CardContent>
     </Card>
   );

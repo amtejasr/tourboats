@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from 'react';
@@ -29,6 +30,7 @@ import { Sparkles } from 'lucide-react';
 import { handleGenerateDescription } from '@/app/actions';
 import { SailingYachtLoader } from './SailingYachtLoader';
 import { ImageUpload } from './ImageUpload';
+import type { Yacht, WaterActivity } from '@/types';
 
 const formSchema = z.object({
   category: z.enum(['yacht', 'waterActivity'], {
@@ -50,15 +52,22 @@ type ListingFormValues = z.infer<typeof formSchema>;
 
 interface ListingFormProps {
   initialData?: Partial<ListingFormValues>;
+  onSave: (data: Omit<Yacht | WaterActivity, 'id'>) => void;
+  isEditing?: boolean;
 }
 
-export function ListingForm({ initialData }: ListingFormProps) {
+function createIdFromString(str: string) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+export function ListingForm({ initialData, onSave, isEditing = false }: ListingFormProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<ListingFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
+      category: 'yacht',
       name: "",
       price: 0,
       imageUrls: "",
@@ -67,6 +76,20 @@ export function ListingForm({ initialData }: ListingFormProps) {
       description: "",
     },
   });
+  
+  // Reset form when initialData changes for the "add" page
+  if (!isEditing && form.formState.isSubmitSuccessful) {
+      form.reset(initialData || {
+        category: 'yacht',
+        name: "",
+        price: 0,
+        imageUrls: "",
+        features: "",
+        keyAttributes: "",
+        description: "",
+      });
+  }
+
 
   async function onGenerate() {
     const { category, name, keyAttributes } = form.getValues();
@@ -109,20 +132,45 @@ export function ListingForm({ initialData }: ListingFormProps) {
   }
 
   function onSubmit(values: ListingFormValues) {
-    // In a real app, this data would be saved to a database.
-    // For this demo, we'll log it to the console and show a toast.
-    console.log("Form submitted. Data:", values);
+    const id = createIdFromString(values.name);
+
+    let newListing: Omit<Yacht | WaterActivity, 'id'>;
+
+    if (values.category === 'yacht') {
+      newListing = {
+        name: values.name,
+        category: 'private', // Defaulting to private, can be expanded
+        image: values.imageUrls,
+        aiHint: `${values.name} yacht`,
+        images: values.imageUrls.split(',').map(url => url.trim()),
+        capacity: 20, // Placeholder
+        size: 60, // Placeholder
+        description: values.description || '',
+        pricePerHour: values.price,
+        features: values.features.split(',').map(f => f.trim()),
+      };
+    } else {
+      newListing = {
+        name: values.name,
+        image: values.imageUrls,
+        aiHint: `${values.name} water sport`,
+        shortDescription: values.features,
+        longDescription: values.description || '',
+        price: values.price,
+        duration: 30, // Placeholder
+      };
+    }
+    
+    onSave(newListing);
+
     toast({
-        title: "Listing Saved!",
-        description: `This is a demo. Data for "${values.name}" was logged to the console and will not persist after a page refresh.`,
+        title: isEditing ? "Listing Updated!" : "Listing Added!",
+        description: `"${values.name}" has been saved successfully.`,
     });
     
-    // We are no longer resetting the form, so the data (including the image) stays visible.
-    // if (!initialData) {
-    //     form.reset();
-    //     // Manually reset the image field since it's controlled
-    //     form.setValue('imageUrls', '', { shouldValidate: true });
-    // }
+    if (!isEditing) {
+      form.reset();
+    }
   }
 
   return (
@@ -207,16 +255,16 @@ export function ListingForm({ initialData }: ListingFormProps) {
           name="features"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Features</FormLabel>
+              <FormLabel>Features / Short Description</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Feature 1, Feature 2, Feature 3"
+                  placeholder="For Yachts: Feature 1, Feature 2... For Activities: A short, catchy description."
                   className="resize-y"
                   {...field}
                 />
               </FormControl>
               <FormDescription>
-                Add comma-separated features for the listing.
+                For yachts, add comma-separated features. For activities, write a short description.
               </FormDescription>
               <FormMessage />
             </FormItem>

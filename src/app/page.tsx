@@ -1,18 +1,22 @@
 
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight,
   Sailboat,
   Anchor,
-  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { waterActivities } from '@/lib/data';
 import { BookingDialog } from '@/components/BookingDialog';
+import { useData } from '@/context/DataContext';
 
 export default function Home() {
+  const { waterActivities } = useData();
+  const displayedActivities = waterActivities.slice(0, 4);
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -128,7 +132,7 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {waterActivities.map((activity, index) => (
+            {displayedActivities.map((activity, index) => (
               <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
                  <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full">
                   <Image
