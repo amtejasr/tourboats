@@ -74,6 +74,9 @@ export default function SignupPage() {
         case 'auth/operation-not-allowed':
            setError('Email/password accounts are not enabled. Please contact support.');
            break;
+        case 'auth/configuration-not-found':
+          setError('There was a problem with the app configuration. Please try again later.');
+          break;
         default:
           setError('An unexpected error occurred. Please try again.');
           console.error(err);

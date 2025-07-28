@@ -71,6 +71,7 @@ export default function LoginPage() {
         case 'auth/user-not-found':
         case 'auth/wrong-password':
         case 'auth/invalid-credential':
+        case 'auth/configuration-not-found':
           setError('Invalid email or password.');
           break;
         case 'auth/user-disabled':

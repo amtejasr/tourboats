@@ -58,6 +58,9 @@ export default function ForgotPasswordPage() {
         case 'auth/user-not-found':
           setError('No user found with this email address.');
           break;
+        case 'auth/configuration-not-found':
+          setError('There was a problem with the app configuration. Please try again later.');
+          break;
         default:
           setError('An unexpected error occurred. Please try again.');
           console.error(err);

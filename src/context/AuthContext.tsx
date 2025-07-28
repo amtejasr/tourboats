@@ -2,9 +2,23 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { onAuthStateChanged, User as FirebaseUser, signOut, getAuth, Auth } from 'firebase/auth';
-import { app } from '@/lib/firebase'; // Import the initialized app instance
 import { users, User } from '@/lib/auth';
+
+// Firebase configuration is now directly inside the context
+const firebaseConfig = {
+  apiKey: "AIzaSyDHbHwukrgMutAH_rsYs2HG36O11rcdeK4",
+  authDomain: "azure-yachts-dubai.firebaseapp.com",
+  projectId: "azure-yachts-dubai",
+  storageBucket: "azure-yachts-dubai.firebasestorage.app",
+  messagingSenderId: "339162013087",
+  appId: "1:339162013087:web:6663c98600f8066925b1aa",
+};
+
+// Initialize Firebase only if it hasn't been initialized yet
+const app: FirebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const auth: Auth = getAuth(app);
 
 interface AuthContextType {
   user: User | null;
@@ -15,8 +29,6 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const auth = getAuth(app);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -47,7 +59,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-
   const logout = async () => {
     setLoading(true);
     await signOut(auth);
@@ -60,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }
