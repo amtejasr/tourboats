@@ -20,12 +20,12 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[85vh] min-h-[450px] md:min-h-[600px] w-full">
+      <section className="relative h-[50vh] md:h-[80vh] w-full">
          <Carousel className="w-full h-full" opts={{ loop: true }}>
             <CarouselContent>
               {heroImages.map((src, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative w-full h-[60vh] md:h-[85vh] min-h-[450px] md:min-h-[600px]">
+                  <div className="relative w-full h-[50vh] md:h-[80vh]">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
