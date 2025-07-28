@@ -37,7 +37,7 @@ export default function Home() {
             <CarouselContent>
               {heroImages.map((src, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative w-full h-[50vh] md:h-[80vh]">
+                  <div className="relative w-full h-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
@@ -176,7 +176,7 @@ export default function Home() {
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                 </CardContent>
-                <CardFooter className="p-6 pt-0">
+                <CardFooter className="p-6 pt-0 mt-auto">
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
