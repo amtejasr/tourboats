@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[50vh] md:h-[80vh] w-full">
+      <section className="relative h-[50vh] w-full md:h-[80vh]">
          <Carousel 
             className="w-full h-full" 
             opts={{ loop: true }}
@@ -34,9 +34,10 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="h-full">
+            <CarouselContent>
               {heroImages.map((src, index) => (
-                <CarouselItem key={index} className="relative h-full w-full">
+                <CarouselItem key={index}>
+                   <div className="relative h-full w-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
@@ -45,6 +46,7 @@ export default function Home() {
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
+                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -71,7 +73,7 @@ export default function Home() {
 
       {/* Yacht Categories Section */}
       <section id="yachts" className="py-20 md:py-28 bg-secondary">
-        <div className="container mx-auto px-4 max-w-5xl">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Our Exclusive Fleet
@@ -139,7 +141,7 @@ export default function Home() {
 
       {/* Water Activities Section */}
       <section id="activities" className="py-20 md:py-28">
-        <div className="container mx-auto max-w-7xl px-4">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Thrilling Water Activities
