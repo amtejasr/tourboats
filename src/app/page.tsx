@@ -34,9 +34,9 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent>
+            <CarouselContent className="-ml-4">
               {heroImages.map((src, index) => (
-                <CarouselItem key={index}>
+                <CarouselItem key={index} className="pl-4">
                    <div className="relative h-full w-full">
                     <Image
                       src={src}
@@ -62,6 +62,11 @@ export default function Home() {
             Discover unparalleled luxury and thrilling adventures on the pristine waters of the Arabian Gulf. Your unforgettable journey begins here.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
+             <Button asChild size="lg" variant="default" className="text-lg px-8 py-6">
+              <Link href="/yachts/private">
+                Explore The Fleet <ArrowRight className="ml-2" />
+              </Link>
+            </Button>
              <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
               <Link href="/#activities">
                 View Activities <ArrowRight className="ml-2" />
