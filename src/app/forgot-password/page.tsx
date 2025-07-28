@@ -44,6 +44,10 @@ export default function ForgotPasswordPage() {
   });
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
+    if (!auth) {
+      setError("Authentication service is not available. Please try again later.");
+      return;
+    }
     setError(null);
     setSuccess(null);
     try {

@@ -48,18 +48,23 @@ export default function SignupPage() {
   });
 
   const onSubmit = async (data: SignupFormValues) => {
+    if (!auth) {
+      setError("Authentication service is not available. Please try again later.");
+      return;
+    }
     setError(null);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       await updateProfile(userCredential.user, { displayName: data.name });
-      await sendEmailVerification(userCredential.user);
+      // In a production app, you might want to send a verification email
+      // await sendEmailVerification(userCredential.user);
 
       toast({
         title: 'Account Created!',
-        description: 'A verification link has been sent to your email. Please verify your account before logging in.',
+        description: 'You have successfully signed up.',
       });
       
-      router.push('/login');
+      router.push('/dashboard');
     } catch (err: any) {
       switch (err.code) {
         case 'auth/email-already-in-use':

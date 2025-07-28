@@ -48,6 +48,10 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
+    if (!auth) {
+      setError("Authentication service is not available. Please try again later.");
+      return;
+    }
     setError(null);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
@@ -71,11 +75,13 @@ export default function LoginPage() {
         case 'auth/user-not-found':
         case 'auth/wrong-password':
         case 'auth/invalid-credential':
-        case 'auth/configuration-not-found':
           setError('Invalid email or password.');
           break;
         case 'auth/user-disabled':
           setError('This account has been disabled.');
+          break;
+        case 'auth/configuration-not-found':
+          setError('There was a problem with the app configuration. Please try again later.');
           break;
         default:
           setError('An unexpected error occurred. Please try again.');

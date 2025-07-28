@@ -2,27 +2,14 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { onAuthStateChanged, User as FirebaseUser, signOut, getAuth, Auth } from 'firebase/auth';
+import { User as FirebaseUser, onAuthStateChanged, signOut, Auth } from 'firebase/auth';
+import { app, auth } from '@/lib/firebase';
 import { users, User } from '@/lib/auth';
-
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-};
-
-// Initialize Firebase only if it hasn't been initialized yet
-const app: FirebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth: Auth = getAuth(app);
 
 interface AuthContextType {
   user: User | null;
   firebaseUser: FirebaseUser | null;
-  auth: Auth;
+  auth: Auth | null;
   loading: boolean;
   logout: () => void;
 }
