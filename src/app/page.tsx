@@ -147,7 +147,7 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {waterActivities.map((activity, index) => (
               <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
-                 <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full group">
+                <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full group">
                   <Image
                     src={activity.image}
                     alt={activity.name}
@@ -156,11 +156,15 @@ export default function Home() {
                     data-ai-hint={activity.aiHint}
                   />
                 </Link>
-                <CardContent className="p-6 flex flex-col flex-grow">
-                  <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
-                  <p className="text-muted-foreground text-sm flex-grow h-12">{activity.shortDescription}</p>
-                   <p className="text-xl font-bold text-primary mt-4">From AED {activity.price}</p>
-                </CardContent>
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex-grow">
+                    <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
+                    <p className="text-muted-foreground text-sm h-16">{activity.shortDescription}</p>
+                  </div>
+                  <div className="mt-4">
+                    <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
+                  </div>
+                </div>
                 <CardFooter className="p-6 pt-0">
                   <BookingDialog 
                     bookingType="activity"
