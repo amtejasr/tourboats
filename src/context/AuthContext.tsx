@@ -3,20 +3,9 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { onAuthStateChanged, User as FirebaseUser, signOut } from 'firebase/auth';
-import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
-import { getAuth, Auth } from "firebase/auth";
+import { auth } from '@/lib/firebase'; // Import the initialized auth instance
 import { users, User } from '@/lib/auth'; // Still using mock user data for roles
-
-// Firebase configuration - moved here for robust initialization
-const firebaseConfig = {
-  apiKey: "AIzaSyDHbHwukrgMutAH_rsYs2HG36O11rcdeK4",
-  authDomain: "azure-yachts-dubai.firebaseapp.com",
-  projectId: "azure-yachts-dubai",
-  storageBucket: "azure-yachts-dubai.firebasestorage.app",
-  messagingSenderId: "339162013087",
-  appId: "1:339162013087:web:6663c98600f8066925b1aa",
-};
-
+import type { Auth } from "firebase/auth";
 
 interface AuthContextType {
   user: User | null;
@@ -32,11 +21,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // Initialize Firebase within the provider, only on the client side.
-  const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentFirebaseUser) => {
@@ -62,7 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return () => unsubscribe();
-  }, [auth]);
+  }, []); // The auth object is stable, so we don't need it in the dependency array.
 
 
   const logout = async () => {
