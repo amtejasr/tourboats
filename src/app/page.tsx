@@ -34,10 +34,9 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent>
+            <CarouselContent className="h-full">
               {heroImages.map((src, index) => (
-                <CarouselItem key={index}>
-                  <div className="relative w-full h-[50vh] md:h-[80vh]">
+                <CarouselItem key={index} className="relative h-full w-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
@@ -46,7 +45,6 @@ export default function Home() {
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
-                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -62,11 +60,6 @@ export default function Home() {
             Discover unparalleled luxury and thrilling adventures on the pristine waters of the Arabian Gulf. Your unforgettable journey begins here.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
-            <Button asChild size="lg" className="text-lg px-8 py-6 bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/yachts/private">
-                Explore The Fleet <Sailboat className="ml-2" />
-              </Link>
-            </Button>
              <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
               <Link href="/#activities">
                 View Activities <ArrowRight className="ml-2" />
@@ -78,7 +71,7 @@ export default function Home() {
 
       {/* Yacht Categories Section */}
       <section id="yachts" className="py-20 md:py-28 bg-secondary">
-        <div className="container mx-auto max-w-5xl px-4">
+        <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Our Exclusive Fleet
@@ -178,7 +171,7 @@ export default function Home() {
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                 </div>
-                <CardFooter className="p-6 pt-0 mt-auto">
+                <CardFooter className="p-6 pt-0">
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
