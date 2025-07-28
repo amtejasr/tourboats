@@ -34,10 +34,9 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent>
+            <CarouselContent className="h-full">
               {heroImages.map((src, index) => (
-                <CarouselItem key={index}>
-                  <div className="relative w-full h-full">
+                <CarouselItem key={index} className="h-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
@@ -46,7 +45,6 @@ export default function Home() {
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
-                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -167,16 +165,18 @@ export default function Home() {
                     data-ai-hint={activity.aiHint}
                   />
                 </Link>
-                <CardContent className="p-6 flex flex-col flex-grow">
-                  <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
-                  <div className="flex-grow min-h-[60px]">
-                    <p className="text-muted-foreground text-sm">{activity.shortDescription}</p>
+                <CardHeader>
+                  <CardTitle className="font-headline text-2xl">{activity.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0 flex-grow flex flex-col">
+                  <div className="flex-grow min-h-[70px]">
+                    <p className="text-muted-foreground text-sm line-clamp-3">{activity.shortDescription}</p>
                   </div>
                   <div className="mt-4">
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
                 </CardContent>
-                <CardFooter className="p-6 pt-0 mt-auto">
+                <CardFooter className="p-6 pt-0">
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
