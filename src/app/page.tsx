@@ -38,8 +38,8 @@ export default function Home() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-8" />
-            <CarouselNext className="right-8" />
+            <CarouselPrevious className="absolute left-8" />
+            <CarouselNext className="absolute right-8" />
           </Carousel>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -52,12 +52,12 @@ export default function Home() {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
             <Button asChild size="lg" className="text-lg px-8 py-6 bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="#yachts">
+              <Link href="/yachts/private">
                 Explore The Fleet <Sailboat className="ml-2" />
               </Link>
             </Button>
              <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
-              <Link href="#activities">
+              <Link href="/#activities">
                 View Activities <ArrowRight className="ml-2" />
               </Link>
             </Button>
@@ -147,19 +147,20 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {waterActivities.map((activity, index) => (
               <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
-                 <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full">
+                 <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative h-56 w-full group">
                   <Image
                     src={activity.image}
                     alt={activity.name}
                     fill
-                    className="object-cover transition-transform duration-500 hover:scale-110"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                     data-ai-hint={activity.aiHint}
                   />
                 </Link>
-                <div className="p-6 flex flex-col flex-grow">
+                <CardContent className="p-6 flex flex-col flex-grow">
                   <div className="flex-grow">
-                    <CardTitle className="font-headline text-2xl mb-2 h-16">{activity.name}</CardTitle>
-                    <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
+                    <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
+                    <p className="text-muted-foreground text-sm h-12">{activity.shortDescription}</p>
+                     <p className="text-xl font-bold text-primary mt-4">From AED {activity.price}</p>
                   </div>
                   <CardFooter className="p-0 pt-4 mt-auto">
                     <BookingDialog 
@@ -168,7 +169,7 @@ export default function Home() {
                       className="w-full text-base"
                     />
                   </CardFooter>
-                </div>
+                </CardContent>
               </Card>
             ))}
           </div>
