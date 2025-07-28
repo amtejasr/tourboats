@@ -15,7 +15,7 @@ import { useData } from '@/context/DataContext';
 
 export default function Home() {
   const { waterActivities } = useData();
-  const displayedActivities = waterActivities.slice(0, 4);
+  const displayedActivities = waterActivities;
 
   return (
     <div className="flex flex-col">
