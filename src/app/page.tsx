@@ -34,19 +34,17 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="h-full">
+            <CarouselContent>
               {heroImages.map((src, index) => (
-                <CarouselItem key={index} className="h-full">
-                   <div className="relative h-full w-full">
-                      <Image
-                        src={src}
-                        alt="Luxury yacht on the waters of Dubai"
-                        fill
-                        className="z-0 object-cover brightness-50"
-                        priority={index === 0}
-                        data-ai-hint="yacht sea"
-                      />
-                   </div>
+                <CarouselItem key={index} className="relative w-full h-full">
+                  <Image
+                    src={src}
+                    alt="Luxury yacht on the waters of Dubai"
+                    fill
+                    className="z-0 object-cover brightness-50"
+                    priority={index === 0}
+                    data-ai-hint="yacht sea"
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -167,17 +165,15 @@ export default function Home() {
                     data-ai-hint={activity.aiHint}
                   />
                 </Link>
-                <CardHeader>
+                <div className="p-6 flex flex-col flex-grow">
                   <CardTitle className="font-headline text-2xl">{activity.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow flex flex-col p-6 pt-0">
-                  <div className="flex-grow min-h-[70px]">
+                  <div className="flex-grow min-h-[100px] mt-2">
                     <p className="text-muted-foreground text-sm line-clamp-3">{activity.shortDescription}</p>
                   </div>
                   <div className="mt-4">
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
                   </div>
-                </CardContent>
+                </div>
                 <CardFooter className="p-6 pt-0">
                    <BookingDialog 
                     bookingType="activity"
