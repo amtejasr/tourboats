@@ -41,8 +41,7 @@ export default function Home() {
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
-                      width={1920}
-                      height={1080}
+                      fill
                       className="h-full w-full object-cover brightness-50"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
@@ -96,8 +95,7 @@ export default function Home() {
                     <Image
                       src={category.image}
                       alt={`${category.title} category`}
-                      width={600}
-                      height={400}
+                      fill
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={category.aiHint}
                     />
@@ -145,8 +143,7 @@ export default function Home() {
                     <Image
                       src={activity.image}
                       alt={activity.name}
-                      width={400}
-                      height={300}
+                      fill
                       className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={activity.aiHint}
                     />
@@ -155,7 +152,7 @@ export default function Home() {
                  <div className="flex flex-col flex-grow p-6">
                   <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
                   <CardContent className="p-0 flex-grow">
-                    <p className="text-muted-foreground text-sm line-clamp-4">{activity.shortDescription}</p>
+                    <p className="text-muted-foreground text-sm line-clamp-3">{activity.shortDescription}</p>
                   </CardContent>
                   <div className="pt-4">
                     <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
