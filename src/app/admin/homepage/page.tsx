@@ -20,13 +20,14 @@ export default function HomepageAdminPage() {
   const { heroImages, homePageYachtCategories, updateHeroImages, updateHomePageYachtCategories } = useData();
   const [currentImages, setCurrentImages] = useState(heroImages);
   
-  const [yachtCategories, setYachtCategories] = useState<EditableHomePageYachtCategory[]>(homePageYachtCategories);
+  const [yachtCategories, setYachtCategories] = useState<EditableHomePageYachtCategory[]>([]);
 
   const { toast } = useToast();
 
   // Sync with context if it changes
   useEffect(() => {
-    setYachtCategories(homePageYachtCategories);
+    // Deep copy to prevent direct mutation of context state
+    setYachtCategories(JSON.parse(JSON.stringify(homePageYachtCategories)));
   }, [homePageYachtCategories]);
 
 
@@ -66,6 +67,10 @@ export default function HomepageAdminPage() {
         description: "Your changes have been saved. Uploaded images will persist for your current session.",
     });
   };
+  
+  if (!yachtCategories.length) {
+      return null; // or a loading skeleton
+  }
 
   return (
     <Card>

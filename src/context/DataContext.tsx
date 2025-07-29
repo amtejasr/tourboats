@@ -76,13 +76,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       // Load Home Page Yacht Categories
       const storedYachtCategories = localStorage.getItem(YACHT_CATEGORIES_STORAGE_KEY);
       if (storedYachtCategories) {
-        const loadedCategories: HomePageYachtCategory[] = JSON.parse(storedYachtCategories);
-        // Restore original images from initial data, since they aren't saved in local storage.
-        const restoredCategories = loadedCategories.map(cat => {
-            const originalCat = initialHomePageYachtCategories.find(i => i.type === cat.type);
-            return { ...cat, image: originalCat?.image || 'https://placehold.co/600x400.png' };
-        });
-        setHomePageYachtCategories(restoredCategories);
+        setHomePageYachtCategories(JSON.parse(storedYachtCategories));
       } else {
         setHomePageYachtCategories(initialHomePageYachtCategories);
       }
@@ -155,6 +149,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const updateHeroImages = useCallback((images: string[]) => {
       setHeroImages(images);
       try {
+        // Filter out base64 images before saving to localStorage
         const imagesToStore = images.filter(img => !img.startsWith('data:'));
         localStorage.setItem(HERO_IMAGES_STORAGE_KEY, JSON.stringify(imagesToStore));
       } catch (e) {
@@ -167,17 +162,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
     setHomePageYachtCategories(categories);
 
     try {
-        // Create a version of the categories data for storage that *only* contains text and other serializable info.
-        // The original image URL is restored from the initial data.
+        // Create a version of the categories data for storage that strips out large base64 image data.
         const categoriesForStorage = categories.map(category => {
+            const { image, ...rest } = category;
             const originalCategory = initialHomePageYachtCategories.find(c => c.type === category.type);
             return {
-                type: category.type,
-                title: category.title,
-                description: category.description,
-                aiHint: category.aiHint,
-                link: category.link,
-                image: originalCategory?.image || 'https://placehold.co/600x400.png' // Fallback image path
+                ...rest,
+                // Only store the original image URL, not the base64 string
+                image: image.startsWith('data:') ? (originalCategory?.image || '') : image
             };
         });
 
