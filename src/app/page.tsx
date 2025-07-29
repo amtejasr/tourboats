@@ -27,14 +27,14 @@ export default function Home() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative w-full h-[80vh]">
-         <Carousel 
-            className="w-full h-full" 
+         <Carousel
+            className="w-full h-full"
             opts={{ loop: true }}
             plugins={[plugin.current]}
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="h-full -ml-4">
+            <CarouselContent className="-ml-4 h-full">
               {heroImages.map((src, index) => (
                 <CarouselItem key={index} className="pl-4">
                   <div className="h-full w-full relative">
@@ -145,22 +145,21 @@ export default function Home() {
                     <Image
                       src={activity.image}
                       alt={activity.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      width={400}
+                      height={300}
+                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={activity.aiHint}
                     />
                   </div>
                 </Link>
-                <div className="p-6 flex flex-col flex-grow">
-                  <CardTitle className="font-headline text-2xl h-16">{activity.name}</CardTitle>
-                  <div className="flex-grow mt-2 min-h-[100px]">
-                    <p className="text-muted-foreground text-sm line-clamp-4">{activity.shortDescription}</p>
-                  </div>
-                  <div className="mt-4">
-                    <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
-                  </div>
-                </div>
-                <CardFooter className="p-6 pt-0">
+                <CardHeader className="flex-grow">
+                  <CardTitle className="font-headline text-2xl">{activity.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground text-sm line-clamp-4 mb-4">{activity.shortDescription}</p>
+                  <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
+                </CardContent>
+                <CardFooter>
                    <BookingDialog 
                     bookingType="activity"
                     itemName={activity.name}
