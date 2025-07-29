@@ -48,11 +48,17 @@ export default function ContactPage() {
   });
 
   function onSubmit(values: ContactFormValues) {
-    // In a real app, you would handle form submission here (e.g., send an email).
-    console.log(values);
+    const mailtoLink = `mailto:sales@tourdit.com?subject=${encodeURIComponent(
+      values.subject
+    )}&body=${encodeURIComponent(
+      `Name: ${values.name}\nEmail: ${values.email}\n\nMessage:\n${values.message}`
+    )}`;
+    
+    window.location.href = mailtoLink;
+
     toast({
-      title: 'Message Sent!',
-      description: "Thank you for contacting us. We'll be in touch shortly.",
+      title: 'Email Client Opened',
+      description: "Please send the pre-filled email from your email client.",
     });
     form.reset();
   }
