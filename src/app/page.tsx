@@ -36,7 +36,7 @@ export default function Home() {
           >
             <CarouselContent className="h-full">
               {heroImages.map((src, index) => (
-                <CarouselItem key={index} className="relative h-full w-full">
+                <CarouselItem key={index} className="relative">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
