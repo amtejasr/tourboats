@@ -35,6 +35,7 @@ export default function YachtDetailPage() {
   }
 
   const categoryTitle = yacht.category.charAt(0).toUpperCase() + yacht.category.slice(1);
+  const isPrivate = yacht.category === 'private';
 
   return (
     <div className="bg-secondary">
@@ -123,6 +124,8 @@ export default function YachtDetailPage() {
                 <BookingDialog 
                   bookingType={yacht.category === 'private' ? 'Yacht' : 'Shared Yacht'}
                   itemName={yacht.name}
+                  itemPrice={yacht.pricePerHour}
+                  isPrivateYacht={isPrivate}
                   className="w-full text-lg py-7"
                 />
                 <p className="text-sm text-muted-foreground text-center mt-3">

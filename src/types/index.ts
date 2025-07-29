@@ -32,3 +32,9 @@ export interface HomePageYachtCategory {
   aiHint: string;
   link: string;
 }
+
+export interface Addon {
+  id: string;
+  name: string;
+  price: number;
+}
