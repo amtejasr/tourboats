@@ -2,7 +2,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, CheckCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import { handleContactForm } from '../actions';
+import { useState } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 // Schema for form validation
 const formSchema = z.object({
@@ -36,6 +39,7 @@ type ContactFormValues = z.infer<typeof formSchema>;
 
 export default function ContactPage() {
   const { toast } = useToast();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(formSchema),
@@ -47,20 +51,22 @@ export default function ContactPage() {
     },
   });
 
-  function onSubmit(values: ContactFormValues) {
-    const mailtoLink = `mailto:sales@tourdit.com?subject=${encodeURIComponent(
-      values.subject
-    )}&body=${encodeURIComponent(
-      `Name: ${values.name}\nEmail: ${values.email}\n\nMessage:\n${values.message}`
-    )}`;
-    
-    window.location.href = mailtoLink;
-
-    toast({
-      title: 'Email Client Opened',
-      description: "Please send the pre-filled email from your email client.",
-    });
-    form.reset();
+  async function onSubmit(values: ContactFormValues) {
+    const result = await handleContactForm(values);
+    if (result.success) {
+      toast({
+        title: 'Message Sent!',
+        description: 'Thank you for reaching out. We will get back to you shortly.',
+      });
+      setIsSubmitted(true);
+      form.reset();
+    } else {
+       toast({
+        variant: "destructive",
+        title: 'Submission Failed',
+        description: 'Something went wrong. Please try again or contact us via WhatsApp.',
+      });
+    }
   }
 
   return (
@@ -110,6 +116,16 @@ export default function ContactPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
+              {isSubmitted ? (
+                 <Alert variant="default" className="border-green-500 text-green-700 [&>svg]:text-green-700 flex flex-col items-center justify-center text-center p-8">
+                  <CheckCircle className="h-16 w-16 mb-4" />
+                  <AlertTitle className="text-2xl font-bold">Thank You!</AlertTitle>
+                  <AlertDescription className="text-base">
+                    Your message has been sent successfully. We will get back to you as soon as possible.
+                  </AlertDescription>
+                  <Button onClick={() => setIsSubmitted(false)} className="mt-6">Send Another Message</Button>
+                </Alert>
+              ) : (
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -123,7 +139,7 @@ export default function ContactPage() {
                         <FormItem>
                           <FormLabel>Full Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="John Doe" {...field} />
+                            <Input placeholder="John Doe" {...field} disabled={form.formState.isSubmitting} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -139,6 +155,7 @@ export default function ContactPage() {
                             <Input
                               placeholder="you@example.com"
                               {...field}
+                               disabled={form.formState.isSubmitting}
                             />
                           </FormControl>
                           <FormMessage />
@@ -156,6 +173,7 @@ export default function ContactPage() {
                           <Input
                             placeholder="e.g., Private Yacht Inquiry"
                             {...field}
+                             disabled={form.formState.isSubmitting}
                           />
                         </FormControl>
                         <FormMessage />
@@ -173,18 +191,24 @@ export default function ContactPage() {
                             placeholder="Tell us about your inquiry..."
                             className="min-h-[120px]"
                             {...field}
+                             disabled={form.formState.isSubmitting}
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full text-lg">
-                    <Send className="mr-2" />
-                    Send Message
+                  <Button type="submit" className="w-full text-lg" disabled={form.formState.isSubmitting}>
+                     {form.formState.isSubmitting ? 'Sending...' : (
+                       <>
+                         <Send className="mr-2" />
+                         Send Message
+                       </>
+                     )}
                   </Button>
                 </form>
               </Form>
+              )}
             </CardContent>
           </Card>
 
