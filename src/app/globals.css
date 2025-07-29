@@ -9,7 +9,7 @@ body {
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
+    --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
@@ -77,8 +77,5 @@ body {
   }
   .animation-delay-600 {
     animation-delay: 600ms;
-  }
-  .glass-effect {
-      @apply bg-white/10 border border-white/20 backdrop-blur-lg shadow-lg;
   }
 }

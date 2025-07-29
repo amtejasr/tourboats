@@ -29,7 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu-custom';
-import { Particles } from '@/components/Particles';
+
 
 export default function Home() {
   const { waterActivities } = useData();
@@ -47,26 +47,19 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      {/* New Animated Hero Section */}
-      <section className="relative flex h-[80vh] w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500 text-primary-foreground animate-background-pan">
-         <Particles
-            className="absolute inset-0"
-            quantity={100}
-            ease={80}
-            color="#ffffff"
-            refresh
-          />
+      {/* New Minimal Hero Section */}
+       <section className="relative flex w-full flex-col items-center justify-center bg-background py-24 md:py-32 lg:py-40">
         <div className="relative z-10 flex flex-col items-center text-center p-4">
-          <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-glow">
+          <h1 className="font-headline text-5xl font-extrabold tracking-tight text-primary md:text-6xl lg:text-7xl">
             Explore Luxury on the Waters
           </h1>
-          <p className="mt-6 max-w-3xl text-lg md:text-xl text-primary-foreground/80 animate-fade-in-up">
+          <p className="mt-6 max-w-3xl text-lg md:text-xl text-muted-foreground">
             Choose your adventure: thrilling water activities or elegant yacht experiences.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="lg" variant="default" className="text-lg px-8 py-7 glass-effect">
+                <Button size="lg" variant="default" className="text-lg px-8 py-7">
                   Explore Water Activities <Waves className="ml-2 h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -84,7 +77,7 @@ export default function Home() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                 <Button size="lg" variant="secondary" className="text-lg px-8 py-7 glass-effect">
+                 <Button size="lg" variant="outline" className="text-lg px-8 py-7">
                   Explore Yachts <Sailboat className="ml-2 h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -103,23 +96,23 @@ export default function Home() {
             </DropdownMenu>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-10">
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1200 120"
             preserveAspectRatio="none"
-            className="relative block h-[150px] w-[calc(100%+1.3px)]"
+            className="relative block h-[80px] w-full"
           >
             <path
-              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31.74,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-              className="fill-background"
+              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31.74,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+              className="fill-secondary"
             ></path>
           </svg>
         </div>
       </section>
 
       {/* Water Activities Section */}
-      <section id="activities" className="py-20 md:py-28">
+      <section id="activities" className="bg-secondary py-20 md:py-28">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
@@ -131,7 +124,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {waterActivities.map((activity, index) => (
-              <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
+              <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up bg-card" style={{ animationDelay: `${index * 150}ms` }}>
                 <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative group">
                   <div className="relative aspect-[4/3] w-full">
                     <Image
