@@ -98,12 +98,22 @@ export default {
                 transform: 'translateY(0)',
             },
         },
+        'wave': {
+          '0%': { marginLeft: '0px' },
+          '100%': { marginLeft: '-1600px' },
+        },
+        'swell': {
+          '0%, 100%': { transform: 'translate3d(0, -25px, 0)' },
+          '50%': { transform: 'translate3d(0, 5px, 0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in-down': 'fade-in-down 0.5s ease-out forwards',
         'fade-in-up': 'fade-in-up 0.5s ease-out 0.2s forwards',
+        'wave': 'wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite',
+        'swell': 'swell 7s ease -1.25s infinite',
       },
     },
   },

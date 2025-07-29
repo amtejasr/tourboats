@@ -6,114 +6,47 @@ import Link from 'next/link';
 import {
   ArrowRight,
   Sailboat,
-  Anchor,
   Waves,
-  LifeBuoy,
-  Wind,
-  Fish,
-  Bike,
-  ShipWheel,
-  Rocket,
-  Group,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookingDialog } from '@/components/BookingDialog';
 import { useData } from '@/context/DataContext';
 import Image from 'next/image';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu-custom';
-
 
 export default function Home() {
-  const { waterActivities } = useData();
+  const { waterActivities, heroImages } = useData();
 
-  const allActivities = [
-    { name: 'Jetski', icon: <Waves className="h-5 w-5" />, href: '/activities/jetski-thrills' },
-    { name: 'Parasailing', icon: <Wind className="h-5 w-5" />, href: '/activities/parasailing-heights' },
-    { name: 'Banana Ride', icon: <LifeBuoy className="h-5 w-5" />, href: '/activities/banana-boat-fun' },
-    { name: 'Flyboarding', icon: <Rocket className="h-5 w-5" />, href: '/activities/flyboard-flight' },
-    { name: 'Kayaking', icon: <Bike className="h-5 w-5" />, href: '/activities/kayaking' },
-    { name: 'Donut Ride', icon: <ShipWheel className="h-5 w-5" />, href: '/activities/donut-ride-whirl' },
-    { name: 'Fishing', icon: <Fish className="h-5 w-5" />, href: '/activities/fishing-trip-dubai' },
-    { name: 'Scuba Diving', icon: <Anchor className="h-5 w-5" />, href: '/activities/scuba-diving' },
-  ];
+  if (!heroImages.length) {
+    return null; // or a loading component
+  }
 
   return (
     <div className="flex flex-col">
-      {/* New Minimal Hero Section */}
-       <section className="relative flex w-full flex-col items-center justify-center bg-background py-24 md:py-32 lg:py-40">
-        <div className="relative z-10 flex flex-col items-center text-center p-4">
-          <h1 className="font-headline text-5xl font-extrabold tracking-tight text-primary md:text-6xl lg:text-7xl">
+      <section className="relative w-full h-[80vh] bg-blue-50 overflow-hidden flex items-center justify-center">
+        <div className="relative z-20 flex flex-col items-center text-center p-4">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-blue-900 animate-fade-in-down">
             Explore Luxury on the Waters
           </h1>
-          <p className="mt-8 max-w-3xl text-lg md:text-xl text-muted-foreground">
-            Choose from our curated selection of private and shared yachts for the perfect sea adventure, each offering a unique taste of luxury.
+          <p className="mt-6 max-w-3xl text-lg md:text-xl text-blue-800/80 animate-fade-in-down animation-delay-200">
+            Choose your adventure: thrilling water activities or elegant yacht experiences.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size="lg" variant="default" className="text-lg px-8 py-7">
-                  Explore Water Activities <Waves className="ml-2 h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Choose an Activity</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {allActivities.map(activity => (
-                  <DropdownMenuItem key={activity.name} asChild>
-                    <Link href={activity.href}>
-                      {activity.icon}
-                      <span>{activity.name}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                 <Button size="lg" variant="outline" className="text-lg px-8 py-7">
-                  Explore Yachts <Sailboat className="ml-2 h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Choose a Category</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href="/yachts/private">
-                        <Sailboat className="h-5 w-5" />
-                        <span>Private Yachts</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/yachts/sharing">
-                        <Group className="h-5 w-5" />
-                        <span>Sharing Yachts</span>
-                    </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
+            <Button size="lg" asChild className="shadow-lg">
+              <Link href="#activities">
+                <Waves className="mr-2 h-5 w-5" /> Explore Water Activities
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="bg-white/80 backdrop-blur-sm shadow-lg border-primary/50 hover:bg-white">
+              <Link href="/yachts/private">
+                <Sailboat className="mr-2 h-5 w-5" /> Explore Yachts
+              </Link>
+            </Button>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-            className="relative block h-[80px] w-full"
-          >
-            <path
-              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31.74,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-              className="fill-secondary"
-            ></path>
-          </svg>
+        <div className="ocean">
+          <div className="wave"></div>
+          <div className="wave"></div>
         </div>
       </section>
 
@@ -132,7 +65,7 @@ export default function Home() {
             {waterActivities.map((activity, index) => (
               <Card key={activity.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up bg-card" style={{ animationDelay: `${index * 150}ms` }}>
                 <Link href={`/activities/${activity.id}`} className="block overflow-hidden relative group">
-                  <div className="relative aspect-[4/3] w-full">
+                   <div className="relative aspect-[4/3] w-full">
                     <Image
                       src={activity.image}
                       alt={activity.name}
