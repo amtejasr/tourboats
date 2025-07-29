@@ -24,7 +24,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu-custom'; // Using custom for animations
+} from '@/components/ui/dropdown-menu-custom';
 
 const waterActivityItems = [
   { name: 'Jet Ski', id: 'jetski-thrills', icon: Waves },
@@ -36,17 +36,26 @@ const waterActivityItems = [
 ];
 
 export default function Home() {
-  const { waterActivities, homePageYachtCategories } = useData();
+  const { waterActivities } = useData();
 
   return (
     <div className="flex flex-col">
       {/* New Hero Section */}
-      <section className="relative w-full h-[80vh] bg-white overflow-hidden flex items-center justify-center">
-        <div className="relative z-20 flex flex-col items-center text-center p-4">
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-blue-900 animate-fade-in-down">
+      <section className="relative w-full h-[80vh] bg-black">
+         <div className="absolute inset-0 w-full h-full">
+            <Image
+              src="https://placehold.co/1920x1080.png"
+              alt="Luxury yacht on the waters of Dubai"
+              fill
+              className="object-cover brightness-50"
+              data-ai-hint="luxury yacht sea"
+            />
+          </div>
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center p-4">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white animate-fade-in-down">
             Explore Luxury on the Waters
           </h1>
-          <p className="mt-6 max-w-3xl text-lg md:text-xl text-blue-800/80 animate-fade-in-down animation-delay-200">
+          <p className="mt-6 max-w-3xl text-lg md:text-xl text-white/90 animate-fade-in-down animation-delay-200">
             Choose your adventure: thrilling water activities or elegant yacht experiences.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
@@ -72,7 +81,7 @@ export default function Home() {
             {/* Yachts Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="lg" variant="outline" className="bg-white/80 backdrop-blur-sm shadow-lg border-primary/50 hover:bg-white">
+                <Button size="lg" variant="outline" className="bg-white/20 border-white text-white backdrop-blur-sm shadow-lg hover:bg-white/30">
                   <Sailboat className="mr-2 h-5 w-5" /> Explore Yachts <ChevronDown className="ml-2 h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -92,13 +101,6 @@ export default function Home() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        </div>
-
-        {/* Subtle decorative waves at the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 overflow-hidden z-10">
-            <svg className="w-full h-full" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="rgba(241, 245, 249, 1)">
-                <path d="M0,64 C240,128 480,0 720,64 C960,128 1200,0 1440,64 L1440,120 L0,120 Z"></path>
-            </svg>
         </div>
       </section>
 
