@@ -13,7 +13,6 @@ import {
   LifeBuoy,
   PersonStanding,
   ChevronDown,
-  Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +24,7 @@ import {
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useData } from '@/context/DataContext';
 import Image from 'next/image';
+import { Users } from 'lucide-react';
 import { BookingDialog } from '@/components/BookingDialog';
 
 const YachtIcon = () => (
@@ -277,4 +277,5 @@ export default function Home() {
     
 
     
+
 
