@@ -12,49 +12,25 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookingDialog } from '@/components/BookingDialog';
 import { useData } from '@/context/DataContext';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { useRef } from 'react';
-import Autoplay from "embla-carousel-autoplay";
-
 
 export default function Home() {
   const { waterActivities, heroImages, homePageYachtCategories } = useData();
-  const plugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
-  );
 
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative w-full h-[80vh]">
-         <Carousel
-            className="w-full h-full"
-            opts={{ loop: true }}
-            plugins={[plugin.current]}
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
-          >
-            <CarouselContent className="h-full -ml-4">
-              {heroImages.map((src, index) => (
-                <CarouselItem key={index} className="pl-4">
-                  <div className="relative h-full w-full">
-                    <Image
-                      src={src}
-                      alt="Luxury yacht on the waters of Dubai"
-                      fill
-                      className="object-cover brightness-50"
-                      priority={index === 0}
-                      data-ai-hint="yacht sea"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-8" />
-            <CarouselNext className="absolute right-8" />
-          </Carousel>
-
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white p-4">
+        <div className="absolute inset-0 w-full h-full">
+            <Image
+              src={heroImages[0]}
+              alt="Luxury yacht on the waters of Dubai"
+              fill
+              className="object-cover brightness-50"
+              priority
+              data-ai-hint="yacht sea"
+            />
+        </div>
+        <div className="relative z-10 flex flex-col items-center justify-center text-center text-white p-4 h-full">
           <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-fade-in-down">
             Experience Dubai's Majesty
           </h1>
