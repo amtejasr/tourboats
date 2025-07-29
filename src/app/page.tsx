@@ -41,7 +41,8 @@ export default function Home() {
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
-                      fill
+                      width={1920}
+                      height={1080}
                       className="h-full w-full object-cover brightness-50"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
@@ -95,7 +96,8 @@ export default function Home() {
                     <Image
                       src={category.image}
                       alt={`${category.title} category`}
-                      fill
+                      width={600}
+                      height={400}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={category.aiHint}
                     />
