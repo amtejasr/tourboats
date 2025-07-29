@@ -152,8 +152,22 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateHomePageYachtCategories = useCallback((categories: HomePageYachtCategory[]) => {
+    // Create a version of the categories that does not include the base64 image data
+    const categoriesToStore = categories.map(({...rest }) => {
+        // Find the original category to retain the original placeholder image path
+        const originalCategory = initialHomePageYachtCategories.find(c => c.type === rest.type);
+        return {
+            ...rest,
+            image: originalCategory ? originalCategory.image : 'https://placehold.co/600x400.png', // Fallback image
+        };
+    });
+
     setHomePageYachtCategories(categories);
-    localStorage.setItem(YACHT_CATEGORIES_STORAGE_KEY, JSON.stringify(categories));
+    try {
+        localStorage.setItem(YACHT_CATEGORIES_STORAGE_KEY, JSON.stringify(categoriesToStore));
+    } catch(e) {
+        console.error("Could not save yacht categories, likely due to quota limits even after trying to reduce size.", e);
+    }
   }, []);
 
 

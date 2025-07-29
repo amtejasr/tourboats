@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useData } from '@/context/DataContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,10 +14,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { HomePageYachtCategory } from '@/types';
 
+// Create a new type for local state management that includes optional preview
+type EditableHomePageYachtCategory = HomePageYachtCategory & { imagePreview?: string };
+
 export default function HomepageAdminPage() {
   const { heroImages, homePageYachtCategories, updateHeroImages, updateHomePageYachtCategories } = useData();
   const [currentImages, setCurrentImages] = useState(heroImages);
-  const [yachtCategories, setYachtCategories] = useState(homePageYachtCategories);
+  
+  const [yachtCategories, setYachtCategories] = useState<EditableHomePageYachtCategory[]>(
+      homePageYachtCategories.map(c => ({...c, imagePreview: c.image}))
+  );
 
   const { toast } = useToast();
 
@@ -34,17 +40,31 @@ export default function HomepageAdminPage() {
   const handleCategoryChange = (index: number, field: keyof HomePageYachtCategory, value: string) => {
     setYachtCategories(prev => {
         const newCategories = [...prev];
-        newCategories[index] = {...newCategories[index], [field]: value};
+        const updatedCategory = { ...newCategories[index], [field]: value };
+        
+        if (field === 'image') {
+          updatedCategory.imagePreview = value;
+        }
+
+        newCategories[index] = updatedCategory;
         return newCategories;
     })
   }
 
   const handleSaveChanges = () => {
     updateHeroImages(currentImages);
-    updateHomePageYachtCategories(yachtCategories);
+
+    // Prepare data for saving, excluding the large image strings
+    const categoriesToSave = yachtCategories.map(({ image, ...rest }) => ({
+        ...rest,
+        image: homePageYachtCategories.find(c => c.type === rest.type)?.image || image // Keep original image if no new one
+    }));
+    
+    updateHomePageYachtCategories(categoriesToSave);
+    
     toast({
         title: "Homepage Updated!",
-        description: "Your changes have been saved successfully.",
+        description: "Your changes have been saved successfully. Note: Uploaded images are for preview and won't be persisted.",
     });
   };
 
@@ -107,11 +127,12 @@ export default function HomepageAdminPage() {
                            />
                         </div>
                         <div className="space-y-2">
-                            <Label>Image</Label>
+                            <Label>Image (for preview only)</Label>
                             <ImageUpload 
-                                value={category.image}
+                                value={category.imagePreview || ''}
                                 onChange={(base64) => handleCategoryChange(index, 'image', base64)}
                             />
+                             <p className="text-xs text-muted-foreground">Image uploads are for preview and will not be saved.</p>
                         </div>
                     </div>
                 ))}
