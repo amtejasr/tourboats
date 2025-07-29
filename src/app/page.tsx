@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[50vh] w-full md:h-[80vh]">
+      <section className="relative h-[80vh] w-full">
          <Carousel 
             className="w-full h-full" 
             opts={{ loop: true }}
@@ -34,9 +34,9 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent>
               {heroImages.map((src, index) => (
-                <CarouselItem key={index} className="pl-4">
+                <CarouselItem key={index}>
                    <div className="relative h-full w-full">
                     <Image
                       src={src}
