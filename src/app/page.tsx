@@ -37,16 +37,15 @@ export default function Home() {
             <CarouselContent>
               {heroImages.map((src, index) => (
                 <CarouselItem key={index}>
-                   <div className="relative h-full w-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
-                      fill
-                      className="z-0 object-cover brightness-50"
+                      width={1920}
+                      height={1080}
+                      className="z-0 object-cover brightness-50 w-full h-full"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
-                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
