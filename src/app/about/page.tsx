@@ -1,8 +1,7 @@
 
 'use client';
 
-import { Sailboat, Anchor, LifeBuoy, Zap, ShieldCheck, HeartHandshake } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Sailboat, Anchor, LifeBuoy } from 'lucide-react';
 
 // SVG Wave Component
 const AnimatedWaves = () => (
@@ -22,39 +21,24 @@ const AnimatedWaves = () => (
 );
 
 export default function AboutPage() {
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
   return (
     <div className="bg-secondary">
       {/* Hero Section */}
       <div className="relative flex h-[50vh] flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-primary to-blue-800 text-center text-white">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+        <h1
           className="font-headline text-5xl font-bold tracking-tight md:text-7xl"
         >
           About Us
-        </motion.h1>
-         <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: '8rem' }}
-          transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
-          className="mt-4 h-1.5 bg-yellow-400 rounded-full"
+        </h1>
+         <div
+          className="mt-4 h-1.5 w-32 bg-yellow-400 rounded-full"
         />
         <AnimatedWaves />
       </div>
 
       {/* Main Content Section */}
       <div className="container mx-auto max-w-5xl px-4 py-20 sm:py-28">
-        <motion.div
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
+        <div
           className="rounded-xl bg-card p-8 md:p-12 shadow-2xl text-center"
         >
           <h2 className="font-headline text-3xl font-bold text-primary md:text-4xl">
@@ -63,14 +47,10 @@ export default function AboutPage() {
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
             Founded by Tejas R, <span className="font-semibold text-primary">Tourboats</span> is a modern, digital-first yacht experience platform. We aim to provide hassle-free and highly affordable yacht rentals, setting us apart from traditional providers. With seamless online booking and direct access to a wide fleet, our mission is to make luxury water adventures easy and accessible for everyone.
           </p>
-        </motion.div>
+        </div>
 
         {/* Core Values Section */}
-        <motion.div
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
+        <div
           className="mt-24 text-center"
         >
           <h3 className="font-headline text-4xl font-bold">Our Core Values</h3>
@@ -106,7 +86,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
