@@ -19,8 +19,9 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[80vh]">
-        <div className="absolute inset-0 w-full h-full">
+      {heroImages.length > 0 && (
+        <section className="relative w-full h-[80vh]">
+          <div className="absolute inset-0 w-full h-full">
             <Image
               src={heroImages[0]}
               alt="Luxury yacht on the waters of Dubai"
@@ -29,33 +30,34 @@ export default function Home() {
               priority
               data-ai-hint="yacht sea"
             />
-        </div>
-        <div className="relative z-10 flex flex-col items-center justify-center text-center text-white p-4 h-full">
-          <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-fade-in-down">
-            Experience Dubai's Majesty
-          </h1>
-          <p className="mt-6 max-w-3xl text-lg md:text-xl text-white/90 animate-fade-in-up animation-delay-200">
-            Discover unparalleled luxury and thrilling adventures on the pristine waters of the Arabian Gulf. Your unforgettable journey begins here.
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
-             <Button asChild size="lg" variant="default" className="text-lg px-8 py-6">
-              <Link href="/yachts/private">
-                Explore The Fleet <ArrowRight className="ml-2" />
-              </Link>
-            </Button>
-             <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
-              <Link href="/#activities">
-                View Activities <ArrowRight className="ml-2" />
-              </Link>
-            </Button>
           </div>
-        </div>
-      </section>
+          <div className="relative z-10 flex flex-col items-center justify-center text-center text-white p-4 h-full">
+            <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-fade-in-down">
+              Experience Dubai's Majesty
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg md:text-xl text-white/90 animate-fade-in-up animation-delay-200">
+              Discover unparalleled luxury and thrilling adventures on the pristine waters of the Arabian Gulf. Your unforgettable journey begins here.
+            </p>
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
+               <Button asChild size="lg" variant="default" className="text-lg px-8 py-6">
+                <Link href="/yachts/private">
+                  Explore The Fleet <ArrowRight className="ml-2" />
+                </Link>
+              </Button>
+               <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6">
+                <Link href="/#activities">
+                  View Activities <ArrowRight className="ml-2" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Yacht Categories Section */}
       <section id="yachts" className="py-20 md:py-28 bg-secondary">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Our Exclusive Fleet
             </h2>
@@ -71,7 +73,8 @@ export default function Home() {
                     <Image
                       src={category.image}
                       alt={`${category.title} category`}
-                      fill
+                      width={600}
+                      height={400}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={category.aiHint}
                     />
