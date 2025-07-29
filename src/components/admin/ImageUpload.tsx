@@ -2,11 +2,12 @@
 "use client";
 
 import { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
 import { UploadCloud, X } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 interface ImageUploadProps {
   onChange: (base64: string) => void;
@@ -16,24 +17,18 @@ interface ImageUploadProps {
 export function ImageUpload({ onChange, value }: ImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(value);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
+  const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (event: ProgressEvent<FileReader>) => {
-        const base64String = event.target?.result as string;
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const base64String = e.target?.result as string;
         onChange(base64String);
         setPreview(base64String);
       };
       reader.readAsDataURL(file);
     }
   }, [onChange]);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { 'image/*': [] },
-    multiple: false,
-  });
 
   const handleRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -59,20 +54,18 @@ export function ImageUpload({ onChange, value }: ImageUploadProps) {
         </div>
       ) : (
         <div
-          {...getRootProps()}
-          className={cn(
-            'flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-md cursor-pointer hover:border-primary transition-colors',
-            isDragActive ? 'border-primary bg-primary/10' : 'border-input'
-          )}
+          className='flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-md cursor-pointer hover:border-primary transition-colors border-input'
         >
-          <input {...getInputProps()} />
-          <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
-            <UploadCloud className="h-10 w-10 text-muted-foreground mb-4" />
-            <p className="mb-2 text-sm text-muted-foreground">
-              <span className="font-semibold">Click to upload</span> or drag and drop
-            </p>
-            <p className="text-xs text-muted-foreground">SVG, PNG, JPG or GIF</p>
-          </div>
+          <Label htmlFor="image-upload" className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+            <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
+              <UploadCloud className="h-10 w-10 text-muted-foreground mb-4" />
+              <p className="mb-2 text-sm text-muted-foreground">
+                <span className="font-semibold">Click to upload</span>
+              </p>
+              <p className="text-xs text-muted-foreground">SVG, PNG, JPG or GIF</p>
+            </div>
+            <Input id="image-upload" type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+          </Label>
         </div>
       )}
     </div>
