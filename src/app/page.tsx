@@ -84,7 +84,7 @@ export default function Home() {
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Our Exclusive Fleet
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+            <p className="mt-6 text-lg text-muted-foreground max-w-3xl mx-auto">
               Choose from our curated selection of private and shared yachts for the perfect sea adventure, each offering a unique taste of luxury.
             </p>
           </div>
@@ -152,13 +152,15 @@ export default function Home() {
                     />
                   </div>
                 </Link>
-                <CardHeader className="flex-grow">
-                  <CardTitle className="font-headline text-2xl">{activity.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm line-clamp-4 mb-4">{activity.shortDescription}</p>
-                  <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
-                </CardContent>
+                 <div className="flex flex-col flex-grow p-6">
+                  <CardTitle className="font-headline text-2xl mb-2">{activity.name}</CardTitle>
+                  <CardContent className="p-0 flex-grow">
+                    <p className="text-muted-foreground text-sm line-clamp-4">{activity.shortDescription}</p>
+                  </CardContent>
+                  <div className="pt-4">
+                    <p className="text-xl font-bold text-primary">From AED {activity.price}</p>
+                  </div>
+                </div>
                 <CardFooter>
                    <BookingDialog 
                     bookingType="activity"
