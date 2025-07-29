@@ -14,26 +14,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { HomePageYachtCategory } from '@/types';
 
-type EditableHomePageYachtCategory = Omit<HomePageYachtCategory, 'image'> & {
-    imagePreview: string; 
-};
+type EditableHomePageYachtCategory = HomePageYachtCategory;
 
 export default function HomepageAdminPage() {
   const { heroImages, homePageYachtCategories, updateHeroImages, updateHomePageYachtCategories } = useData();
   const [currentImages, setCurrentImages] = useState(heroImages);
   
-  const [yachtCategories, setYachtCategories] = useState<EditableHomePageYachtCategory[]>(
-      homePageYachtCategories.map(c => ({
-          type: c.type,
-          title: c.title,
-          description: c.description,
-          aiHint: c.aiHint,
-          link: c.link,
-          imagePreview: c.image // The original image is the initial preview
-      }))
-  );
+  const [yachtCategories, setYachtCategories] = useState<EditableHomePageYachtCategory[]>(homePageYachtCategories);
 
   const { toast } = useToast();
+
+  // Sync with context if it changes
+  useEffect(() => {
+    setYachtCategories(homePageYachtCategories);
+  }, [homePageYachtCategories]);
+
 
   const handleHeroImageUpload = (base64: string) => {
     if (base64) {
@@ -45,7 +40,7 @@ export default function HomepageAdminPage() {
     setCurrentImages(prev => prev.filter((_, i) => i !== index));
   };
   
-  const handleCategoryChange = (index: number, field: keyof Omit<EditableHomePageYachtCategory, 'imagePreview'>, value: string) => {
+  const handleCategoryChange = (index: number, field: keyof Omit<EditableHomePageYachtCategory, 'image' | 'type' | 'link' | 'aiHint'>, value: string) => {
     setYachtCategories(prev => {
         const newCategories = [...prev];
         const updatedCategory = { ...newCategories[index], [field]: value };
@@ -57,31 +52,18 @@ export default function HomepageAdminPage() {
   const handleCategoryImageChange = (index: number, base64: string) => {
       setYachtCategories(prev => {
         const newCategories = [...prev];
-        newCategories[index].imagePreview = base64;
+        newCategories[index].image = base64; // Store base64 string directly
         return newCategories;
       })
   }
 
   const handleSaveChanges = () => {
     updateHeroImages(currentImages);
-
-    const categoriesToSave: HomePageYachtCategory[] = yachtCategories.map(c => {
-        const originalCategory = homePageYachtCategories.find(orig => orig.type === c.type);
-        return {
-            type: c.type,
-            title: c.title,
-            description: c.description,
-            aiHint: c.aiHint,
-            link: c.link,
-            image: originalCategory?.image || "https://placehold.co/600x400.png"
-        }
-    });
-    
-    updateHomePageYachtCategories(categoriesToSave);
+    updateHomePageYachtCategories(yachtCategories);
     
     toast({
         title: "Homepage Updated!",
-        description: "Your changes have been saved successfully. Note: Uploaded images are for preview and are not persisted.",
+        description: "Your changes have been saved. Uploaded images will persist for your current session.",
     });
   };
 
@@ -144,12 +126,12 @@ export default function HomepageAdminPage() {
                            />
                         </div>
                         <div className="space-y-2">
-                            <Label>Image (for preview only)</Label>
+                            <Label>Image</Label>
                             <ImageUpload 
-                                value={category.imagePreview}
+                                value={category.image}
                                 onChange={(base64) => handleCategoryImageChange(index, base64)}
                             />
-                             <p className="text-xs text-muted-foreground">Image uploads are for preview and will not be saved.</p>
+                             <p className="text-xs text-muted-foreground">Image will be shown for the current session only.</p>
                         </div>
                     </div>
                 ))}
