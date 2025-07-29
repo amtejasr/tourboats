@@ -25,6 +25,7 @@ import {
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useData } from '@/context/DataContext';
 import Image from 'next/image';
+import { BookingDialog } from '@/components/BookingDialog';
 
 const YachtIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-white" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -272,5 +273,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
