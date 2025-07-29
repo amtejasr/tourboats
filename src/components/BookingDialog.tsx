@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon, Send, Users, Clock, PlusCircle } from "lucide-react"
 
@@ -30,6 +30,7 @@ import { addons as addonOptions } from "@/lib/addons"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "./ui/separator"
 import type { Addon } from "@/types"
+import { ScrollArea } from "./ui/scroll-area"
 
 
 interface BookingDialogProps {
@@ -54,19 +55,6 @@ export function BookingDialog({ bookingType, itemName, itemPrice, isPrivateYacht
   const [selectedAddons, setSelectedAddons] = useState<Addon[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
-
-  const addonsTotal = useMemo(() => {
-    return selectedAddons.reduce((total, addon) => total + addon.price, 0);
-  }, [selectedAddons]);
-
-  const basePrice = useMemo(() => {
-    return isPrivateYacht ? itemPrice * duration : itemPrice * numberOfPeople;
-  }, [itemPrice, duration, numberOfPeople, isPrivateYacht]);
-
-  const totalPrice = useMemo(() => {
-    return basePrice + addonsTotal;
-  }, [basePrice, addonsTotal]);
-
 
   const handleAddonToggle = (addon: Addon) => {
     setSelectedAddons(prev => 
@@ -99,13 +87,13 @@ export function BookingDialog({ bookingType, itemName, itemPrice, isPrivateYacht
     }
 
     if (selectedAddons.length > 0) {
-      message += `\nAdd-ons:\n`;
+      message += `\nSelected Add-ons (prices to be confirmed):\n`;
       selectedAddons.forEach(addon => {
-        message += `- ${addon.name} (AED ${addon.price.toLocaleString()})\n`;
+        message += `- ${addon.name}\n`;
       });
     }
 
-    message += `\nTotal Estimated Price: AED ${totalPrice.toLocaleString()}`;
+    message += `\nPlease confirm availability and total price.`;
     
     const phoneNumber = "+971504227715";
     const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\s+/g, '')}?text=${encodeURIComponent(message)}`;
@@ -127,7 +115,7 @@ export function BookingDialog({ bookingType, itemName, itemPrice, isPrivateYacht
             Select your preferred date, time, and number of guests to start your booking.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-6 py-4">
+        <div className="space-y-4">
           <div className="grid w-full items-center gap-2">
             <Label htmlFor="date">Date</Label>
             <Popover>
@@ -202,44 +190,37 @@ export function BookingDialog({ bookingType, itemName, itemPrice, isPrivateYacht
           </div>
           
           {isPrivateYacht && (
-            <div className="space-y-4">
+            <div className="space-y-3">
               <Separator />
               <div>
                 <Label className="text-base font-semibold flex items-center">
                     <PlusCircle className="mr-2 h-5 w-5" />
                     Optional Add-ons
                 </Label>
+                 <p className="text-sm text-muted-foreground">Prices for add-ons will be confirmed via WhatsApp.</p>
               </div>
-              <div className="space-y-3">
-                {addonOptions.map(addon => (
-                  <div key={addon.id} className="flex items-center justify-between p-3 rounded-lg border">
-                    <div className="flex items-center gap-3">
-                       <Checkbox
-                        id={`addon-${addon.id}`}
-                        onCheckedChange={() => handleAddonToggle(addon)}
-                        checked={selectedAddons.some(a => a.id === addon.id)}
-                      />
-                      <Label htmlFor={`addon-${addon.id}`} className="text-sm font-normal cursor-pointer">
-                        {addon.name}
-                      </Label>
+              <ScrollArea className="h-40 w-full rounded-md border p-3">
+                <div className="space-y-3">
+                    {addonOptions.map(addon => (
+                    <div key={addon.id} className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                        <Checkbox
+                            id={`addon-${addon.id}`}
+                            onCheckedChange={() => handleAddonToggle(addon)}
+                            checked={selectedAddons.some(a => a.id === addon.id)}
+                        />
+                        <Label htmlFor={`addon-${addon.id}`} className="text-sm font-normal cursor-pointer">
+                            {addon.name}
+                        </Label>
+                        </div>
                     </div>
-                    <span className="text-sm font-semibold">AED {addon.price.toLocaleString()}</span>
-                  </div>
-                ))}
-              </div>
+                    ))}
+                </div>
+              </ScrollArea>
             </div>
           )}
-
-          <Separator />
-
-          <div className="flex justify-between items-center text-xl font-bold">
-            <span>Total Price:</span>
-            <span>AED {totalPrice.toLocaleString()}</span>
-          </div>
-
-
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4">
            <Button onClick={handleSendToWhatsApp} className="w-full text-base py-6 bg-green-600 hover:bg-green-700">
                 <Send className="mr-2 h-4 w-4" /> Confirm on WhatsApp
             </Button>
