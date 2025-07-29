@@ -147,11 +147,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateHeroImages = useCallback((images: string[]) => {
+      // Update state to show images in the current session
       setHeroImages(images);
+      
       try {
-        // Filter out base64 images before saving to localStorage
-        const imagesToStore = images.filter(img => !img.startsWith('data:'));
-        localStorage.setItem(HERO_IMAGES_STORAGE_KEY, JSON.stringify(imagesToStore));
+        // Only store image URLs that are not base64 to avoid quota issues
+        const imagesToStore = images.filter(img => !img.startsWith('data:image'));
+        const currentStored = JSON.parse(localStorage.getItem(HERO_IMAGES_STORAGE_KEY) || '[]');
+        
+        // This is a simple way to merge, might need more robust logic
+        const newStoredImages = [...new Set([...currentStored, ...imagesToStore])];
+
+        localStorage.setItem(HERO_IMAGES_STORAGE_KEY, JSON.stringify(newStoredImages));
       } catch (e) {
           console.error("Could not save hero images to localStorage.", e);
       }
@@ -165,11 +172,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
         // Create a version of the categories data for storage that strips out large base64 image data.
         const categoriesForStorage = categories.map(category => {
             const { image, ...rest } = category;
+            // Find the original category to fall back to the initial image URL if needed
             const originalCategory = initialHomePageYachtCategories.find(c => c.type === category.type);
+            
+            // If the image is a new base64 upload, store the original image path.
+            // Otherwise, keep the existing path.
             return {
                 ...rest,
-                // Only store the original image URL, not the base64 string
-                image: image.startsWith('data:') ? (originalCategory?.image || '') : image
+                image: image.startsWith('data:image') ? (originalCategory?.image || '') : image
             };
         });
 

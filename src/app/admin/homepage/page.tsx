@@ -24,6 +24,10 @@ export default function HomepageAdminPage() {
 
   const { toast } = useToast();
 
+  useEffect(() => {
+    setCurrentImages(heroImages);
+  }, [heroImages]);
+
   // Sync with context if it changes
   useEffect(() => {
     // Deep copy to prevent direct mutation of context state
@@ -53,7 +57,7 @@ export default function HomepageAdminPage() {
   const handleCategoryImageChange = (index: number, base64: string) => {
       setYachtCategories(prev => {
         const newCategories = [...prev];
-        newCategories[index].image = base64; // Store base64 string directly
+        newCategories[index].image = base64; // Store base64 string directly in local state
         return newCategories;
       })
   }
