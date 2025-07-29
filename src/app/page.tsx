@@ -34,7 +34,7 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="h-full -ml-4">
+            <CarouselContent className="-ml-4 h-full">
               {heroImages.map((src, index) => (
                 <CarouselItem key={index} className="pl-4">
                   <div className="relative h-full w-full">
