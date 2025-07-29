@@ -1,61 +1,85 @@
 
-import Image from 'next/image';
-import { Sailboat, Anchor, LifeBuoy } from 'lucide-react';
+'use client';
+
+import { Sailboat, Anchor, LifeBuoy, Zap, ShieldCheck, HeartHandshake } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+// SVG Wave Component
+const AnimatedWaves = () => (
+    <div className="absolute bottom-0 left-0 w-full">
+        <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g className="parallax">
+                <use xlinkHref="#gentle-wave" x="48" y="0" fill="hsla(215, 28%, 96%, 0.7)" />
+                <use xlinkHref="#gentle-wave" x="48" y="3" fill="hsla(215, 28%, 96%, 0.5)" />
+                <use xlinkHref="#gentle-wave" x="48" y="5" fill="hsla(215, 28%, 96%, 0.3)" />
+                <use xlinkHref="#gentle-wave" x="48" y="7" fill="hsl(var(--secondary))" />
+            </g>
+        </svg>
+    </div>
+);
 
 export default function AboutPage() {
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
-    <>
-      <div className="relative h-80 w-full">
-        <Image
-          src="https://placehold.co/1920x320.png"
-          alt="Dubai coastline with yachts"
-          fill
-          className="object-cover brightness-50"
-          data-ai-hint="dubai coastline"
+    <div className="bg-secondary">
+      {/* Hero Section */}
+      <div className="relative flex h-[50vh] flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-primary to-blue-800 text-center text-white">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="font-headline text-5xl font-bold tracking-tight md:text-7xl"
+        >
+          About Us
+        </motion.h1>
+         <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: '8rem' }}
+          transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
+          className="mt-4 h-1.5 bg-yellow-400 rounded-full"
         />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
-          <h1 className="font-headline text-5xl font-bold md:text-6xl">
-            About Tourboats
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg text-white/90">Your Gateway to Unforgettable Marine Adventures</p>
-        </div>
+        <AnimatedWaves />
       </div>
 
-      <div className="container mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <div className="grid grid-cols-1 gap-16 md:grid-cols-2 items-center">
-          <div className="space-y-6">
-            <h2 className="font-headline text-4xl font-bold text-primary">
-              Crafting Memories on the Water
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Founded on a passion for the sea and a commitment to excellence, Tourboats offers an unparalleled gateway to the majestic waters of the Arabian Gulf. We believe that luxury is not just about opulence, but about creating unforgettable experiences.
-            </p>
-            <p className="text-muted-foreground">
-              From our meticulously maintained fleet of private and sharing yachts to our thrilling selection of water sports, every aspect of our service is tailored to provide you with the ultimate Dubai adventure. Our professional crew and certified instructors are dedicated to ensuring your safety, comfort, and absolute enjoyment.
-            </p>
-            <p className="text-muted-foreground">
-              We are more than just a charter company; we are curators of memories, architects of joy, and your trusted partner in exploring the beauty of Dubai from its most stunning vantage point.
-            </p>
-          </div>
-          <div className="rounded-lg overflow-hidden shadow-2xl relative w-full h-[600px]">
-            <Image
-              src="https://placehold.co/500x600.png"
-              alt="Yacht crew smiling"
-              fill
-              className="object-cover"
-              data-ai-hint="yacht crew"
-            />
-          </div>
-        </div>
+      {/* Main Content Section */}
+      <div className="container mx-auto max-w-5xl px-4 py-20 sm:py-28">
+        <motion.div
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          className="rounded-xl bg-card p-8 md:p-12 shadow-2xl text-center"
+        >
+          <h2 className="font-headline text-3xl font-bold text-primary md:text-4xl">
+            A New Wave in Luxury
+          </h2>
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
+            Founded by Tejas R, <span className="font-semibold text-primary">Tourboats</span> is a modern, digital-first yacht experience platform. We aim to provide hassle-free and highly affordable yacht rentals, setting us apart from traditional providers. With seamless online booking and direct access to a wide fleet, our mission is to make luxury water adventures easy and accessible for everyone.
+          </p>
+        </motion.div>
 
-        <div className="mt-24 text-center">
+        {/* Core Values Section */}
+        <motion.div
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          className="mt-24 text-center"
+        >
           <h3 className="font-headline text-4xl font-bold">Our Core Values</h3>
-          <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
             The principles that guide every voyage we undertake.
           </p>
           <div className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col items-center p-6">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary mb-6">
+              <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <Sailboat className="h-10 w-10" />
               </div>
               <h4 className="font-headline text-2xl font-bold">Luxury & Comfort</h4>
@@ -64,7 +88,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="flex flex-col items-center p-6">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary mb-6">
+              <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <LifeBuoy className="h-10 w-10" />
               </div>
               <h4 className="font-headline text-2xl font-bold">Safety First</h4>
@@ -73,7 +97,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="flex flex-col items-center p-6">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary mb-6">
+              <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <Anchor className="h-10 w-10" />
               </div>
               <h4 className="font-headline text-2xl font-bold">Unforgettable Experiences</h4>
@@ -82,8 +106,8 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </>
+    </div>
   );
 }
