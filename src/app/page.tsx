@@ -34,7 +34,7 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="-ml-4 h-full">
+            <CarouselContent className="h-full -ml-4">
               {heroImages.map((src, index) => (
                 <CarouselItem key={index} className="pl-4">
                   <div className="relative h-full w-full">
@@ -42,7 +42,7 @@ export default function Home() {
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
                       fill
-                      className="h-full w-full object-cover brightness-50"
+                      className="object-cover brightness-50"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
