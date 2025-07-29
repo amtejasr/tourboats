@@ -86,10 +86,10 @@ export default function Home() {
             Choose your adventure: thrilling water activities or elegant yacht experiences.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row animate-fade-in-up animation-delay-400">
-             <Button size="lg" asChild>
+             <Button size="lg" asChild className="bg-white text-primary hover:bg-white/90">
                 <Link href="#activities"><Waves className="mr-2 h-5 w-5" /> Explore Water Activities</Link>
              </Button>
-             <Button size="lg" variant="outline" className="bg-white/20 border-white text-white backdrop-blur-sm hover:bg-white/30">
+             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
                 <Link href="#yachts"><Sailboat className="mr-2 h-5 w-5" /> Explore Yachts</Link>
              </Button>
           </div>
