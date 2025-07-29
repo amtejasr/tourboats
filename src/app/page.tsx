@@ -37,13 +37,12 @@ export default function Home() {
             <CarouselContent className="-ml-4 h-full">
               {heroImages.map((src, index) => (
                 <CarouselItem key={index} className="pl-4">
-                  <div className="h-full w-full relative">
+                  <div className="relative h-full w-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
-                      width={1920}
-                      height={1080}
-                      className="w-full h-full object-cover brightness-50"
+                      fill
+                      className="h-full w-full object-cover brightness-50"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
@@ -84,7 +83,7 @@ export default function Home() {
             <h2 className="font-headline text-4xl font-bold md:text-5xl text-primary">
               Our Exclusive Fleet
             </h2>
-            <p className="mt-6 text-lg text-muted-foreground max-w-3xl mx-auto">
+            <p className="mt-8 text-lg text-muted-foreground max-w-3xl mx-auto">
               Choose from our curated selection of private and shared yachts for the perfect sea adventure, each offering a unique taste of luxury.
             </p>
           </div>
@@ -96,8 +95,7 @@ export default function Home() {
                     <Image
                       src={category.image}
                       alt={`${category.title} category`}
-                      width={600}
-                      height={400}
+                      fill
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={category.aiHint}
                     />
