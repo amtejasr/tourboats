@@ -13,6 +13,7 @@ import {
   LifeBuoy,
   PersonStanding,
   ChevronDown,
+  Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,7 +25,6 @@ import {
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useData } from '@/context/DataContext';
 import Image from 'next/image';
-import { Users } from 'lucide-react';
 import { BookingDialog } from '@/components/BookingDialog';
 
 const YachtIcon = () => (
@@ -94,7 +94,7 @@ export default function Home() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1 group">
+                  <Button size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1 group">
                     <Sailboat className="mr-2 h-5 w-5" />
                     Explore Yachts
                     <ChevronDown className="ml-2 h-5 w-5 transition-transform duration-300 group-data-[state=open]:rotate-180" />
@@ -280,5 +280,7 @@ export default function Home() {
 
 
 
+
+    
 
     
