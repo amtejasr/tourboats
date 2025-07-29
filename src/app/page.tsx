@@ -35,14 +35,14 @@ export default function Home() {
   const { waterActivities } = useData();
 
   const allActivities = [
-    { name: 'Jetski', icon: <Waves className="h-5 w-5" /> },
-    { name: 'Parasailing', icon: <Wind className="h-5 w-5" /> },
-    { name: 'Banana Ride', icon: <LifeBuoy className="h-5 w-5" /> },
-    { name: 'Flyboarding', icon: <Rocket className="h-5 w-5" /> },
-    { name: 'Kayaking', icon: <Bike className="h-5 w-5" /> },
-    { name: 'Donut Ride', icon: <ShipWheel className="h-5 w-5" /> },
-    { name: 'Fishing', icon: <Fish className="h-5 w-5" /> },
-    { name: 'Scuba Diving', icon: <Anchor className="h-5 w-5" /> },
+    { name: 'Jetski', icon: <Waves className="h-5 w-5" />, href: '/activities/jetski-thrills' },
+    { name: 'Parasailing', icon: <Wind className="h-5 w-5" />, href: '/activities/parasailing-heights' },
+    { name: 'Banana Ride', icon: <LifeBuoy className="h-5 w-5" />, href: '/activities/banana-boat-fun' },
+    { name: 'Flyboarding', icon: <Rocket className="h-5 w-5" />, href: '/activities/flyboard-flight' },
+    { name: 'Kayaking', icon: <Bike className="h-5 w-5" />, href: '/activities/kayaking' },
+    { name: 'Donut Ride', icon: <ShipWheel className="h-5 w-5" />, href: '/activities/donut-ride-whirl' },
+    { name: 'Fishing', icon: <Fish className="h-5 w-5" />, href: '/activities/fishing-trip-dubai' },
+    { name: 'Scuba Diving', icon: <Anchor className="h-5 w-5" />, href: '/activities/scuba-diving' },
   ];
 
   return (
@@ -53,8 +53,8 @@ export default function Home() {
           <h1 className="font-headline text-5xl font-extrabold tracking-tight text-primary md:text-6xl lg:text-7xl">
             Explore Luxury on the Waters
           </h1>
-          <p className="mt-6 max-w-3xl text-lg md:text-xl text-muted-foreground">
-            Choose your adventure: thrilling water activities or elegant yacht experiences.
+          <p className="mt-8 max-w-3xl text-lg md:text-xl text-muted-foreground">
+            Choose from our curated selection of private and shared yachts for the perfect sea adventure, each offering a unique taste of luxury.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <DropdownMenu>
@@ -67,9 +67,11 @@ export default function Home() {
                 <DropdownMenuLabel>Choose an Activity</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {allActivities.map(activity => (
-                  <DropdownMenuItem key={activity.name}>
-                    {activity.icon}
-                    <span>{activity.name}</span>
+                  <DropdownMenuItem key={activity.name} asChild>
+                    <Link href={activity.href}>
+                      {activity.icon}
+                      <span>{activity.name}</span>
+                    </Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -84,13 +86,17 @@ export default function Home() {
               <DropdownMenuContent>
                 <DropdownMenuLabel>Choose a Category</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    <Sailboat className="h-5 w-5" />
-                    <Link href="/yachts/private">Private Yachts</Link>
+                <DropdownMenuItem asChild>
+                    <Link href="/yachts/private">
+                        <Sailboat className="h-5 w-5" />
+                        <span>Private Yachts</span>
+                    </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Group className="h-5 w-5" />
-                    <Link href="/yachts/sharing">Sharing Yachts</Link>
+                <DropdownMenuItem asChild>
+                    <Link href="/yachts/sharing">
+                        <Group className="h-5 w-5" />
+                        <span>Sharing Yachts</span>
+                    </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
