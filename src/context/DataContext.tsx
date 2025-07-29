@@ -76,7 +76,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       // Load Home Page Yacht Categories
       const storedYachtCategories = localStorage.getItem(YACHT_CATEGORIES_STORAGE_KEY);
       if (storedYachtCategories) {
-        setHomePageYachtCategories(JSON.parse(storedYachtCategories));
+        // Combine stored data with initial data to ensure images are present
+        const parsedCategories = JSON.parse(storedYachtCategories);
+        const mergedCategories = initialHomePageYachtCategories.map(initialCat => {
+          const storedCat = parsedCategories.find((p: HomePageYachtCategory) => p.type === initialCat.type);
+          return storedCat ? { ...initialCat, ...storedCat } : initialCat;
+        });
+        setHomePageYachtCategories(mergedCategories);
       } else {
         setHomePageYachtCategories(initialHomePageYachtCategories);
       }
@@ -153,12 +159,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       // Only store image URLs that are not base64 to avoid quota issues
       const imagesToStore = images.filter(img => !img.startsWith('data:image'));
-      const currentStored = JSON.parse(localStorage.getItem(HERO_IMAGES_STORAGE_KEY) || '[]');
-      
-      // This is a simple way to merge, might need more robust logic
-      const newStoredImages = [...new Set([...currentStored, ...imagesToStore])];
-
-      localStorage.setItem(HERO_IMAGES_STORAGE_KEY, JSON.stringify(newStoredImages));
+      localStorage.setItem(HERO_IMAGES_STORAGE_KEY, JSON.stringify(imagesToStore));
     } catch (e) {
         console.error("Could not save hero images to localStorage.", e);
     }
@@ -172,22 +173,14 @@ const updateHomePageYachtCategories = useCallback((categories: HomePageYachtCate
       // Create a version of the categories data for storage that strips out large base64 image data.
       const categoriesForStorage = categories.map(category => {
           const { image, ...rest } = category;
-          // Find the original category to fall back to the initial image URL if needed
-          const originalCategory = initialHomePageYachtCategories.find(c => c.type === category.type);
-          
-          // If the image is a new base64 upload, store the original image path.
-          // Otherwise, keep the existing path.
-          return {
-              ...rest,
-              image: image.startsWith('data:image') ? (originalCategory?.image || '') : image
-          };
+          return rest;
       });
 
       localStorage.setItem(YACHT_CATEGORIES_STORAGE_KEY, JSON.stringify(categoriesForStorage));
   } catch (e) {
       console.error("Could not save yacht categories to localStorage.", e);
   }
-}, [initialHomePageYachtCategories]);
+}, []);
 
 
   const value = { yachts, waterActivities, heroImages, homePageYachtCategories, loading, addListing, updateListing, deleteListing, updateHeroImages, updateHomePageYachtCategories };
