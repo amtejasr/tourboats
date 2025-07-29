@@ -40,6 +40,21 @@ export default function RootLayout({
       setIsLoading(false);
     }
   }, [pathname, isLoading]);
+  
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch((error) => {
+            console.error('Service Worker registration failed:', error);
+          });
+      });
+    }
+  }, []);
 
   return (
     <html lang="en">
@@ -47,6 +62,12 @@ export default function RootLayout({
         <title>Tourboats | Luxury Yachts and Water Activities in Dubai</title>
         <meta name="description" content="Luxury Yachts and Water Activities in Dubai" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#0052cc" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Tourboats" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
