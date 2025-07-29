@@ -12,21 +12,18 @@ import {
   Wind,
   LifeBuoy,
   PersonStanding,
+  ChevronDown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu-custom';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookingDialog } from '@/components/BookingDialog';
 import { useData } from '@/context/DataContext';
 import Image from 'next/image';
-
-const waterActivityItems = [
-  { name: 'Jet Ski', id: 'jetski-thrills', icon: Waves },
-  { name: 'Parasailing', id: 'parasailing-heights', icon: Wind },
-  { name: 'Banana Ride', id: 'banana-boat-fun', icon: PersonStanding },
-  { name: 'Flyboarding', id: 'flyboard-flight', icon: Sparkles },
-  { name: 'Donut Ride', id: 'donut-ride-whirl', icon: LifeBuoy },
-  { name: 'Fishing', id: 'fishing-trip-dubai', icon: Fish },
-];
 
 const YachtIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-white" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -49,7 +46,7 @@ const SeagullIcon = ({ className }: { className?: string }) => (
 
 
 export default function Home() {
-  const { waterActivities, yachts, loading } = useData();
+  const { waterActivities, yachts, loading, heroImages } = useData();
   const privateYachts = yachts.filter(y => y.category === 'private');
   const sharingYachts = yachts.filter(y => y.category === 'sharing');
 
@@ -86,12 +83,36 @@ export default function Home() {
             Choose your adventure: thrilling water activities or elegant yacht experiences.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row animate-fade-in-up animation-delay-400">
-             <Button size="lg" asChild className="bg-white text-primary hover:bg-white/90">
-                <Link href="#activities"><Waves className="mr-2 h-5 w-5" /> Explore Water Activities</Link>
-             </Button>
-             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                <Link href="#yachts"><Sailboat className="mr-2 h-5 w-5" /> Explore Yachts</Link>
-             </Button>
+              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1">
+                <Link href="/#activities">
+                  <Waves className="mr-2 h-5 w-5" />
+                  Explore Water Activities
+                </Link>
+              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1 group">
+                    <Sailboat className="mr-2 h-5 w-5" />
+                    Explore Yachts
+                    <ChevronDown className="ml-2 h-5 w-5 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="bg-white/90 backdrop-blur-md border-white/20 text-primary">
+                  <DropdownMenuItem asChild>
+                    <Link href="/yachts/private">
+                      <Sailboat className="mr-2 h-4 w-4" />
+                      <span>Private Yachts</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/yachts/sharing">
+                      <Users className="mr-2 h-4 w-4" />
+                      <span>Sharing Yachts</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
           </div>
         </div>
 
@@ -250,3 +271,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
