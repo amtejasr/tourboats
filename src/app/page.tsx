@@ -57,7 +57,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* New Animated Hero Section */}
-      <section className="relative w-full h-[90vh] min-h-[600px] max-h-[1080px] overflow-hidden bg-gradient-to-tr from-cyan-300 via-blue-400 to-sky-500">
+      <section className="relative w-full h-[90vh] min-h-[600px] max-h-[1080px] overflow-hidden bg-primary">
         {/* Animated Scene Elements */}
         <div className="absolute inset-0 z-10 opacity-70">
             {/* Shimmering Sun */}
