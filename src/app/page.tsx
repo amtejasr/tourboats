@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[80vh] w-full">
+      <section className="relative w-full h-[80vh]">
          <Carousel 
             className="w-full h-full" 
             opts={{ loop: true }}
@@ -34,15 +34,16 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="-ml-4 h-full">
+            <CarouselContent className="h-full -ml-4">
               {heroImages.map((src, index) => (
                 <CarouselItem key={index} className="pl-4">
-                  <div className="relative h-full w-full">
+                  <div className="h-full w-full relative">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
-                      fill
-                      className="z-0 object-cover brightness-50"
+                      width={1920}
+                      height={1080}
+                      className="w-full h-full object-cover brightness-50"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
@@ -95,8 +96,9 @@ export default function Home() {
                     <Image
                       src={category.image}
                       alt={`${category.title} category`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      width={600}
+                      height={400}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={category.aiHint}
                     />
                   </div>
