@@ -78,4 +78,7 @@ body {
   .animation-delay-600 {
     animation-delay: 600ms;
   }
+  .glass-effect {
+      @apply bg-white/10 border border-white/20 backdrop-blur-lg shadow-lg;
+  }
 }
