@@ -29,21 +29,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu-custom';
+import { Particles } from '@/components/Particles';
 
 export default function Home() {
   const { waterActivities } = useData();
 
-  const activityIcons = {
-    'Jetski': <Waves className="h-5 w-5" />,
-    'Parasailing': <Wind className="h-5 w-5" />,
-    'Banana Ride': <LifeBuoy className="h-5 w-5" />,
-    'Flyboard': <Rocket className="h-5 w-5" />,
-    'Kayaking': <Bike className="h-5 w-5" />, // Placeholder, no direct kayak icon
-    'Donut Ride': <ShipWheel className="h-5 w-5" />,
-    'Fishing': <Fish className="h-5 w-5" />,
-    'Scuba Diving': <LifeBuoy className="h-5 w-5" /> // Placeholder
-  };
-  
   const allActivities = [
     { name: 'Jetski', icon: <Waves className="h-5 w-5" /> },
     { name: 'Parasailing', icon: <Wind className="h-5 w-5" /> },
@@ -58,10 +48,14 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* New Animated Hero Section */}
-      <section className="relative flex h-[80vh] w-full flex-col items-center justify-center overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 z-0 h-full w-full bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary via-blue-900 to-blue-900 animate-[gradient-xy_10s_ease_infinite]" />
-
+      <section className="relative flex h-[80vh] w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500 text-primary-foreground animate-background-pan">
+         <Particles
+            className="absolute inset-0"
+            quantity={100}
+            ease={80}
+            color="#ffffff"
+            refresh
+          />
         <div className="relative z-10 flex flex-col items-center text-center p-4">
           <h1 className="font-headline text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl animate-glow">
             Explore Luxury on the Waters
@@ -109,8 +103,20 @@ export default function Home() {
             </DropdownMenu>
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-10">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+            className="relative block h-[150px] w-[calc(100%+1.3px)]"
+          >
+            <path
+              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31.74,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+              className="fill-background"
+            ></path>
+          </svg>
+        </div>
       </section>
-
 
       {/* Water Activities Section */}
       <section id="activities" className="py-20 md:py-28">

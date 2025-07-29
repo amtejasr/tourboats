@@ -105,15 +105,10 @@ export default {
           '40%, 60%, 80%': { transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
           'to': { transform: 'scale3d(1, 1, 1)' },
         },
-        'gradient-xy': {
-          '0%, 100%': {
-            'background-size': '200% 200%',
-            'background-position': 'left center',
-          },
-          '50%': {
-            'background-size': '200% 200%',
-            'background-position': 'right center',
-          },
+        'background-pan': {
+          '0%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+          '100%': { 'background-position': '0% 50%' },
         },
         'glow': {
             '0%, 100%': { 'text-shadow': '0 0 10px hsl(var(--primary-foreground)), 0 0 20px hsl(var(--primary-foreground)), 0 0 30px hsl(var(--primary-foreground))' },
@@ -126,7 +121,7 @@ export default {
         'fade-in-down': 'fade-in-down 0.5s ease-out forwards',
         'fade-in-up': 'fade-in-up 0.5s ease-out 0.2s forwards',
         'tada': 'tada 1.5s ease-in-out infinite',
-        'gradient-xy': 'gradient-xy 15s ease infinite',
+        'background-pan': 'background-pan 15s ease-in-out infinite',
         'glow': 'glow 2.5s ease-in-out infinite',
       },
     },
