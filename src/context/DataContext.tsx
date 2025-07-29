@@ -152,21 +152,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateHomePageYachtCategories = useCallback((categories: HomePageYachtCategory[]) => {
-    // Create a version of the categories that does not include the base64 image data
-    const categoriesToStore = categories.map(({...rest }) => {
-        // Find the original category to retain the original placeholder image path
-        const originalCategory = initialHomePageYachtCategories.find(c => c.type === rest.type);
-        return {
-            ...rest,
-            image: originalCategory ? originalCategory.image : 'https://placehold.co/600x400.png', // Fallback image
-        };
-    });
-
+    // This function now receives categories without any base64 image data.
+    // It only saves the text content and the original image paths.
+    
+    // We update the local state to reflect the changes in the admin UI
     setHomePageYachtCategories(categories);
+
     try {
-        localStorage.setItem(YACHT_CATEGORIES_STORAGE_KEY, JSON.stringify(categoriesToStore));
+        // Save only the text content and original image path to localStorage
+        localStorage.setItem(YACHT_CATEGORIES_STORAGE_KEY, JSON.stringify(categories));
     } catch(e) {
-        console.error("Could not save yacht categories, likely due to quota limits even after trying to reduce size.", e);
+        console.error("Could not save yacht categories to localStorage.", e);
     }
   }, []);
 

@@ -14,15 +14,23 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { HomePageYachtCategory } from '@/types';
 
-// Create a new type for local state management that includes optional preview
-type EditableHomePageYachtCategory = HomePageYachtCategory & { imagePreview?: string };
+type EditableHomePageYachtCategory = Omit<HomePageYachtCategory, 'image'> & {
+    imagePreview: string; 
+};
 
 export default function HomepageAdminPage() {
   const { heroImages, homePageYachtCategories, updateHeroImages, updateHomePageYachtCategories } = useData();
   const [currentImages, setCurrentImages] = useState(heroImages);
   
   const [yachtCategories, setYachtCategories] = useState<EditableHomePageYachtCategory[]>(
-      homePageYachtCategories.map(c => ({...c, imagePreview: c.image}))
+      homePageYachtCategories.map(c => ({
+          type: c.type,
+          title: c.title,
+          description: c.description,
+          aiHint: c.aiHint,
+          link: c.link,
+          imagePreview: c.image // The original image is the initial preview
+      }))
   );
 
   const { toast } = useToast();
@@ -37,34 +45,43 @@ export default function HomepageAdminPage() {
     setCurrentImages(prev => prev.filter((_, i) => i !== index));
   };
   
-  const handleCategoryChange = (index: number, field: keyof HomePageYachtCategory, value: string) => {
+  const handleCategoryChange = (index: number, field: keyof Omit<EditableHomePageYachtCategory, 'imagePreview'>, value: string) => {
     setYachtCategories(prev => {
         const newCategories = [...prev];
         const updatedCategory = { ...newCategories[index], [field]: value };
-        
-        if (field === 'image') {
-          updatedCategory.imagePreview = value;
-        }
-
         newCategories[index] = updatedCategory;
         return newCategories;
     })
+  }
+  
+  const handleCategoryImageChange = (index: number, base64: string) => {
+      setYachtCategories(prev => {
+        const newCategories = [...prev];
+        newCategories[index].imagePreview = base64;
+        return newCategories;
+      })
   }
 
   const handleSaveChanges = () => {
     updateHeroImages(currentImages);
 
-    // Prepare data for saving, excluding the large image strings
-    const categoriesToSave = yachtCategories.map(({ image, ...rest }) => ({
-        ...rest,
-        image: homePageYachtCategories.find(c => c.type === rest.type)?.image || image // Keep original image if no new one
-    }));
+    const categoriesToSave: HomePageYachtCategory[] = yachtCategories.map(c => {
+        const originalCategory = homePageYachtCategories.find(orig => orig.type === c.type);
+        return {
+            type: c.type,
+            title: c.title,
+            description: c.description,
+            aiHint: c.aiHint,
+            link: c.link,
+            image: originalCategory?.image || "https://placehold.co/600x400.png"
+        }
+    });
     
     updateHomePageYachtCategories(categoriesToSave);
     
     toast({
         title: "Homepage Updated!",
-        description: "Your changes have been saved successfully. Note: Uploaded images are for preview and won't be persisted.",
+        description: "Your changes have been saved successfully. Note: Uploaded images are for preview and are not persisted.",
     });
   };
 
@@ -129,8 +146,8 @@ export default function HomepageAdminPage() {
                         <div className="space-y-2">
                             <Label>Image (for preview only)</Label>
                             <ImageUpload 
-                                value={category.imagePreview || ''}
-                                onChange={(base64) => handleCategoryChange(index, 'image', base64)}
+                                value={category.imagePreview}
+                                onChange={(base64) => handleCategoryImageChange(index, base64)}
                             />
                              <p className="text-xs text-muted-foreground">Image uploads are for preview and will not be saved.</p>
                         </div>
