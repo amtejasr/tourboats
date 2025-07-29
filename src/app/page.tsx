@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link';
@@ -7,23 +6,42 @@ import {
   ArrowRight,
   Sailboat,
   Waves,
+  ChevronDown,
+  Fish,
+  Anchor,
+  Sparkles,
+  Wind,
+  LifeBuoy,
+  PersonStanding,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookingDialog } from '@/components/BookingDialog';
 import { useData } from '@/context/DataContext';
 import Image from 'next/image';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu-custom'; // Using custom for animations
+
+const waterActivityItems = [
+  { name: 'Jet Ski', id: 'jetski-thrills', icon: Waves },
+  { name: 'Parasailing', id: 'parasailing-heights', icon: Wind },
+  { name: 'Banana Ride', id: 'banana-boat-fun', icon: PersonStanding },
+  { name: 'Flyboarding', id: 'flyboard-flight', icon: Sparkles },
+  { name: 'Donut Ride', id: 'donut-ride-whirl', icon: LifeBuoy },
+  { name: 'Fishing', id: 'fishing-trip-dubai', icon: Fish },
+];
 
 export default function Home() {
-  const { waterActivities, heroImages } = useData();
-
-  if (!heroImages.length) {
-    return null; // or a loading component
-  }
+  const { waterActivities, homePageYachtCategories } = useData();
 
   return (
     <div className="flex flex-col">
-      <section className="relative w-full h-[80vh] bg-blue-50 overflow-hidden flex items-center justify-center">
+      {/* New Hero Section */}
+      <section className="relative w-full h-[80vh] bg-white overflow-hidden flex items-center justify-center">
         <div className="relative z-20 flex flex-col items-center text-center p-4">
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-blue-900 animate-fade-in-down">
             Explore Luxury on the Waters
@@ -32,21 +50,55 @@ export default function Home() {
             Choose your adventure: thrilling water activities or elegant yacht experiences.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
-            <Button size="lg" asChild className="shadow-lg">
-              <Link href="#activities">
-                <Waves className="mr-2 h-5 w-5" /> Explore Water Activities
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="bg-white/80 backdrop-blur-sm shadow-lg border-primary/50 hover:bg-white">
-              <Link href="/yachts/private">
-                <Sailboat className="mr-2 h-5 w-5" /> Explore Yachts
-              </Link>
-            </Button>
+            {/* Water Activities Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="lg" className="shadow-lg">
+                  <Waves className="mr-2 h-5 w-5" /> Explore Water Activities <ChevronDown className="ml-2 h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {waterActivityItems.map((item) => (
+                    <DropdownMenuItem key={item.id} asChild>
+                        <Link href={`/activities/${item.id}`}>
+                            <item.icon className="mr-2 h-4 w-4" />
+                            <span>{item.name}</span>
+                        </Link>
+                    </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Yachts Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="lg" variant="outline" className="bg-white/80 backdrop-blur-sm shadow-lg border-primary/50 hover:bg-white">
+                  <Sailboat className="mr-2 h-5 w-5" /> Explore Yachts <ChevronDown className="ml-2 h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                  <Link href="/yachts/private">
+                    <Sailboat className="mr-2 h-4 w-4" />
+                    <span>Private Yachts</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/yachts/sharing">
+                    <Anchor className="mr-2 h-4 w-4" />
+                    <span>Sharing Yachts</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
-        <div className="ocean">
-          <div className="wave"></div>
-          <div className="wave"></div>
+
+        {/* Subtle decorative waves at the bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 overflow-hidden z-10">
+            <svg className="w-full h-full" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="rgba(241, 245, 249, 1)">
+                <path d="M0,64 C240,128 480,0 720,64 C960,128 1200,0 1440,64 L1440,120 L0,120 Z"></path>
+            </svg>
         </div>
       </section>
 
