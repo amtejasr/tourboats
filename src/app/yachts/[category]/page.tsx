@@ -1,32 +1,44 @@
-import { yachts } from '@/lib/data';
+
+'use client';
+
+import { yachts as staticYachts } from '@/lib/data';
 import type { Yacht } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Scaling, Tag, ArrowRight } from 'lucide-react';
+import { Users, Scaling, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { BookingDialog } from '@/components/BookingDialog';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
+import { useData } from '@/context/DataContext';
+import { useEffect, useState } from 'react';
 
-export async function generateMetadata({ params }: { params: { category: string } }) {
-  const categoryTitle = params.category.charAt(0).toUpperCase() + params.category.slice(1);
-  return {
-    title: `${categoryTitle} Yachts | Tourboats`,
-    description: `Explore our collection of ${params.category} yachts available for charter in Dubai.`,
-  };
-}
+export default function YachtCategoryPage() {
+  const params = useParams();
+  const { category } = params as { category: 'private' | 'sharing' };
+  const { yachts } = useData();
+  const [filteredYachts, setFilteredYachts] = useState<Yacht[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function YachtCategoryPage({ params }: { params: { category: string } }) {
-  const { category } = params;
 
-  // Simulate a delay to demonstrate the loading UI
-  await new Promise(resolve => setTimeout(resolve, 500));
+  useEffect(() => {
+    if (category !== 'private' && category !== 'sharing') {
+      notFound();
+    }
+    
+    if (yachts.length > 0) {
+      const filtered = yachts.filter((yacht) => yacht.category === category);
+      setFilteredYachts(filtered);
+      setLoading(false);
+    }
+    // Add a small delay to simulate loading, can be removed
+    const timer = setTimeout(() => {
+      if (yachts.length === 0) setLoading(false);
+    }, 500);
 
-  if (category !== 'private' && category !== 'sharing') {
-    notFound();
-  }
+    return () => clearTimeout(timer);
+  }, [category, yachts]);
 
-  const filteredYachts = yachts.filter((yacht) => yacht.category === category);
+
   const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
@@ -39,7 +51,9 @@ export default async function YachtCategoryPage({ params }: { params: { category
         </p>
       </div>
       
-      {filteredYachts.length > 0 ? (
+      {loading ? (
+        <p>Loading yachts...</p>
+      ) : filteredYachts.length > 0 ? (
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
           {filteredYachts.map((yacht: Yacht) => (
              <Card key={yacht.id} className="flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 bg-card group/card">

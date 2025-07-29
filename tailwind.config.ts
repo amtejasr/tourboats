@@ -1,4 +1,5 @@
 
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -97,12 +98,19 @@ export default {
                 transform: 'translateY(0)',
             },
         },
-        'tada': {
-          'from': { transform: 'scale3d(1, 1, 1)' },
-          '10%, 20%': { transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)' },
-          '30%, 50%, 70%, 90%': { transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
-          '40%, 60%, 80%': { transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
-          'to': { transform: 'scale3d(1, 1, 1)' },
+        'float': {
+          '0%': { transform: 'translateY(0px) translateX(0px) rotate(0deg)' },
+          '50%': { transform: 'translateY(-20px) translateX(10px) rotate(5deg)' },
+          '100%': { transform: 'translateY(0px) translateX(0px) rotate(0deg)' },
+        },
+        'fly': {
+          '0%': { transform: 'translateY(0) translateX(0)' },
+          '50%': { transform: 'translateY(-15px) translateX(20px)' },
+          '100%': { transform: 'translateY(0) translateX(0)' },
+        },
+        'shimmer': {
+           '0%, 100%': { opacity: '0.5', transform: 'scale(1)' },
+           '50%': { opacity: '1', transform: 'scale(1.1)' },
         }
       },
       animation: {
@@ -110,7 +118,9 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in-down': 'fade-in-down 0.5s ease-out forwards',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
-        'tada': 'tada 1.5s ease-in-out infinite',
+        'float': 'float 15s ease-in-out infinite',
+        'fly': 'fly 20s ease-in-out infinite',
+        'shimmer': 'shimmer 8s ease-in-out infinite',
       },
     },
   },

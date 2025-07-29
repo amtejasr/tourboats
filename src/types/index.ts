@@ -1,3 +1,4 @@
+
 export interface Yacht {
   id: string;
   name: string;
@@ -21,4 +22,19 @@ export interface WaterActivity {
   longDescription: string;
   price: number;
   duration: number; // in minutes
+}
+
+export interface HomePageYachtCategory {
+  type: 'private' | 'sharing';
+  title: string;
+  description: string;
+  image: string;
+  aiHint: string;
+  link: string;
+}
+
+export interface Addon {
+  id: string;
+  name: string;
+  price: number;
 }

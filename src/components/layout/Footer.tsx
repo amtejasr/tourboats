@@ -3,8 +3,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import { useData } from '@/context/DataContext';
 
-const Logo = () => (
+const TextLogo = () => (
     <svg height="40" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg" className="text-white">
         <text x="10" y="30" fontFamily="Inter, sans-serif" fontSize="24" fontWeight="bold" fill="currentColor">
             Tourboats
@@ -14,6 +15,8 @@ const Logo = () => (
 
 
 export function Footer() {
+  const { logo } = useData();
+  
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto max-w-7xl px-4 py-16">
@@ -21,7 +24,11 @@ export function Footer() {
           {/* About Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 font-bold mb-4">
-               <Logo />
+               {logo ? (
+                  <Image src={logo} alt="Tourboats Logo" width={150} height={40} className="object-contain" />
+                ) : (
+                  <TextLogo />
+                )}
             </Link>
             <p className="text-sm text-primary-foreground/80">
               Your premier choice for luxury yacht charters and thrilling water activities in Dubai.

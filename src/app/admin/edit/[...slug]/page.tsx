@@ -1,4 +1,7 @@
-import { notFound } from 'next/navigation';
+
+'use client';
+
+import { notFound, useRouter, useParams } from 'next/navigation';
 import {
   Card,
   CardContent,
@@ -7,31 +10,49 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ListingForm } from '@/components/admin/ListingForm';
-import { yachts, waterActivities } from '@/lib/data';
+import { useData } from '@/context/DataContext';
 import type { Yacht, WaterActivity } from '@/types';
+import { useEffect, useState } from 'react';
 
-export default function EditListingPage({ params }: { params: { slug: string[] } }) {
-  const [type, id] = params.slug;
+export default function EditListingPage() {
+  const { yachts, waterActivities, updateListing } = useData();
+  const router = useRouter();
+  const params = useParams();
+  const { slug } = params as { slug: string[] };
+  const [type, id] = slug;
 
-  if (!type || !id) {
-    notFound();
-  }
+  const [listing, setListing] = useState<(Yacht | WaterActivity) | null>(null);
+  const [listingType, setListingType] = useState<'yacht' | 'waterActivity' | null>(null);
 
-  let listing: (Yacht | WaterActivity) | undefined;
-  let listingType: 'yacht' | 'waterActivity';
+  useEffect(() => {
+    if (!type || !id) {
+      notFound();
+    }
 
-  if (type === 'yacht') {
-    listing = yachts.find((y) => y.id === id);
-    listingType = 'yacht';
-  } else if (type === 'activity') {
-    listing = waterActivities.find((a) => a.id === id);
-    listingType = 'waterActivity';
-  } else {
-    notFound();
-  }
+    let foundListing: (Yacht | WaterActivity) | undefined;
+    let foundType: 'yacht' | 'waterActivity';
 
-  if (!listing) {
-    notFound();
+    if (type === 'yacht') {
+      foundListing = yachts.find((y) => y.id === id);
+      foundType = 'yacht';
+    } else if (type === 'activity') {
+      foundListing = waterActivities.find((a) => a.id === id);
+      foundType = 'waterActivity';
+    } else {
+      notFound();
+    }
+
+    if (!foundListing) {
+      notFound();
+    }
+    
+    setListing(foundListing);
+    setListingType(foundType);
+
+  }, [type, id, yachts, waterActivities]);
+
+  if (!listing || !listingType) {
+    return null; // or a loading spinner
   }
   
   // Prepare initial data for the form
@@ -59,18 +80,22 @@ export default function EditListingPage({ params }: { params: { slug: string[] }
       description: activity.longDescription,
     };
   }
-
+  
+  const handleUpdate = (data: Omit<Yacht | WaterActivity, 'id'>) => {
+    updateListing(listing.id, data);
+    router.push('/admin');
+  };
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Edit Listing</CardTitle>
         <CardDescription>
-          Update the details for "{listing.name}". The changes won't be saved in this demo.
+          Update the details for "{listing.name}". The changes will be saved.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ListingForm initialData={initialData} />
+        <ListingForm initialData={initialData} onSave={handleUpdate} isEditing />
       </CardContent>
     </Card>
   );

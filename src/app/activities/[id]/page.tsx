@@ -1,28 +1,34 @@
-import { waterActivities } from '@/lib/data';
-import { notFound } from 'next/navigation';
+
+'use client';
+
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
-import { Tag, Clock, Users } from 'lucide-react';
+import { Tag, Clock } from 'lucide-react';
 import { BookingDialog } from '@/components/BookingDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useData } from '@/context/DataContext';
+import { useEffect, useState } from 'react';
+import type { WaterActivity } from '@/types';
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const activity = waterActivities.find((p) => p.id === params.id);
+export default function ActivityDetailPage() {
+  const params = useParams();
+  const { waterActivities } = useData();
+  const [activity, setActivity] = useState<WaterActivity | null>(null);
+
+  useEffect(() => {
+    const activityId = params.id as string;
+    if (waterActivities.length > 0) {
+      const foundActivity = waterActivities.find((p) => p.id === activityId);
+      if (foundActivity) {
+        setActivity(foundActivity);
+      } else {
+        notFound();
+      }
+    }
+  }, [params.id, waterActivities]);
+
   if (!activity) {
-    return {
-      title: 'Activity Not Found',
-    };
-  }
-  return {
-    title: `${activity.name} | Tourboats`,
-    description: activity.longDescription.substring(0, 160),
-  };
-}
-
-export default function ActivityDetailPage({ params }: { params: { id: string } }) {
-  const activity = waterActivities.find((p) => p.id === params.id);
-
-  if (!activity) {
-    notFound();
+    return null; // or a loading skeleton
   }
 
   return (

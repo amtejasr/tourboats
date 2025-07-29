@@ -29,11 +29,14 @@ export default function WhatsAppPopup() {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-green-500 shadow-lg transition-transform hover:scale-110 active:scale-95 animate-tada"
+        "fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-green-500 shadow-lg transition-transform hover:scale-110 active:scale-95 animate-tada group"
       )}
       aria-label="Contact us on WhatsApp"
     >
       <WhatsAppIcon />
+      <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-max bg-gray-800 text-white text-sm rounded-md px-3 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        Chat with us!
+      </div>
     </Link>
   );
 }
