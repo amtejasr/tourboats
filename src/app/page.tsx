@@ -18,7 +18,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 
 export default function Home() {
-  const { waterActivities, heroImages } = useData();
+  const { waterActivities, heroImages, homePageYachtCategories } = useData();
   const plugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true })
   );
@@ -34,15 +34,15 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent>
+            <CarouselContent className="h-full">
               {heroImages.map((src, index) => (
-                <CarouselItem key={index}>
+                <CarouselItem key={index} className="relative h-full w-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
                       width={1920}
                       height={1080}
-                      className="z-0 object-cover brightness-50 w-full h-full"
+                      className="z-0 object-cover w-full h-full brightness-50"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
@@ -87,58 +87,38 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-5xl mx-auto">
-            <Link href="/yachts/private">
-              <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                <div className="relative w-full h-[400px]">
-                  <Image
-                    src="https://placehold.co/600x400.png"
-                    alt="Private luxury yacht"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    data-ai-hint="private yacht"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <CardHeader className="absolute bottom-0 left-0 p-8 text-white">
-                   <div className="bg-accent p-3 rounded-full w-fit mb-4">
-                    <Sailboat className="h-8 w-8 text-accent-foreground" />
-                  </div>
-                  <CardTitle className="font-headline text-4xl font-bold">
-                    Private Yachts
-                  </CardTitle>
-                  <p className="flex items-center text-lg mt-2">
-                    Book Your Exclusive Charter{' '}
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  </p>
-                </CardHeader>
-              </Card>
-            </Link>
-            <Link href="/yachts/sharing">
-              <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                 <div className="relative w-full h-[400px]">
+            {homePageYachtCategories.map((category) => (
+              <Link href={category.link} key={category.type}>
+                <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                  <div className="relative w-full h-[400px]">
                     <Image
-                      src="https://placehold.co/600x400.png"
-                      alt="Sharing yacht experience"
+                      src={category.image}
+                      alt={`${category.title} category`}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      data-ai-hint="group yacht"
+                      data-ai-hint={category.aiHint}
                     />
-                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <CardHeader className="absolute bottom-0 left-0 p-8 text-white">
-                  <div className="bg-accent p-3 rounded-full w-fit mb-4">
-                    <Anchor className="h-8 w-8 text-accent-foreground" />
                   </div>
-                  <CardTitle className="font-headline text-4xl font-bold">
-                    Sharing Yachts
-                  </CardTitle>
-                  <p className="flex items-center text-lg mt-2">
-                    Join a Shared Luxury Experience{' '}
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  </p>
-                </CardHeader>
-              </Card>
-            </Link>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                  <CardHeader className="absolute bottom-0 left-0 p-8 text-white">
+                    <div className="bg-accent p-3 rounded-full w-fit mb-4">
+                      {category.type === 'private' ? (
+                        <Sailboat className="h-8 w-8 text-accent-foreground" />
+                      ) : (
+                        <Anchor className="h-8 w-8 text-accent-foreground" />
+                      )}
+                    </div>
+                    <CardTitle className="font-headline text-4xl font-bold">
+                      {category.title}
+                    </CardTitle>
+                    <p className="flex items-center text-lg mt-2">
+                      {category.description}{' '}
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </p>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

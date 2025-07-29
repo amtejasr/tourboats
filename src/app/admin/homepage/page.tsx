@@ -9,27 +9,42 @@ import { ImageUpload } from '@/components/admin/ImageUpload';
 import { useToast } from '@/hooks/use-toast';
 import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
+import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import type { HomePageYachtCategory } from '@/types';
 
 export default function HomepageAdminPage() {
-  const { heroImages, updateHeroImages } = useData();
+  const { heroImages, homePageYachtCategories, updateHeroImages, updateHomePageYachtCategories } = useData();
   const [currentImages, setCurrentImages] = useState(heroImages);
+  const [yachtCategories, setYachtCategories] = useState(homePageYachtCategories);
+
   const { toast } = useToast();
 
-  const handleImageUpload = (base64: string) => {
+  const handleHeroImageUpload = (base64: string) => {
     if (base64) {
       setCurrentImages(prev => [...prev, base64]);
     }
   };
 
-  const handleRemoveImage = (index: number) => {
+  const handleRemoveHeroImage = (index: number) => {
     setCurrentImages(prev => prev.filter((_, i) => i !== index));
   };
   
+  const handleCategoryChange = (index: number, field: keyof HomePageYachtCategory, value: string) => {
+    setYachtCategories(prev => {
+        const newCategories = [...prev];
+        newCategories[index] = {...newCategories[index], [field]: value};
+        return newCategories;
+    })
+  }
+
   const handleSaveChanges = () => {
     updateHeroImages(currentImages);
+    updateHomePageYachtCategories(yachtCategories);
     toast({
         title: "Homepage Updated!",
-        description: "Your new hero images have been saved.",
+        description: "Your changes have been saved successfully.",
     });
   };
 
@@ -38,7 +53,7 @@ export default function HomepageAdminPage() {
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Manage Homepage</CardTitle>
         <CardDescription>
-          Update the hero carousel images for the main page.
+          Update the content for the main page, including the hero carousel and yacht category cards.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
@@ -52,7 +67,7 @@ export default function HomepageAdminPage() {
                             variant="destructive"
                             size="icon"
                             className="absolute top-2 right-2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => handleRemoveImage(index)}
+                            onClick={() => handleRemoveHeroImage(index)}
                         >
                            <Trash2 className="h-4 w-4" />
                         </Button>
@@ -62,11 +77,47 @@ export default function HomepageAdminPage() {
         </div>
 
         <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Upload New Image</h3>
-            <ImageUpload onChange={handleImageUpload} value="" />
+            <h3 className="font-semibold text-lg">Upload New Hero Image</h3>
+            <ImageUpload onChange={handleHeroImageUpload} value="" />
              <p className="text-sm text-muted-foreground">The uploaded image will be added to the end of the carousel.</p>
         </div>
         
+        <Separator />
+        
+        <div className="space-y-6">
+            <h3 className="font-semibold text-lg">Yacht Category Cards</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {yachtCategories.map((category, index) => (
+                    <div key={category.type} className="space-y-4 p-4 border rounded-lg">
+                        <h4 className="font-semibold text-md capitalize">{category.type} Yachts Card</h4>
+                        <div className="space-y-2">
+                           <Label htmlFor={`title-${category.type}`}>Title</Label>
+                           <Input 
+                                id={`title-${category.type}`}
+                                value={category.title}
+                                onChange={(e) => handleCategoryChange(index, 'title', e.target.value)}
+                           />
+                        </div>
+                         <div className="space-y-2">
+                           <Label htmlFor={`description-${category.type}`}>Description</Label>
+                           <Input 
+                                id={`description-${category.type}`}
+                                value={category.description}
+                                onChange={(e) => handleCategoryChange(index, 'description', e.target.value)}
+                           />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Image</Label>
+                            <ImageUpload 
+                                value={category.image}
+                                onChange={(base64) => handleCategoryChange(index, 'image', base64)}
+                            />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+
         <Button onClick={handleSaveChanges}>Save Changes</Button>
       </CardContent>
     </Card>

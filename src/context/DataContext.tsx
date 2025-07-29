@@ -2,22 +2,30 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import type { Yacht, WaterActivity } from '@/types';
-import { yachts as initialYachts, waterActivities as initialActivities } from '@/lib/data';
+import type { Yacht, WaterActivity, HomePageYachtCategory } from '@/types';
+import { 
+  yachts as initialYachts, 
+  waterActivities as initialActivities,
+  homePageYachtCategories as initialHomePageYachtCategories 
+} from '@/lib/data';
 
 const YACHTS_STORAGE_KEY = 'tourboats-yachts';
 const ACTIVITIES_STORAGE_KEY = 'tourboats-activities';
 const HERO_IMAGES_STORAGE_KEY = 'tourboats-hero-images';
+const YACHT_CATEGORIES_STORAGE_KEY = 'tourboats-yacht-categories';
+
 
 interface DataContextType {
   yachts: Yacht[];
   waterActivities: WaterActivity[];
   heroImages: string[];
+  homePageYachtCategories: HomePageYachtCategory[];
   loading: boolean;
   addListing: (listing: Omit<Yacht | WaterActivity, 'id'>) => void;
   updateListing: (id: string, listing: Omit<Yacht | WaterActivity, 'id'>) => void;
   deleteListing: (id: string, type: 'yacht' | 'waterActivity') => void;
   updateHeroImages: (images: string[]) => void;
+  updateHomePageYachtCategories: (categories: HomePageYachtCategory[]) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -36,6 +44,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [yachts, setYachts] = useState<Yacht[]>([]);
   const [waterActivities, setWaterActivities] = useState<WaterActivity[]>([]);
   const [heroImages, setHeroImages] = useState<string[]>([]);
+  const [homePageYachtCategories, setHomePageYachtCategories] = useState<HomePageYachtCategory[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,6 +72,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
       } else {
         setHeroImages(initialHeroImages);
       }
+      
+      // Load Home Page Yacht Categories
+      const storedYachtCategories = localStorage.getItem(YACHT_CATEGORIES_STORAGE_KEY);
+      if (storedYachtCategories) {
+        setHomePageYachtCategories(JSON.parse(storedYachtCategories));
+      } else {
+        setHomePageYachtCategories(initialHomePageYachtCategories);
+      }
 
     } catch (error) {
       console.error("Failed to load data from localStorage", error);
@@ -70,6 +87,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setYachts(initialYachts);
       setWaterActivities(initialActivities);
       setHeroImages(initialHeroImages);
+      setHomePageYachtCategories(initialHomePageYachtCategories);
     }
     setLoading(false);
   }, []);
@@ -133,7 +151,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(HERO_IMAGES_STORAGE_KEY, JSON.stringify(images));
   }, []);
 
-  const value = { yachts, waterActivities, heroImages, loading, addListing, updateListing, deleteListing, updateHeroImages };
+  const updateHomePageYachtCategories = useCallback((categories: HomePageYachtCategory[]) => {
+    setHomePageYachtCategories(categories);
+    localStorage.setItem(YACHT_CATEGORIES_STORAGE_KEY, JSON.stringify(categories));
+  }, []);
+
+
+  const value = { yachts, waterActivities, heroImages, homePageYachtCategories, loading, addListing, updateListing, deleteListing, updateHeroImages, updateHomePageYachtCategories };
 
   return (
     <DataContext.Provider value={value}>

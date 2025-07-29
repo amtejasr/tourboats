@@ -1,4 +1,25 @@
-import type { Yacht, WaterActivity } from '@/types';
+
+import type { Yacht, WaterActivity, HomePageYachtCategory } from '@/types';
+
+export const homePageYachtCategories: HomePageYachtCategory[] = [
+  {
+    type: 'private',
+    title: 'Private Yachts',
+    description: 'Book Your Exclusive Charter',
+    image: 'https://placehold.co/600x400.png',
+    aiHint: 'private yacht',
+    link: '/yachts/private',
+  },
+  {
+    type: 'sharing',
+    title: 'Sharing Yachts',
+    description: 'Join a Shared Luxury Experience',
+    image: 'https://placehold.co/600x400.png',
+    aiHint: 'group yacht',
+    link: '/yachts/sharing',
+  },
+];
+
 
 export const yachts: Yacht[] = [
   {
