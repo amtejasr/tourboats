@@ -13,6 +13,7 @@ const YACHTS_STORAGE_KEY = 'tourboats-yachts';
 const ACTIVITIES_STORAGE_KEY = 'tourboats-activities';
 const HERO_IMAGES_STORAGE_KEY = 'tourboats-hero-images';
 const YACHT_CATEGORIES_STORAGE_KEY = 'tourboats-yacht-categories';
+const LOGO_STORAGE_KEY = 'tourboats-logo';
 
 
 interface DataContextType {
@@ -20,12 +21,14 @@ interface DataContextType {
   waterActivities: WaterActivity[];
   heroImages: string[];
   homePageYachtCategories: HomePageYachtCategory[];
+  logo: string;
   loading: boolean;
   addListing: (listing: Omit<Yacht | WaterActivity, 'id'>) => void;
   updateListing: (id: string, listing: Omit<Yacht | WaterActivity, 'id'>) => void;
   deleteListing: (id: string, type: 'yacht' | 'waterActivity') => void;
   updateHeroImages: (images: string[]) => void;
   updateHomePageYachtCategories: (categories: HomePageYachtCategory[]) => void;
+  updateLogo: (logo: string) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -45,10 +48,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [waterActivities, setWaterActivities] = useState<WaterActivity[]>([]);
   const [heroImages, setHeroImages] = useState<string[]>([]);
   const [homePageYachtCategories, setHomePageYachtCategories] = useState<HomePageYachtCategory[]>([]);
+  const [logo, setLogo] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     try {
+      // Load Logo
+      const storedLogo = localStorage.getItem(LOGO_STORAGE_KEY);
+      if (storedLogo) {
+        setLogo(JSON.parse(storedLogo));
+      }
+
       // Load Yachts
       const storedYachts = localStorage.getItem(YACHTS_STORAGE_KEY);
       if (storedYachts) {
@@ -151,6 +161,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
           });
       }
   }, []);
+  
+  const updateLogo = useCallback((logoData: string) => {
+    setLogo(logoData);
+    try {
+      localStorage.setItem(LOGO_STORAGE_KEY, JSON.stringify(logoData));
+    } catch(e) {
+      console.error("Could not save logo to localStorage.", e);
+    }
+  }, []);
 
   const updateHeroImages = useCallback((images: string[]) => {
     // Update state to show images in the current session
@@ -173,6 +192,11 @@ const updateHomePageYachtCategories = useCallback((categories: HomePageYachtCate
       // Create a version of the categories data for storage that strips out large base64 image data.
       const categoriesForStorage = categories.map(category => {
           const { image, ...rest } = category;
+          // Only keep the original URL if it's not a base64 string
+          const originalCategory = initialHomePageYachtCategories.find(c => c.type === category.type);
+          if (originalCategory && !originalCategory.image.startsWith('data:image')) {
+            return { ...rest, image: originalCategory.image };
+          }
           return rest;
       });
 
@@ -183,7 +207,7 @@ const updateHomePageYachtCategories = useCallback((categories: HomePageYachtCate
 }, []);
 
 
-  const value = { yachts, waterActivities, heroImages, homePageYachtCategories, loading, addListing, updateListing, deleteListing, updateHeroImages, updateHomePageYachtCategories };
+  const value = { yachts, waterActivities, heroImages, homePageYachtCategories, logo, loading, addListing, updateListing, deleteListing, updateHeroImages, updateHomePageYachtCategories, updateLogo };
 
   return (
     <DataContext.Provider value={value}>

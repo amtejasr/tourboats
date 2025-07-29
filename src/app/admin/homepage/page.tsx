@@ -17,8 +17,9 @@ import type { HomePageYachtCategory } from '@/types';
 type EditableHomePageYachtCategory = HomePageYachtCategory;
 
 export default function HomepageAdminPage() {
-  const { heroImages, homePageYachtCategories, updateHeroImages, updateHomePageYachtCategories } = useData();
+  const { heroImages, homePageYachtCategories, logo, updateHeroImages, updateHomePageYachtCategories, updateLogo } = useData();
   const [currentImages, setCurrentImages] = useState(heroImages);
+  const [currentLogo, setCurrentLogo] = useState(logo);
   
   const [yachtCategories, setYachtCategories] = useState<EditableHomePageYachtCategory[]>([]);
 
@@ -27,6 +28,10 @@ export default function HomepageAdminPage() {
   useEffect(() => {
     setCurrentImages(heroImages);
   }, [heroImages]);
+  
+  useEffect(() => {
+    setCurrentLogo(logo);
+  }, [logo]);
 
   // Sync with context if it changes
   useEffect(() => {
@@ -40,6 +45,10 @@ export default function HomepageAdminPage() {
       setCurrentImages(prev => [...prev, base64]);
     }
   };
+  
+  const handleLogoUpload = (base64: string) => {
+    setCurrentLogo(base64);
+  }
 
   const handleRemoveHeroImage = (index: number) => {
     setCurrentImages(prev => prev.filter((_, i) => i !== index));
@@ -65,6 +74,7 @@ export default function HomepageAdminPage() {
   const handleSaveChanges = () => {
     updateHeroImages(currentImages);
     updateHomePageYachtCategories(yachtCategories);
+    updateLogo(currentLogo);
     
     toast({
         title: "Homepage Updated!",
@@ -81,10 +91,18 @@ export default function HomepageAdminPage() {
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Manage Homepage</CardTitle>
         <CardDescription>
-          Update the content for the main page, including the hero carousel and yacht category cards.
+          Update the content for the main page, including the logo, hero carousel, and yacht category cards.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
+        <div className="space-y-4">
+          <h3 className="font-semibold text-lg">Site Logo</h3>
+          <ImageUpload onChange={handleLogoUpload} value={currentLogo} />
+          <p className="text-sm text-muted-foreground">Recommended size: 150x40 pixels. The uploaded logo will appear in the header and footer.</p>
+        </div>
+
+        <Separator />
+        
         <div className="space-y-4">
             <h3 className="font-semibold text-lg">Hero Carousel Images</h3>
              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

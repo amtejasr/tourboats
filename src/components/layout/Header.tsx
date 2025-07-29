@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useData } from '@/context/DataContext';
 
 const navLinks = [
   { href: '/#activities', label: 'Water Activities' },
@@ -24,7 +25,7 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-const Logo = () => (
+const TextLogo = () => (
     <svg height="40" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg">
         <text x="10" y="30" fontFamily="Inter, sans-serif" fontSize="24" fontWeight="bold" fill="hsl(var(--primary))">
             Tourboats
@@ -37,6 +38,7 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout, loading } = useAuth();
+  const { logo } = useData();
 
   const handleLinkClick = (href: string) => {
     // Only show loader for different pages
@@ -59,7 +61,11 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
         <Link href="/" onClick={() => handleLinkClick('/')} className="flex items-center gap-2 font-bold">
-          <Logo />
+          {logo ? (
+            <Image src={logo} alt="Tourboats Logo" width={150} height={40} className="object-contain" />
+          ) : (
+            <TextLogo />
+          )}
         </Link>
 
         {/* Desktop Navigation */}
@@ -114,7 +120,11 @@ export function Header({ setIsLoading }: { setIsLoading: (isLoading: boolean) =>
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between border-b pb-4">
                     <Link href="/" className="flex items-center gap-2 font-bold" onClick={() => handleLinkClick('/')}>
-                        <Logo />
+                        {logo ? (
+                          <Image src={logo} alt="Tourboats Logo" width={150} height={40} className="object-contain" />
+                        ) : (
+                          <TextLogo />
+                        )}
                     </Link>
                     <SheetClose asChild>
                          <Button variant="ghost" size="icon">
