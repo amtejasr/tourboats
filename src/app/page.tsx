@@ -34,18 +34,19 @@ export default function Home() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="h-full">
+            <CarouselContent className="h-full -ml-4">
               {heroImages.map((src, index) => (
-                <CarouselItem key={index} className="relative">
+                <CarouselItem key={index} className="pl-4">
+                  <div className="relative h-full w-full">
                     <Image
                       src={src}
                       alt="Luxury yacht on the waters of Dubai"
-                      width={1920}
-                      height={1080}
-                      className="z-0 object-cover w-full h-full brightness-50"
+                      fill
+                      className="z-0 object-cover brightness-50"
                       priority={index === 0}
                       data-ai-hint="yacht sea"
                     />
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -90,7 +91,7 @@ export default function Home() {
             {homePageYachtCategories.map((category) => (
               <Link href={category.link} key={category.type}>
                 <Card className="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                  <div className="relative w-full h-[400px]">
+                  <div className="relative w-full h-96">
                     <Image
                       src={category.image}
                       alt={`${category.title} category`}
